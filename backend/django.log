@@ -236,3 +236,6 @@ Watching for file changes with StatReloader
 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
 "GET /admin/users/staffuser/ HTTP/1.1" 200 16373
 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+Watching for file changes with StatReloader
+"GET /admin/users/staffuser/ HTTP/1.1" 200 16373
+"GET /admin/jsi18n/ HTTP/1.1" 200 10649

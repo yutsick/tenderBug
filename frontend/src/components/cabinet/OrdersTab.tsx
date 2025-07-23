@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import { Button, Upload, Typography, Divider, Space, List } from 'antd';
-import { UploadOutlined, DeleteOutlined, FileTextOutlined } from '@ant-design/icons';
-
-const { Text, Paragraph } = Typography;
+import { DocumentArrowUpIcon, DocumentIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 interface OrdersTabProps {
   onSubmit: () => void;
@@ -42,9 +39,12 @@ export default function OrdersTab({ onSubmit }: OrdersTabProps) {
     }
   ];
 
-  const handleFileUpload = (info: any) => {
-    // Handle file upload logic here
-    console.log('File uploaded:', info);
+  const handleFileUpload = (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      console.log('File uploaded:', file.name, 'for order type:', index);
+      // Handle file upload logic here
+    }
   };
 
   const removeDocument = (id: string) => {
@@ -54,65 +54,66 @@ export default function OrdersTab({ onSubmit }: OrdersTabProps) {
   return (
     <div className="space-y-6">
       <div>
-        <Paragraph className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-6 leading-relaxed">
           Додайте завірені копії наступних наказів та посвідчень:
-        </Paragraph>
+        </p>
 
         <div className="space-y-6">
           {orderTypes.map((order, index) => (
             <div key={index} className="space-y-3">
-              <Text strong className="block text-gray-800">
+              <label className="block text-sm font-medium text-gray-800 leading-relaxed">
                 {order.title}
-              </Text>
+              </label>
               
               {order.hasDocument ? (
                 <div className="space-y-2">
-                  <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-md">
-                    <FileTextOutlined className="text-blue-500" />
-                    <Text className="flex-1">{order.documentName}</Text>
-                    <Button
-                      type="text"
-                      icon={<DeleteOutlined />}
-                      size="small"
-                      className="text-gray-400 hover:text-red-500"
+                  <div className="flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-md">
+                    <DocumentIcon className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <span className="flex-1 text-sm text-gray-700">{order.documentName}</span>
+                    <button
                       onClick={() => removeDocument('1')}
-                    />
+                      className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                    >
+                      <TrashIcon className="w-4 h-4" />
+                    </button>
                   </div>
-                  <Upload
-                    showUploadList={false}
-                    onChange={handleFileUpload}
-                  >
-                    <Button icon={<UploadOutlined />} className="w-full">
-                      Додати файл
-                    </Button>
-                  </Upload>
+                  <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                    <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
+                    <span className="text-sm text-gray-600">Додати файл</span>
+                    <input
+                      type="file"
+                      className="hidden"
+                      onChange={(e) => handleFileUpload(index, e)}
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    />
+                  </label>
                 </div>
               ) : (
-                <Upload
-                  showUploadList={false}
-                  onChange={handleFileUpload}
-                >
-                  <Button icon={<UploadOutlined />} className="w-full">
-                    Додати файл
-                  </Button>
-                </Upload>
+                <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                  <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
+                  <span className="text-sm text-gray-600">Додати файл</span>
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={(e) => handleFileUpload(index, e)}
+                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                  />
+                </label>
               )}
             </div>
           ))}
         </div>
       </div>
 
-      <Divider />
+      <hr className="border-gray-200" />
 
       <div className="text-center">
-        <Button 
-          type="primary" 
-          size="large"
-          className="bg-gray-400 border-gray-400 hover:bg-gray-500 px-8"
+        <button 
           onClick={onSubmit}
+          className="px-8 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition-colors font-medium"
         >
           Надіслати дані
-        </Button>
+        </button>
       </div>
     </div>
   );

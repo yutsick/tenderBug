@@ -1,7 +1,4 @@
-import { Button, Typography } from 'antd';
-import { LeftOutlined } from '@ant-design/icons';
-
-const { Title, Text } = Typography;
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 interface SuccessMessageProps {
   onClose: () => void;
@@ -13,14 +10,13 @@ export default function SuccessMessage({ onClose }: SuccessMessageProps) {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button
-            type="text"
-            icon={<LeftOutlined />}
+          <button
             onClick={onClose}
-            className="text-gray-600 hover:text-gray-800"
+            className="flex items-center gap-2 px-3 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition-colors"
           >
-            Повернутись назад
-          </Button>
+            <ArrowLeftIcon className="w-4 h-4" />
+            <span>Повернутись назад</span>
+          </button>
         </div>
 
         {/* Company Logo */}
@@ -29,40 +25,38 @@ export default function SuccessMessage({ onClose }: SuccessMessageProps) {
             ЗБ
           </div>
           <div>
-            <Title level={3} className="!mb-0 text-gray-700">
+            <h3 className="text-lg font-semibold text-gray-700 mb-0">
               ЗАХІДНИЙ БУГ
-            </Title>
+            </h3>
           </div>
         </div>
 
         {/* Success Message */}
         <div className="text-center py-16">
-          <Title level={1} className="!text-6xl !font-bold !text-green-600 !mb-8">
+          <h1 className="text-6xl font-bold text-green-600 mb-8">
             Дякуємо!
-          </Title>
+          </h1>
 
           <div className="max-w-2xl mx-auto space-y-6">
-            <Text className="text-xl text-gray-700 leading-relaxed block">
+            <p className="text-xl text-gray-700 leading-relaxed">
               Ваші дані було успішно прийнято. Відділ ОП 
               здійснить кваліфікацію на відповідність 
               вимогам та зв'яжеться з вами для 
               повідомлення результатів.
-            </Text>
+            </p>
 
-            <Text className="text-lg font-semibold text-gray-800 block">
+            <p className="text-lg font-semibold text-gray-800">
               Обробка анкети триває до 5 робочих днів.
-            </Text>
+            </p>
           </div>
 
           <div className="mt-12">
-            <Button 
-              type="primary" 
-              size="large"
-              className="bg-green-600 hover:bg-green-700 border-green-600 px-8 py-3 h-auto text-lg"
+            <button 
               onClick={onClose}
+              className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors font-medium text-lg"
             >
               На головну
-            </Button>
+            </button>
           </div>
         </div>
 

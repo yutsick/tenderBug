@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Card, Tabs, message } from 'antd';
-import type { TabsProps } from 'antd';
 import { useAuth } from '@/hooks/useAuth';
 import CabinetHeader from '@/components/cabinet/CabinetHeader';
 import WorksTab from '@/components/cabinet/WorksTab';
@@ -32,53 +30,49 @@ export default function CabinetPage() {
     return <SuccessMessage onClose={handleSuccessClose} />;
   }
 
-  const tabItems: TabsProps['items'] = [
-    {
-      key: 'works',
-      label: 'Роботи',
-      children: <WorksTab onSubmit={handleDataSubmit} />,
-    },
-    {
-      key: 'employees',
-      label: 'Співробітники',
-      children: <EmployeesTab onSubmit={handleDataSubmit} />,
-    },
-    {
-      key: 'orders',
-      label: 'Накази',
-      children: <OrdersTab onSubmit={handleDataSubmit} />,
-    },
-    {
-      key: 'technics',
-      label: 'Техніка',
-      children: <TechnicsTab onSubmit={handleDataSubmit} />,
-    },
-    {
-      key: 'instruments',
-      label: 'Інструменти',
-      children: <InstrumentsTab onSubmit={handleDataSubmit} />,
-    },
-    {
-      key: 'ppe',
-      label: 'ЗІЗ',
-      children: <PPETab onSubmit={handleDataSubmit} />,
-    },
+  const tabs = [
+    { id: 'works', label: 'Роботи', component: WorksTab },
+    { id: 'employees', label: 'Співробітники', component: EmployeesTab },
+    { id: 'orders', label: 'Накази', component: OrdersTab },
+    { id: 'technics', label: 'Техніка', component: TechnicsTab },
+    { id: 'instruments', label: 'Інструменти', component: InstrumentsTab },
+    { id: 'ppe', label: 'ЗІЗ', component: PPETab },
   ];
 
+  const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component || WorksTab;
+
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen ">
       <div className="max-w-7xl mx-auto">
         <CabinetHeader user={user} />
         
-        <Card className="mt-6">
-          <Tabs 
-            activeKey={activeTab} 
-            onChange={setActiveTab}
-            size="large"
-            className="cabinet-tabs"
-            items={tabItems}
-          />
-        </Card>
+        <div className="mt-6 bg-white rounded-lg shadow-sm border border-gray-200">
+          {/* Tabs Header */}
+          <div className="border-b border-gray-200">
+            <nav className="flex space-x-8 px-6" aria-label="Tabs">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`
+                    py-4 px-1 border-b-2 font-medium text-sm transition-colors relative
+                    ${activeTab === tab.id
+                      ? 'border-green-500 text-green-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                    }
+                  `}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* Tab Content */}
+          <div className="p-6">
+            <ActiveComponent onSubmit={handleDataSubmit} />
+          </div>
+        </div>
       </div>
     </div>
   );

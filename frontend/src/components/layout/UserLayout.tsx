@@ -1,23 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Layout, Menu, Button, Avatar, Dropdown, Space, Typography } from 'antd';
 import { 
-  UserOutlined, 
-  LogoutOutlined, 
-  HomeOutlined,
-  FileTextOutlined,
-  CheckCircleOutlined,
-  SettingOutlined,
-  MenuOutlined,
-  MenuFoldOutlined
-} from '@ant-design/icons';
+  UserIcon, 
+  ArrowRightOnRectangleIcon,
+  HomeIcon,
+  DocumentTextIcon,
+  CheckCircleIcon,
+  Cog6ToothIcon,
+  Bars3Icon,
+  ChevronLeftIcon
+} from '@heroicons/react/24/outline';
 import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { apiClient } from '@/lib/api';
-
-const { Header, Sider, Content } = Layout;
-const { Title } = Typography;
 
 interface UserLayoutProps {
   children: React.ReactNode;
@@ -25,6 +21,7 @@ interface UserLayoutProps {
 
 export default function UserLayout({ children }: UserLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -40,39 +37,24 @@ export default function UserLayout({ children }: UserLayoutProps) {
     }
   };
 
-  const userMenu = (
-    <Menu>
-      <Menu.Item key="profile" icon={<UserOutlined />}>
-        Профіль
-      </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        Налаштування
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={handleLogout}>
-        Вихід
-      </Menu.Item>
-    </Menu>
-  );
-
   const menuItems = [
     {
       key: 'cabinet',
-      icon: <HomeOutlined />,
+      icon: HomeIcon,
       label: 'Кабінет',
-      onClick: () => router.push('/cabinet')
+      path: '/cabinet'
     },
     {
       key: 'documents',
-      icon: <FileTextOutlined />,
+      icon: DocumentTextIcon,
       label: 'Документи',
-      onClick: () => router.push('/cabinet/documents')
+      path: '/cabinet/documents'
     },
     {
       key: 'status',
-      icon: <CheckCircleOutlined />,
+      icon: CheckCircleIcon,
       label: 'Статус заявки',
-      onClick: () => router.push('/cabinet/status')
+      path: '/cabinet/status'
     }
   ];
 
@@ -99,174 +81,159 @@ export default function UserLayout({ children }: UserLayoutProps) {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider 
-        trigger={null} 
-        collapsible 
-        collapsed={collapsed}
-        style={{
-          background: '#fff',
-          boxShadow: '2px 0 8px rgba(0,0,0,0.1)'
-        }}
-        width={250}
-      >
+    <div className="min-h-screen bg-gray-100 flex">
+      {/* Sidebar */}
+      <div className={`bg-white shadow-lg transition-all duration-300 ${collapsed ? 'w-16' : 'w-64'}`}>
         {/* Logo/Brand */}
-        <div style={{ 
-          height: 64, 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center',
-          borderBottom: '1px solid #f0f0f0',
-          background: '#fafafa'
-        }}>
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: 8 
-          }}>
-            <div style={{
-              width: 32,
-              height: 32,
-              background: '#52c41a',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#fff',
-              fontWeight: 'bold',
-              fontSize: '14px'
-            }}>
+        <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-gray-50">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center text-white font-bold text-sm">
               ЗБ
             </div>
             {!collapsed && (
-              <Title level={5} style={{ margin: 0, color: '#52c41a' }}>
+              <h2 className="text-lg font-medium text-green-600 whitespace-nowrap">
                 Західний Буг
-              </Title>
+              </h2>
             )}
           </div>
         </div>
         
         {/* Navigation Menu */}
-        <Menu
-          mode="inline"
-          selectedKeys={[getSelectedKey()]}
-          items={menuItems}
-          style={{ 
-            border: 'none',
-            marginTop: 16
-          }}
-        />
+        <nav className="mt-4 px-2">
+          {menuItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = getSelectedKey() === item.key;
+            
+            return (
+              <button
+                key={item.key}
+                onClick={() => router.push(item.path)}
+                className={`
+                  w-full flex items-center gap-3 px-3 py-2 rounded-md text-left transition-colors mb-1
+                  ${isActive 
+                    ? 'bg-green-50 text-green-700 border-r-2 border-green-600' 
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  }
+                `}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {!collapsed && (
+                  <span className="font-medium">{item.label}</span>
+                )}
+              </button>
+            );
+          })}
+        </nav>
 
         {/* User Info in Sidebar */}
         {!collapsed && user && (
-          <div style={{
-            position: 'absolute',
-            bottom: 16,
-            left: 16,
-            right: 16,
-            padding: 12,
-            background: '#f8f9fa',
-            borderRadius: 8,
-            border: '1px solid #e9ecef'
-          }}>
-            <div style={{ 
-              display: 'flex', 
-              alignItems: 'center', 
-              gap: 8,
-              marginBottom: 4
-            }}>
-              <Avatar size="small" icon={<UserOutlined />} />
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ 
-                  fontSize: '12px', 
-                  fontWeight: 'medium',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>
+          <div className="fixed w-56 bottom-4 left-4 right-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+            <div className="flex items-center gap-2 mb-1">
+              <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                <UserIcon className="w-4 h-4 text-gray-600" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-xs font-medium text-gray-900 truncate">
                   {getCompanyName()}
                 </div>
-                <div style={{ 
-                  fontSize: '11px', 
-                  color: '#6c757d' 
-                }}>
+                <div className="text-xs text-gray-500">
                   {user.department_name}
                 </div>
               </div>
             </div>
           </div>
         )}
-      </Sider>
+      </div>
       
-      <Layout>
+      <div className="flex-1 flex flex-col">
         {/* Header */}
-        <Header style={{ 
-          padding: '0 24px', 
-          background: '#fff',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderBottom: '1px solid #f0f0f0',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.05)'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-                width: 48,
-                height: 48,
-              }}
-            />
+        <header className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => setCollapsed(!collapsed)}
+                className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors"
+              >
+                {collapsed ? (
+                  <Bars3Icon className="w-5 h-5" />
+                ) : (
+                  <ChevronLeftIcon className="w-5 h-5" />
+                )}
+              </button>
+              
+              <h1 className="text-2xl font-semibold text-gray-900">
+                {getPageTitle()}
+              </h1>
+            </div>
             
-            <Title level={3} style={{ margin: 0, color: '#2c3e50' }}>
-              {getPageTitle()}
-            </Title>
-          </div>
-          
-          <Space size={16}>
-            {user && (
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: '14px', fontWeight: 'medium' }}>
-                  {user.contact_person || 'Користувач'}
+            <div className="flex items-center gap-4">
+              {user && (
+                <div className="text-right">
+                  <div className="text-sm font-medium text-gray-900">
+                    {user.contact_person || 'Користувач'}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {user.email}
+                  </div>
                 </div>
-                <div style={{ fontSize: '12px', color: '#6c757d' }}>
-                  {user.email}
-                </div>
+              )}
+              
+              {/* User Avatar with Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white hover:bg-green-700 transition-colors"
+                >
+                  <UserIcon className="w-5 h-5" />
+                </button>
+                
+                {/* Dropdown Menu */}
+                {dropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 py-1 z-50">
+                    <button
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      <UserIcon className="w-4 h-4" />
+                      Профіль
+                    </button>
+                    <button
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    >
+                      <Cog6ToothIcon className="w-4 h-4" />
+                      Налаштування
+                    </button>
+                    <hr className="my-1 border-gray-200" />
+                    <button
+                      onClick={handleLogout}
+                      className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                    >
+                      <ArrowRightOnRectangleIcon className="w-4 h-4" />
+                      Вихід
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-            
-            <Dropdown overlay={userMenu} placement="bottomRight">
-              <Avatar 
-                size="large" 
-                icon={<UserOutlined />} 
-                style={{ 
-                  cursor: 'pointer',
-                  backgroundColor: '#52c41a'
-                }}
-              />
-            </Dropdown>
-          </Space>
-        </Header>
+            </div>
+          </div>
+        </header>
         
         {/* Main Content */}
-        <Content style={{ 
-          margin: '24px',
-          padding: 0,
-          minHeight: 280
-        }}>
-          <div style={{
-            background: '#fff',
-            borderRadius: '8px',
-            padding: '24px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-          }}>
+        <main className="flex-1 p-6">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
             {children}
           </div>
-        </Content>
-      </Layout>
-    </Layout>
+        </main>
+      </div>
+
+      {/* Overlay for dropdown */}
+      {dropdownOpen && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => setDropdownOpen(false)}
+        />
+      )}
+    </div>
   );
 }
