@@ -24,14 +24,18 @@ export default function ActivationForm({ token }: ActivationFormProps) {
   const onFinish = async (values: ActivationFormData) => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const validatedData = activationSchema.parse(values);
-      const response = await apiClient.activate({
-        ...validatedData,
-        token
-      });
-      
+
+      const payload = {
+        activation_token: token,                          
+        password: validatedData.password,
+        password_confirm: validatedData.password_confirm,
+        username: (values as any).new_username || undefined, 
+      };
+      const response = await apiClient.activate(payload as any);
+
       login(response.data.token, response.data.user);
       router.push('/cabinet');
     } catch (err: any) {
@@ -59,16 +63,16 @@ export default function ActivationForm({ token }: ActivationFormProps) {
         <Title level={2}>Активація акаунту</Title>
         <p style={{ color: '#8c8c8c' }}>Встановіть пароль для входу в систему</p>
       </div>
-      
+
       {error && (
-        <Alert 
-          message={error} 
-          type="error" 
-          showIcon 
+        <Alert
+          message={error}
+          type="error"
+          showIcon
           style={{ marginBottom: 16 }}
         />
       )}
-      
+
       <Form
         form={form}
         onFinish={onFinish}
@@ -80,12 +84,12 @@ export default function ActivationForm({ token }: ActivationFormProps) {
           label="Логін (необов'язково)"
           help="Якщо не вказано, буде використано номер тендеру"
         >
-          <Input 
+          <Input
             prefix={<UserOutlined />}
             placeholder="Логін для входу"
           />
         </Form.Item>
-        
+
         <Form.Item
           name="password"
           label="Пароль"
@@ -94,12 +98,12 @@ export default function ActivationForm({ token }: ActivationFormProps) {
             { min: 8, message: 'Пароль має містити мінімум 8 символів' }
           ]}
         >
-          <Input.Password 
+          <Input.Password
             prefix={<LockOutlined />}
             placeholder="Пароль (мінімум 8 символів)"
           />
         </Form.Item>
-        
+
         <Form.Item
           name="password_confirm"
           label="Підтвердження паролю"
@@ -116,16 +120,16 @@ export default function ActivationForm({ token }: ActivationFormProps) {
             }),
           ]}
         >
-          <Input.Password 
+          <Input.Password
             prefix={<LockOutlined />}
             placeholder="Підтвердіть пароль"
           />
         </Form.Item>
-        
+
         <Form.Item>
-          <Button 
-            type="primary" 
-            htmlType="submit" 
+          <Button
+            type="primary"
+            htmlType="submit"
             loading={loading}
             style={{ width: '100%' }}
           >

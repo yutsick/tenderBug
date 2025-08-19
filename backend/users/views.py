@@ -10,6 +10,7 @@ from django.contrib.auth import authenticate
 from django.conf import settings
 from django.utils import timezone
 from datetime import datetime, timedelta
+from rest_framework.permissions import AllowAny
 import uuid
 
 # ВИПРАВЛЕНИЙ ІМПОРТ - видалено AdminDepartmentAccess
@@ -24,7 +25,7 @@ from .serializers import (
 
 class DepartmentListView(APIView):
     """Список підрозділів для реєстрації"""
-    
+    permission_classes = [AllowAny]
     def get(self, request):
         departments = Department.objects.filter(is_active=True)
         serializer = DepartmentSerializer(departments, many=True)
@@ -36,7 +37,7 @@ class DepartmentListView(APIView):
 
 class RegisterView(APIView):
     """Реєстрація переможців тендерів"""
-    
+    permission_classes = [AllowAny] 
     def post(self, request):
         serializer = UserRegistrationSerializer(data=request.data)
         if serializer.is_valid():
@@ -63,7 +64,7 @@ class RegisterView(APIView):
 
 class ActivateView(APIView):
     """Активація акаунту переможця тендеру"""
-    
+    permission_classes = [AllowAny]
     def post(self, request):
         serializer = UserActivationSerializer(data=request.data)
         if serializer.is_valid():
@@ -112,7 +113,7 @@ class ActivateView(APIView):
 
 class CustomAuthToken(ObtainAuthToken):
     """Кастомна авторизація по email/username/tender_number"""
-    
+    permission_classes = [AllowAny]
     def post(self, request, *args, **kwargs):
         login = request.data.get('login')
         password = request.data.get('password')

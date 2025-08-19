@@ -169,10 +169,6 @@ class PasswordResetToken(models.Model):
         )
 
 
-# backend/forms/models.py  
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from users.models import User, Department
 
 
 class DocumentTab(models.Model):
@@ -269,3 +265,26 @@ class UserDocumentStatus(models.Model):
         unique_together = ['user', 'tab']
         verbose_name = _('Статус документів користувача')
         verbose_name_plural = _('Статуси документів користувачів')
+
+
+# Довідники
+class WorkType(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Тип робіт")
+
+    def __str__(self):
+        return self.name
+
+class WorkSubType(models.Model):
+    work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE, related_name='subtypes')
+    name = models.CharField(max_length=100, verbose_name="Підтип робіт")
+    has_equipment = models.BooleanField(default=False, verbose_name="Потребує обладнання")
+
+    def __str__(self):
+        return f"{self.name} ({self.work_type.name})"
+
+class Equipment(models.Model):
+    subtype = models.ForeignKey(WorkSubType, on_delete=models.CASCADE, related_name='equipment')
+    name = models.CharField(max_length=100, verbose_name="Обладнання")
+
+    def __str__(self):
+        return f"{self.name} - {self.subtype.name}"

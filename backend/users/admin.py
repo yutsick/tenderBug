@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
-from .models import User, Department
+from django_select2.forms import ModelSelect2Widget
+from .models import User, Department, WorkType, WorkSubType, Equipment
 
 
 @admin.register(Department)
@@ -356,3 +357,102 @@ class StaffUserAdmin(admin.ModelAdmin):
             obj.is_staff = True
             obj._from_admin = True  # Щоб обійти перевірку в save()
         super().save_model(request, obj, form, change)
+
+# Довідники
+
+class SubtypeSelect2Widget(ModelSelect2Widget):
+    model = WorkSubType
+    search_fields = ['name__icontains', 'work_type__name__icontains']
+    
+    def label_from_instance(self, obj):
+        return f"{obj.name} ({obj.work_type.name})"
+    
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        attrs = super().build_attrs(base_attrs, extra_attrs)
+        attrs.update({
+            'data-minimum-input-length': '0',  # Показувати весь список одразу
+            'data-placeholder': 'Оберіть підтип робіт...',
+            'data-allow-clear': 'true',
+            'data-language': 'uk',
+        })
+        return attrs
+
+class EquipmentForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = '__all__'
+        widgets = {
+            'subtype': SubtypeSelect2Widget(attrs={
+                'style': 'width: 100%;',
+            })
+        }
+# Форма для inline
+class EquipmentInlineForm(forms.ModelForm):
+    class Meta:
+        model = Equipment
+        fields = '__all__'
+        widgets = {
+            'name': forms.Textarea(attrs={'rows': 2, 'cols': 60}),
+        }
+
+class EquipmentInline(admin.TabularInline):
+    model = Equipment
+    form = EquipmentInlineForm
+    extra = 1
+
+class WorkSubTypeInline(admin.TabularInline):
+    model = WorkSubType
+    extra = 1
+
+
+class WorkTypeSelect2Widget(ModelSelect2Widget):
+    model = WorkType
+    search_fields = ['name__icontains']
+    
+    def build_attrs(self, base_attrs, extra_attrs=None):
+        attrs = super().build_attrs(base_attrs, extra_attrs)
+        attrs.update({
+            'data-minimum-input-length': '0',
+            'data-placeholder': 'Оберіть тип робіт...',
+            'data-allow-clear': 'true',
+            'data-language': 'uk',
+        })
+        return attrs
+
+# Форма для WorkSubType
+class WorkSubTypeForm(forms.ModelForm):
+    class Meta:
+        model = WorkSubType
+        fields = '__all__'
+        widgets = {
+            'work_type': WorkTypeSelect2Widget(attrs={
+                'style': 'width: 100%;',
+            })
+        }
+        
+@admin.register(WorkType)
+class WorkTypeAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+    inlines = [WorkSubTypeInline]
+
+@admin.register(WorkSubType)
+class WorkSubTypeAdmin(admin.ModelAdmin):
+    form = WorkSubTypeForm
+    list_display = ('name', 'work_type', 'has_equipment')
+    list_filter = ('work_type', 'has_equipment')
+    inlines = [EquipmentInline]
+
+@admin.register(Equipment)
+class EquipmentAdmin(admin.ModelAdmin):
+    form = EquipmentForm  # Додано форму з Select2
+    list_display = ['id', 'name', 'subtype']
+    list_filter = ['subtype__work_type', 'subtype']
+    search_fields = ['name', 'subtype__name']
+    
+    class Media:
+        css = {
+            'all': (
+                'admin/css/custom.css',
+                'admin/css/select2-custom.css',
+            )
+        }
