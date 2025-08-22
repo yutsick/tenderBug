@@ -1,14 +1,19 @@
-# backend/config/settings.py
 from pathlib import Path
 from decouple import config
 import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+
+# ALLOWED_HOSTS для Railway
+if config('RAILWAY_ENVIRONMENT', default=False):
+    ALLOWED_HOSTS = ['.railway.app', 'localhost', '127.0.0.1']
+else:
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 DJANGO_APPS = [
@@ -39,6 +44,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Додано для Railway
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,14 +73,21 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# Database - SQLite для локалки, PostgreSQL для Railway
+DATABASE_URL = config('DATABASE_URL', default=None)
+if DATABASE_URL:
+    # Production - Railway PostgreSQL
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
-}
+else:
+    # Development - SQLite
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -98,12 +111,16 @@ TIME_ZONE = 'Europe/Kiev'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# Static files - налаштування для Railway
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Папка для розробки
+    os.path.join(BASE_DIR, 'static'),
 ]
+
+# Whitenoise налаштування для Railway
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -124,15 +141,27 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
-# CORS
+# CORS - додано Railway домени
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # React dev server
     "http://127.0.0.1:3000",
-    "http://localhost:3002",  # Додайте цей рядок
-    "http://127.0.0.1:3002",  # І цей
+    "http://localhost:3002",
+    "http://127.0.0.1:3002",
 ]
 
+# Додати Railway домени в production
+if config('RAILWAY_ENVIRONMENT', default=False):
+    CORS_ALLOWED_ORIGINS.extend([
+        "https://tenderbug-production.up.railway.app",
+        # Додайте ваш frontend домен коли буде
+    ])
+
 CORS_ALLOW_CREDENTIALS = True
+
+# CSRF захист для Railway
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.railway.app",
+]
 
 # Custom user model
 AUTH_USER_MODEL = 'users.User'
@@ -141,7 +170,7 @@ AUTH_USER_MODEL = 'users.User'
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 
-# Email settings (for later phases)
+# Email settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
 EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
@@ -177,14 +206,12 @@ LOGGING = {
         },
     },
 }
-# backend/config/settings.py - додати ці налаштування
+
+# Frontend URL
 FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
 
 # Email налаштування
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@yoursite.com')
-
-# Додати в INSTALLED_APPS якщо ще немає
-# 'django.contrib.sites',
 
 # Налаштування сайту
 SITE_ID = 1

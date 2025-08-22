@@ -4237,3 +4237,4 @@ Watching for file changes with StatReloader
 Not Found: /
 "GET / HTTP/1.1" 404 2629
 "GET /admin/ HTTP/1.1" 200 6899
+D:\OpenServer\domains\tender-system\backend\config\settings.py changed, reloading.
