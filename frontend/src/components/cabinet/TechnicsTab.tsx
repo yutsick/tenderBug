@@ -1,228 +1,511 @@
-import { useState } from 'react';
-import { PlusIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, DocumentArrowUpIcon } from '@heroicons/react/24/outline';
+// src/components/cabinet/TechnicsTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
+import { useState, useEffect } from 'react';
+import { PlusIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, DocumentArrowUpIcon, CheckCircleIcon, DocumentIcon } from '@heroicons/react/24/outline';
+import { Alert, Spin, message, Modal, Select, Input } from 'antd';
+import { useUserTechnics, useTechnicTypes } from '@/hooks/useUserData';
+import { apiClient } from '@/lib/api';
+import type { TechnicFormData, DocumentsCollection, FileInfo, RequiredDocument } from '@/types/userdata';
 
-interface Technic {
-  id: string;
-  type: string;
-  description: string;
-  expanded: boolean;
-  documents: {
-    operationPermit: string;
-    inspectionProtocol: string;
-    supervisionLog: string;
-    qualificationCertificate: string;
-  };
-}
+const { Option } = Select;
+const { TextArea } = Input;
 
 interface TechnicsTabProps {
   onSubmit: () => void;
 }
 
 export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
-  const [technics, setTechnics] = useState<Technic[]>([
-    {
-      id: '1',
-      type: 'Ручний електроінструмент',
-      description: '',
-      expanded: false,
-      documents: {
-        operationPermit: '',
-        inspectionProtocol: '',
-        supervisionLog: '',
-        qualificationCertificate: ''
-      }
-    },
-    {
-      id: '2',
-      type: 'Компресори, пісокструйні агрегати',
-      description: '',
-      expanded: true,
-      documents: {
-        operationPermit: '',
-        inspectionProtocol: '',
-        supervisionLog: '',
-        qualificationCertificate: ''
-      }
+  // Хуки для роботи з API
+  const { 
+    technics, 
+    loading: technicsLoading, 
+    mutating, 
+    createTechnic, 
+    updateTechnic, 
+    deleteTechnic 
+  } = useUserTechnics();
+  
+  const { technicTypes, loading: typesLoading } = useTechnicTypes();
+
+  // Локальний стейт
+  const [localTechnics, setLocalTechnics] = useState<TechnicFormData[]>([]);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Синхронізація з API даними
+  useEffect(() => {
+    if (technics.length > 0) {
+      const converted = technics.map(tech => ({
+        id: tech.id,
+        type: tech.technic_type || 'custom',
+        customType: tech.custom_type || '',
+        description: tech.display_name || '',
+        documents: convertDocumentsToFormData(tech.documents),
+        expanded: false
+      }));
+      setLocalTechnics(converted);
+    } else {
+      // Якщо немає збережених, додаємо один порожній
+      setLocalTechnics([{
+        id: undefined,
+        type: '',
+        customType: '',
+        documents: {},
+        expanded: true
+      }]);
     }
-  ]);
+  }, [technics]);
+
+  // Конвертуємо документи з API формату в форм дату
+  const convertDocumentsToFormData = (docs: DocumentsCollection): { [key: string]: File[] } => {
+    const result: { [key: string]: File[] } = {};
+    Object.entries(docs).forEach(([docType, files]) => {
+      // Для існуючих файлів створюємо File об'єкти (для відображення)
+      result[docType] = files.map(file => {
+        // Створюємо mock File об'єкт для відображення
+        const mockFile = new File([''], file.name, { type: 'application/octet-stream' });
+        (mockFile as any).url = file.url || file.path;
+        return mockFile;
+      });
+    });
+    return result;
+  };
+
+  // Конвертуємо форм дату в API формат
+  const convertFormDataToDocuments = (formDocs: { [key: string]: File[] }): DocumentsCollection => {
+    const result: DocumentsCollection = {};
+    Object.entries(formDocs).forEach(([docType, files]) => {
+      result[docType] = files.map(file => ({
+        name: file.name,
+        path: (file as any).url || '', // URL файлу з сервера
+        size: file.size
+      }));
+    });
+    return result;
+  };
 
   const addTechnic = () => {
-    const newTechnic: Technic = {
-      id: Date.now().toString(),
+    const newTechnic: TechnicFormData = {
+      id: undefined,
       type: '',
-      description: '',
-      expanded: true,
-      documents: {
-        operationPermit: '',
-        inspectionProtocol: '',
-        supervisionLog: '',
-        qualificationCertificate: ''
-      }
+      customType: '',
+      documents: {},
+      expanded: true
     };
-    setTechnics([...technics, newTechnic]);
+    setLocalTechnics([...localTechnics, newTechnic]);
   };
 
-  const removeTechnic = (id: string) => {
-    setTechnics(technics.filter(tech => tech.id !== id));
+  const removeTechnic = async (index: number) => {
+    const technic = localTechnics[index];
+    
+    if (technic.id) {
+      try {
+        await deleteTechnic(technic.id);
+        message.success('Техніку видалено');
+      } catch (error) {
+        console.error('Помилка видалення техніки:', error);
+        message.error('Не вдалося видалити техніку');
+        return;
+      }
+    }
+    
+    setLocalTechnics(localTechnics.filter((_, i) => i !== index));
   };
 
-  const toggleTechnic = (id: string) => {
-    setTechnics(technics.map(tech => 
-      tech.id === id ? { ...tech, expanded: !tech.expanded } : tech
+  const toggleTechnic = (index: number) => {
+    setLocalTechnics(localTechnics.map((tech, i) => 
+      i === index ? { ...tech, expanded: !tech.expanded } : tech
     ));
   };
 
-  const updateTechnic = (id: string, field: keyof Technic, value: any) => {
-    setTechnics(technics.map(tech => 
-      tech.id === id ? { ...tech, [field]: value } : tech
+  const updateLocalTechnic = (index: number, field: keyof TechnicFormData, value: any) => {
+    setLocalTechnics(localTechnics.map((tech, i) => 
+      i === index ? { ...tech, [field]: value } : tech
     ));
   };
 
-  const handleFileUpload = (techId: string, docType: string, event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      console.log('Uploading file:', file.name, 'for technic:', techId, 'document:', docType);
-      // Handle file upload logic here
+  const handleFileUpload = async (techIndex: number, docType: string, file: File) => {
+    try {
+      // Завантажуємо файл через API
+      const uploadResponse = await apiClient.uploadDocument(file, `technic_${docType}`);
+      
+      if (uploadResponse.success && uploadResponse.file_info) {
+        // Створюємо File об'єкт з URL для локального стейту
+        const fileWithUrl = new File([file], file.name, { type: file.type });
+        (fileWithUrl as any).url = uploadResponse.file_info.path;
+        
+        // Оновлюємо локальний стейт
+        setLocalTechnics(prev => prev.map((tech, i) => {
+          if (i === techIndex) {
+            const updatedDocs = { ...tech.documents };
+            if (!updatedDocs[docType]) {
+              updatedDocs[docType] = [];
+            }
+            updatedDocs[docType] = [...updatedDocs[docType], fileWithUrl];
+            return { ...tech, documents: updatedDocs };
+          }
+          return tech;
+        }));
+        
+        message.success('Файл успішно завантажено');
+      }
+    } catch (error) {
+      console.error('Помилка завантаження файлу:', error);
+      message.error('Не вдалося завантажити файл');
     }
   };
+
+  const removeDocument = (techIndex: number, docType: string, fileIndex: number) => {
+    setLocalTechnics(prev => prev.map((tech, i) => {
+      if (i === techIndex) {
+        const updatedDocs = { ...tech.documents };
+        if (updatedDocs[docType]) {
+          updatedDocs[docType] = updatedDocs[docType].filter((_, idx) => idx !== fileIndex);
+          if (updatedDocs[docType].length === 0) {
+            delete updatedDocs[docType];
+          }
+        }
+        return { ...tech, documents: updatedDocs };
+      }
+      return tech;
+    }));
+  };
+
+  const saveTechnic = async (index: number) => {
+    const technic = localTechnics[index];
+    
+    // Валідація
+    if (!technic.type && !technic.customType) {
+      message.warning('Виберіть або введіть тип техніки');
+      return;
+    }
+
+    try {
+      const technicData = {
+        technic_type: technic.type === 'custom' ? undefined : technic.type,
+        custom_type: technic.type === 'custom' ? technic.customType : undefined,
+        documents: convertFormDataToDocuments(technic.documents)
+      };
+      
+      if (technic.id) {
+        // Оновлення існуючої
+        await updateTechnic(technic.id, technicData);
+        message.success('Дані техніки оновлено');
+      } else {
+        // Створення нової
+        const newTech = await createTechnic(technicData);
+        // Оновлюємо локальний стейт з ID з сервера
+        setLocalTechnics(prev => prev.map((tech, i) => 
+          i === index ? { ...tech, id: newTech.id } : tech
+        ));
+        message.success('Техніку додано');
+      }
+    } catch (error) {
+      console.error('Помилка збереження техніки:', error);
+      message.error('Не вдалося зберегти дані техніки');
+    }
+  };
+
+  const handleSubmit = async () => {
+  if (localTechnics.length === 0) {
+    message.warning('Додайте хоча б одну техніку');
+    return;
+  }
+
+  const invalidTechnics = localTechnics.filter(tech => !tech.type && !tech.customType);
+  if (invalidTechnics.length > 0) {
+    message.warning('Заповніть типи всієї техніки');
+    return;
+  }
+
+  setSubmitting(true);
+  try {
+    // ✅ СТВОРЮЄМО нову техніку
+    const unsavedTechnics = localTechnics.filter(tech => !tech.id);
+    for (const technic of unsavedTechnics) {
+      const technicData = {
+        technic_type: technic.type === 'custom' ? undefined : technic.type,
+        custom_type: technic.type === 'custom' ? technic.customType : undefined,
+        documents: convertFormDataToDocuments(technic.documents)
+      };
+      await createTechnic(technicData);
+    }
+
+    // ✅ ОНОВЛЮЄМО існуючу техніку
+    const existingTechnics = localTechnics.filter(tech => tech.id);
+    for (const technic of existingTechnics) {
+      const technicData = {
+        technic_type: technic.type === 'custom' ? undefined : technic.type,
+        custom_type: technic.type === 'custom' ? technic.customType : undefined,
+        documents: convertFormDataToDocuments(technic.documents)
+      };
+      await updateTechnic(technic.id!, technicData);
+    }
+
+    message.success('Всі дані техніки збережено!');
+    onSubmit();
+  } catch (error) {
+    console.error('Помилка збереження:', error);
+    message.error('Не вдалося зберегти дані');
+  } finally {
+    setSubmitting(false);
+  }
+};
+
+  const confirmDelete = (index: number) => {
+    const technic = localTechnics[index];
+    Modal.confirm({
+      title: 'Видалення техніки',
+      content: `Ви впевнені, що хочете видалити цю техніку?`,
+      okText: 'Видалити',
+      okType: 'danger',
+      cancelText: 'Скасувати',
+      onOk: () => removeTechnic(index)
+    });
+  };
+
+  // Отримуємо необхідні документи для вибраного типу техніки
+  const getRequiredDocuments = (technicType: string): RequiredDocument[] => {
+    if (technicType === 'custom' || !technicType) return [];
+    const type = technicTypes.find(t => t.id === technicType);
+    return type?.required_documents || [];
+  };
+
+  // Показуємо loader поки завантажуються дані
+  if (technicsLoading || typesLoading) {
+    return (
+      <div className="flex justify-center items-center py-12">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">
-      {technics.map((technic) => (
-        <div key={technic.id} className="bg-white border border-gray-200 rounded-lg relative">
-          <div className="flex items-center justify-between p-4 border-b border-gray-100">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => toggleTechnic(technic.id)}
-                className="p-1 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
-              >
-                {technic.expanded ? (
-                  <ChevronUpIcon className="w-5 h-5" />
-                ) : (
-                  <ChevronDownIcon className="w-5 h-5" />
-                )}
-              </button>
-              <div>
-                <h3 className="text-lg font-medium text-gray-900">Тип інструменту</h3>
-                <p className="text-sm text-gray-600">{technic.type}</p>
+      {/* Показуємо статус збереження */}
+      {technics.length > 0 && (
+        <Alert
+          message={`Збережено ${technics.length} одиниць техніки`}
+          description="Дані синхронізовані з сервером"
+          type="success"
+          icon={<CheckCircleIcon className="w-4 h-4" />}
+          showIcon
+          className="mb-4"
+        />
+      )}
+
+      {localTechnics.map((technic, index) => {
+        const requiredDocuments = getRequiredDocuments(technic.type);
+        
+        return (
+          <div key={index} className="bg-white border border-gray-200 rounded-lg relative">
+            <div className="flex items-center justify-between p-4 border-b border-gray-100">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => toggleTechnic(index)}
+                  className="p-1 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                >
+                  {technic.expanded ? (
+                    <ChevronUpIcon className="w-5 h-5" />
+                  ) : (
+                    <ChevronDownIcon className="w-5 h-5" />
+                  )}
+                </button>
+                <div className="flex items-center gap-3">
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
+                      Техніка #{index + 1}
+                      {technic.id && (
+                        <CheckCircleIcon className="w-4 h-4 text-green-500" title="Збережено" />
+                      )}
+                    </h3>
+                    {technic.type && (
+                      <p className="text-sm text-gray-600">
+                        {technic.type === 'custom' ? technic.customType : 
+                         technicTypes.find(t => t.id === technic.type)?.name || technic.type}
+                      </p>
+                    )}
+                  </div>
+                  
+                  {/* Кнопка швидкого збереження */}
+                  {!technic.id && (technic.type || technic.customType) && (
+                    <button
+                      onClick={() => saveTechnic(index)}
+                      disabled={mutating}
+                      className="px-3 py-1 text-xs bg-green-100 text-green-700 rounded-md hover:bg-green-200 transition-colors"
+                    >
+                      {mutating ? 'Збереження...' : 'Зберегти'}
+                    </button>
+                  )}
+                </div>
               </div>
+              
+              {localTechnics.length > 1 && (
+                <button
+                  onClick={() => confirmDelete(index)}
+                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
+                  disabled={mutating}
+                >
+                  <TrashIcon className="w-5 h-5" />
+                </button>
+              )}
             </div>
-            
-            {technics.length > 1 && (
-              <button
-                onClick={() => removeTechnic(technic.id)}
-                className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
-              >
-                <TrashIcon className="w-5 h-5" />
-              </button>
+
+            {technic.expanded && (
+              <div className="p-6 space-y-6">
+                {/* Вибір типу техніки */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Тип техніки *
+                  </label>
+                  <Select
+                    value={technic.type}
+                    onChange={(value) => updateLocalTechnic(index, 'type', value)}
+                    placeholder="Виберіть тип техніки"
+                    className="w-full"
+                    allowClear
+                  >
+                    {technicTypes.map(type => (
+                      <Option key={type.id} value={type.id}>
+                        {type.name}
+                      </Option>
+                    ))}
+                    <Option value="custom">Інший (вказати вручну)</Option>
+                  </Select>
+                </div>
+
+                {/* Поле для власного типу */}
+                {technic.type === 'custom' && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Назва техніки *
+                    </label>
+                    <Input
+                      value={technic.customType}
+                      onChange={(e) => updateLocalTechnic(index, 'customType', e.target.value)}
+                      placeholder="Введіть назву техніки"
+                    />
+                  </div>
+                )}
+
+                {/* Документи */}
+                {requiredDocuments.length > 0 && (
+                  <div className="space-y-4">
+                    <h4 className="text-md font-medium text-gray-800">Необхідні документи:</h4>
+                    
+                    {requiredDocuments.map((doc, docIndex) => (
+                      <div key={docIndex} className="border border-gray-200 rounded-md p-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          {doc.name} {doc.is_multiple && "(можна додати кілька файлів)"}
+                        </label>
+                        
+                        {/* Список завантажених файлів */}
+                        {technic.documents[doc.name] && technic.documents[doc.name].length > 0 && (
+                          <div className="space-y-2 mb-3">
+                            {technic.documents[doc.name].map((file, fileIndex) => (
+                              <div key={fileIndex} className="flex items-center gap-3 p-2 bg-gray-50 border border-gray-200 rounded-md">
+                                <DocumentIcon className="w-4 h-4 text-blue-500 flex-shrink-0" />
+                                <span className="flex-1 text-sm text-gray-700 truncate">{file.name}</span>
+                                {(file as any).url && (
+                                  <a 
+                                    href={(file as any).url} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="text-xs text-blue-600 hover:text-blue-800"
+                                  >
+                                    Переглянути
+                                  </a>
+                                )}
+                                <button
+                                  onClick={() => removeDocument(index, doc.name, fileIndex)}
+                                  className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                                >
+                                  <TrashIcon className="w-3 h-3" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Кнопка завантаження */}
+                        <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                          <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
+                          <span className="text-sm text-gray-600">Додати файл</span>
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                handleFileUpload(index, doc.name, file);
+                              }
+                            }}
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                          />
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Якщо це власний тип або немає вибраного типу */}
+                {(technic.type === 'custom' || !technic.type) && (
+                  <div className="border border-gray-200 rounded-md p-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Документи техніки
+                    </label>
+                    <p className="text-sm text-gray-500 mb-3">
+                      Додайте необхідні документи для цієї техніки
+                    </p>
+                    
+                    <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                      <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
+                      <span className="text-sm text-gray-600">Додати файл</span>
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            handleFileUpload(index, 'general', file);
+                          }
+                        }}
+                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                      />
+                    </label>
+                  </div>
+                )}
+              </div>
             )}
           </div>
+        );
+      })}
 
-          {technic.expanded && (
-            <div className="p-6 space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Тип інструменту
-                </label>
-                <input
-                  type="text"
-                  value={technic.type}
-                  onChange={(e) => updateTechnic(technic.id, 'type', e.target.value)}
-                  placeholder="Введіть тип інструменту"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Дозвіл на експлуатацію сосудин під тиском
-                  </label>
-                  <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                    <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
-                    <span className="text-sm text-gray-600">Додати файл</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => handleFileUpload(technic.id, 'operationPermit', e)}
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Протокол інспекції ізоляції ручного інструменту
-                  </label>
-                  <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                    <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
-                    <span className="text-sm text-gray-600">Додати файл</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => handleFileUpload(technic.id, 'inspectionProtocol', e)}
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                    />
-                  </label>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Журнал нагляду посудини що працює під тиском
-                  </label>
-                  <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                    <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
-                    <span className="text-sm text-gray-600">Додати файл</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => handleFileUpload(technic.id, 'supervisionLog', e)}
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                    />
-                  </label>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Кваліфікаційне посвідчення машиніста компресора
-                  </label>
-                  <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                    <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
-                    <span className="text-sm text-gray-600">Додати файл</span>
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e) => handleFileUpload(technic.id, 'qualificationCertificate', e)}
-                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
-
+      {/* Кнопка додавання нової техніки */}
       <div className="text-center">
         <button 
           onClick={addTechnic}
-          className="inline-flex items-center px-4 py-2 border-2 border-dashed border-green-500 text-green-600 rounded-md hover:border-green-600 hover:bg-green-50 transition-colors"
+          disabled={mutating}
+          className="inline-flex items-center px-4 py-2 border-2 border-dashed border-green-500 text-green-600 rounded-md hover:border-green-600 hover:bg-green-50 transition-colors disabled:opacity-50"
         >
           <PlusIcon className="w-5 h-5 mr-2" />
-          Додати інструмент
+          Додати техніку
         </button>
       </div>
 
       <hr className="border-gray-200" />
 
+      {/* Кнопка збереження всіх даних */}
       <div className="text-center">
         <button 
-          onClick={onSubmit}
-          className="px-8 py-3 bg-gray-400 text-white rounded-md hover:bg-gray-500 transition-colors font-medium"
+          onClick={handleSubmit}
+          disabled={submitting || mutating || localTechnics.length === 0}
+          className={`px-8 py-3 rounded-md transition-colors font-medium inline-flex items-center gap-2 ${
+            !submitting && !mutating && localTechnics.length > 0
+              ? 'bg-green-600 hover:bg-green-700 text-white' 
+              : 'bg-gray-400 text-white cursor-not-allowed'
+          }`}
         >
-          Надіслати дані
+          {(submitting || mutating) && <Spin size="small" />}
+          {submitting || mutating ? 'Збереження...' : `Зберегти всю техніку (${localTechnics.length})`}
         </button>
       </div>
     </div>

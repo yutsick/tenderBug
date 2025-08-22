@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
+from django.utils import timezone
 import uuid
 import os
 
@@ -98,6 +99,12 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _('Користувач')
         verbose_name_plural = _('Користувачі')
+        permissions = [
+            ("view_own_department_users", "Can view users from own department"),
+            ("change_own_department_users", "Can change users from own department"),
+            ("approve_tender_users", "Can approve tender winners"),
+            ("decline_tender_users", "Can decline tender winners"),
+        ]
 
     def __str__(self):
         if self.is_staff:
@@ -288,3 +295,277 @@ class Equipment(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.subtype.name}"
+
+
+class UserWork(models.Model):
+    """Роботи користувача з дозволами та термінами дії"""
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='works',
+        verbose_name='Користувач'
+    )
+    work_type = models.ForeignKey(
+        WorkType, 
+        on_delete=models.CASCADE, 
+        verbose_name='Тип роботи'
+    )
+    work_sub_type = models.ForeignKey(
+        WorkSubType, 
+        on_delete=models.CASCADE, 
+        verbose_name='Підтип роботи'
+    )
+    expiry_date = models.DateField('Дата завершення дії дозволу')
+    permit_file = models.FileField(
+        'Файл дозволу', 
+        upload_to='permits/', 
+        blank=True, 
+        null=True
+    )
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    updated_at = models.DateTimeField('Оновлено', auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Робота користувача'
+        verbose_name_plural = 'Роботи користувачів'
+        ordering = ['-created_at']
+        unique_together = ['user', 'work_sub_type']  # Один підтип на користувача
+    
+    def __str__(self):
+        return f"{self.user.company_name} - {self.work_sub_type.name}"
+    
+    @property
+    def is_expired(self):
+        """Перевірка чи не закінчився термін дії дозволу"""
+        
+        return self.expiry_date < timezone.now().date()
+
+# Довідники техніки та інструментів
+class TechnicType(models.Model):
+    """Типи техніки з необхідними документами"""
+    name = models.CharField('Тип техніки', max_length=255)
+    required_documents = models.JSONField('Необхідні документи', default=list)
+    is_active = models.BooleanField('Активний', default=True)
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'Тип техніки'
+        verbose_name_plural = 'Типи техніки'
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+class InstrumentType(models.Model):
+    """Типи інструментів з необхідними документами"""
+    name = models.CharField('Вид інструменту', max_length=255)
+    required_documents = models.JSONField('Необхідні документи', default=list)
+    is_active = models.BooleanField('Активний', default=True)
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    
+    class Meta:
+        verbose_name = 'Тип інструменту'
+        verbose_name_plural = 'Типи інструментів'
+        ordering = ['name']
+    
+    def __str__(self):
+        return self.name
+
+
+# Моделі для збереження даних користувача
+class UserSpecification(models.Model):
+    """Специфікація робіт користувача (таб Роботи)"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='specification')
+    specification_type = models.TextField(
+        blank=True,
+        verbose_name="Тип робіт за специфікацією"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Специфікація робіт"
+        verbose_name_plural = "Специфікації робіт"
+    
+    def __str__(self):
+        return f"Специфікація {self.user.company_name}"
+
+
+class UserEmployee(models.Model):
+    """Співробітники переможця тендеру"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employees')
+    name = models.CharField(max_length=255, verbose_name="ПІБ співробітника")
+    photo = models.FileField(
+        upload_to='employees/photos/', 
+        blank=True, null=True,
+        verbose_name="Фото співробітника"
+    )
+    medical_exam_date = models.DateField(
+        blank=True, null=True,  # ✅ ДОЗВОЛИТИ NULL
+        verbose_name="Дата медогляду"
+    )
+    organization_name = models.CharField(
+        max_length=255, 
+        blank=True,
+        verbose_name="Назва організації що проводила медогляд"
+    )
+    position = models.CharField(
+        max_length=255, 
+        blank=True,
+        verbose_name="Посада"
+    )
+    qualification_certificate = models.FileField(
+        upload_to='employees/qualifications/', 
+        blank=True, null=True,
+        verbose_name="Посвідчення кваліфікації"
+    )
+    qualification_issue_date = models.DateField(
+        blank=True, null=True,  # ✅ ДОЗВОЛИТИ NULL
+        verbose_name="Дата видачі посвідчення"
+    )
+    safety_training_certificate = models.FileField(
+        upload_to='employees/safety/', 
+        blank=True, null=True,
+        verbose_name="Посвідчення з охорони праці"
+    )
+    safety_training_date = models.DateField(
+        blank=True, null=True,  # ✅ ВИПРАВЛЕНО: ДОЗВОЛИТИ NULL
+        verbose_name="Дата навчання з охорони праці"
+    )
+    special_training_certificate = models.FileField(
+        upload_to='employees/special/', 
+        blank=True, null=True,
+        verbose_name="Посвідчення спеціального навчання"
+    )
+    special_training_date = models.DateField(
+        blank=True, null=True,  # ✅ ДОЗВОЛИТИ NULL 
+        verbose_name="Дата спеціального навчання"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = "Співробітник"
+        verbose_name_plural = "Співробітники"
+        ordering = ['name']
+    
+    def __str__(self):
+        return f"{self.name} ({self.user.company_name})"
+    
+class UserOrder(models.Model):
+    """Накази користувача (таб Накази)"""
+    ORDER_TYPES = [
+        ('responsible_person', 'Про призначення відповідальних за організацію і безпечне виконання робіт підвищеної небезпеки'),
+        ('fire_safety', 'Відповідальний за належний стан пожежної безпеки на об\'єкті виконання робіт'),
+        ('eco_safety', 'Відповідальний за належний стан екологічної безпеки на об\'єкті виконання робіт'),
+        ('certificates_protocols', 'Копії посвідчень та протоколів навчання і перевірки знань правил з охорони праці відповідальних осіб'),
+        ('worker_training', 'Копії посвідчень та протоколів навчання і перевірки знань правил з охорони праці та навчання безпечним методам роботи працівників'),
+        ('medical_conclusions', 'Медичні заключення про допуск до виконання робіт за зазначеними професіями'),
+    ]
+    
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='orders',
+        verbose_name='Користувач'
+    )
+    order_type = models.CharField('Тип наказу', max_length=50, choices=ORDER_TYPES)
+    documents = models.JSONField('Документи', default=list)  # Список файлів
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    updated_at = models.DateTimeField('Оновлено', auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Наказ'
+        verbose_name_plural = 'Накази'
+        ordering = ['user', 'order_type']
+    
+    def __str__(self):
+        return f"{self.user.tender_number} - {self.get_order_type_display()}"
+
+
+class UserTechnic(models.Model):
+    """Техніка користувача (таб Техніка)"""
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='technics',
+        verbose_name='Користувач'
+    )
+    technic_type = models.ForeignKey(
+        TechnicType, 
+        on_delete=models.CASCADE, 
+        verbose_name='Тип техніки',
+        blank=True, null=True
+    )
+    custom_type = models.CharField('Інший тип (якщо не знайшли)', max_length=255, blank=True)
+    documents = models.JSONField('Документи', default=dict)  # Структура: {тип_документу: [файли]}
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    updated_at = models.DateTimeField('Оновлено', auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Техніка'
+        verbose_name_plural = 'Техніка'
+        ordering = ['user', '-created_at']
+    
+    def __str__(self):
+        name = self.technic_type.name if self.technic_type else self.custom_type
+        return f"{self.user.tender_number} - {name}"
+    
+    @property
+    def display_name(self):
+        return self.technic_type.name if self.technic_type else self.custom_type
+
+
+class UserInstrument(models.Model):
+    """Інструменти користувача (таб Інструменти)"""
+    user = models.ForeignKey(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='instruments',
+        verbose_name='Користувач'
+    )
+    instrument_type = models.ForeignKey(
+        InstrumentType, 
+        on_delete=models.CASCADE, 
+        verbose_name='Тип інструменту',
+        blank=True, null=True
+    )
+    custom_type = models.CharField('Інший тип (якщо не знайшли)', max_length=255, blank=True)
+    documents = models.JSONField('Документи', default=dict)  # Структура: {тип_документу: [файли]}
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    updated_at = models.DateTimeField('Оновлено', auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Інструмент'
+        verbose_name_plural = 'Інструменти'
+        ordering = ['user', '-created_at']
+    
+    def __str__(self):
+        name = self.instrument_type.name if self.instrument_type else self.custom_type
+        return f"{self.user.tender_number} - {name}"
+    
+    @property
+    def display_name(self):
+        return self.instrument_type.name if self.instrument_type else self.custom_type
+
+
+class UserPPE(models.Model):
+    """ЗІЗ користувача (таб ЗІЗ)"""
+    user = models.OneToOneField(
+        User, 
+        on_delete=models.CASCADE, 
+        related_name='ppe',
+        verbose_name='Користувач'
+    )
+    documents = models.JSONField('Документи ЗІЗ', default=list)  # Простий список файлів
+    created_at = models.DateTimeField('Створено', auto_now_add=True)
+    updated_at = models.DateTimeField('Оновлено', auto_now=True)
+    
+    class Meta:
+        verbose_name = 'ЗІЗ'
+        verbose_name_plural = 'ЗІЗ'
+    
+    def __str__(self):
+        return f"{self.user.tender_number} - ЗІЗ"
+    

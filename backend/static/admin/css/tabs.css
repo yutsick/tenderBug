@@ -1,0 +1,317 @@
+/* 🎨 Табовий інтерфейс для Django admin */
+
+/* ================ КОНТЕЙНЕР ТАБІВ ================ */
+.admin-tabs-container {
+    margin: 20px 0;
+    border: 1px solid #e6f7ff;
+    border-radius: 8px;
+    background: white;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* ================ НАВІГАЦІЯ ТАБІВ ================ */
+.admin-tabs-nav {
+    display: flex;
+    background: linear-gradient(135deg, #f6ffed 0%, #e6f7ff 100%);
+    border-bottom: 1px solid #e6f7ff;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.admin-tabs-nav::-webkit-scrollbar {
+    height: 4px;
+}
+
+.admin-tabs-nav::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.admin-tabs-nav::-webkit-scrollbar-thumb {
+    background: #52c41a;
+    border-radius: 2px;
+}
+
+/* ================ КНОПКИ ТАБІВ ================ */
+.admin-tab-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border: none;
+    background: transparent;
+    color: #666;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    position: relative;
+    border-bottom: 3px solid transparent;
+}
+
+.admin-tab-button:hover {
+    background: rgba(82, 196, 26, 0.1);
+    color: #52c41a;
+}
+
+.admin-tab-button.active {
+    background: white;
+    color: #52c41a;
+    font-weight: 600;
+    border-bottom-color: #52c41a;
+}
+
+.admin-tab-button.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: white;
+}
+
+/* ================ ІКОНКИ ТАБІВ ================ */
+.tab-icon {
+    font-size: 16px;
+    min-width: 20px;
+    text-align: center;
+}
+
+.tab-title {
+    font-size: 13px;
+}
+
+/* ================ ЛІЧИЛЬНИКИ ================ */
+.tab-counter {
+    background: #52c41a;
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.admin-tab-button.has-data .tab-counter {
+    background: #52c41a;
+}
+
+.admin-tab-button.no-data {
+    opacity: 0.6;
+}
+
+.admin-tab-button.no-data .tab-icon {
+    filter: grayscale(50%);
+}
+
+/* ================ КОНТЕНТ ТАБІВ ================ */
+.admin-tabs-content {
+    background: white;
+}
+
+.admin-tab-pane {
+    display: none;
+    padding: 0;
+}
+
+.admin-tab-pane.active {
+    display: block;
+}
+
+/* Прибираємо зайві відступи в табах */
+.admin-tab-pane .inline-group {
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.admin-tab-pane .inline-group h2 {
+    display: none; /* Прибираємо заголовки, оскільки вони в табах */
+}
+
+/* ================ СТИЛІ ДЛЯ РІЗНИХ ТИПІВ INLINE ================ */
+
+/* Табличні inline */
+.admin-tab-pane .tabular {
+    margin: 0;
+}
+
+.admin-tab-pane .tabular table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.admin-tab-pane .tabular thead th {
+    background: #fafafa;
+    border-bottom: 2px solid #e6f7ff;
+    padding: 12px 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.admin-tab-pane .tabular tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: top;
+}
+
+.admin-tab-pane .tabular tbody tr:hover {
+    background: #f6ffed;
+}
+
+/* Stacked inline */
+.admin-tab-pane .stacked {
+    padding: 20px;
+}
+
+.admin-tab-pane .stacked .form-row {
+    margin-bottom: 15px;
+}
+
+.admin-tab-pane .stacked .form-row label {
+    font-weight: 600;
+    color: #52c41a;
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* ================ СТИЛІ ДЛЯ ЧИТАБЕЛЬНОСТІ ================ */
+
+/* Кольорове кодування різних типів даних */
+.admin-tab-pane .field-photo_display span,
+.admin-tab-pane .field-documents_info span,
+.admin-tab-pane .field-documents_count span,
+.admin-tab-pane .field-technic_display span,
+.admin-tab-pane .field-instrument_display span {
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Статуси файлів */
+.admin-tab-pane [style*="color: #52c41a"] {
+    background: #f6ffed !important;
+    color: #52c41a !important;
+    border: 1px solid #b7eb8f;
+}
+
+.admin-tab-pane [style*="color: #ccc"] {
+    background: #f5f5f5 !important;
+    color: #999 !important;
+    border: 1px solid #d9d9d9;
+}
+
+/* ================ RESPONSIVE DESIGN ================ */
+@media (max-width: 1024px) {
+    .admin-tab-button {
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+    
+    .tab-title {
+        display: none; /* Показуємо тільки іконки на мобільних */
+    }
+    
+    .tab-icon {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-tabs-nav {
+        padding: 0;
+    }
+    
+    .admin-tab-button {
+        padding: 8px 12px;
+        min-width: 50px;
+        justify-content: center;
+    }
+    
+    .admin-tab-pane .tabular {
+        overflow-x: auto;
+    }
+    
+    .admin-tab-pane .stacked {
+        padding: 15px;
+    }
+}
+
+/* ================ АНІМАЦІЇ ================ */
+.admin-tab-pane {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.admin-tab-button {
+    transition: all 0.2s ease;
+}
+
+.admin-tab-button:active {
+    transform: translateY(1px);
+}
+
+/* ================ ПУСТІ СТАНИ ================ */
+.admin-tab-pane .tabular tbody tr.empty-form {
+    display: none;
+}
+
+.admin-tab-pane .no-data-message {
+    padding: 40px 20px;
+    text-align: center;
+    color: #999;
+    background: #fafafa;
+    border-radius: 6px;
+    margin: 20px;
+}
+
+.admin-tab-pane .no-data-message::before {
+    content: '📄';
+    font-size: 48px;
+    display: block;
+    margin-bottom: 10px;
+    opacity: 0.3;
+}
+
+/* ================ ПОКРАЩЕННЯ FORM FIELDS ================ */
+.admin-tab-pane input[type="text"],
+.admin-tab-pane textarea,
+.admin-tab-pane select {
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    transition: border-color 0.2s ease;
+}
+
+.admin-tab-pane input[type="text"]:focus,
+.admin-tab-pane textarea:focus,
+.admin-tab-pane select:focus {
+    border-color: #52c41a;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(82, 196, 26, 0.2);
+}
+
+/* ================ READONLY FIELDS ================ */
+.admin-tab-pane .readonly {
+    background: #f5f5f5;
+    border: 1px solid #e6e6e6;
+    color: #666;
+    padding: 6px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
