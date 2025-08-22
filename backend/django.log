@@ -4228,3 +4228,7 @@ Not Found: /.well-known/appspecific/com.chrome.devtools.json
 "GET /admin/users/tenderuser/ HTTP/1.1" 200 11805
 Not Found: /.well-known/appspecific/com.chrome.devtools.json
 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2791
+D:\OpenServer\domains\tender-system\backend\config\wsgi.py changed, reloading.
+Watching for file changes with StatReloader
+D:\OpenServer\domains\tender-system\backend\config\wsgi.py changed, reloading.
+Watching for file changes with StatReloader
