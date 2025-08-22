@@ -4234,3 +4234,6 @@ D:\OpenServer\domains\tender-system\backend\config\wsgi.py changed, reloading.
 Watching for file changes with StatReloader
 D:\OpenServer\domains\tender-system\backend\config\wsgi.py changed, reloading.
 Watching for file changes with StatReloader
+Not Found: /
+"GET / HTTP/1.1" 404 2629
+"GET /admin/ HTTP/1.1" 200 6899
