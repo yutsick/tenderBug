@@ -223,3 +223,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://zahnbug-production.up.railway.app",
     "https://*.railway.app",              # довіряємо railway для форм/логіну
 ]
+
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
