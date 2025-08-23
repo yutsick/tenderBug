@@ -12,22 +12,30 @@ SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key-chang
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# Hosts configuration for Railway
-ALLOWED_HOSTS = []
-if config('RAILWAY_ENVIRONMENT_NAME', default=''):
-    # Production on Railway
+# Визначаємо чи це Railway
+IS_RAILWAY = bool(os.environ.get('RAILWAY_ENVIRONMENT_NAME'))
+
+# ALLOWED_HOSTS конфігурація
+if IS_RAILWAY:
+    # Production на Railway
     ALLOWED_HOSTS = [
         '.railway.app',
-        'localhost',
+        'localhost',  # Залишаємо для тестування
         '127.0.0.1',
     ]
-    # Add custom domain if exists
+    # Додати кастомний домен якщо є
     RAILWAY_PUBLIC_DOMAIN = config('RAILWAY_PUBLIC_DOMAIN', default='')
     if RAILWAY_PUBLIC_DOMAIN:
         ALLOWED_HOSTS.append(RAILWAY_PUBLIC_DOMAIN)
 else:
     # Local development
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
+# Діагностика тільки якщо потрібно (встановіть DJANGO_DEBUG_CONFIG=True)
+if config('DJANGO_DEBUG_CONFIG', default=False, cast=bool):
+    print(f"🔧 Environment: {'Railway' if IS_RAILWAY else 'Local'}")
+    print(f"🔧 DEBUG: {DEBUG}")
+    print(f"🔧 ALLOWED_HOSTS: {ALLOWED_HOSTS}")
 
 # Application definition
 INSTALLED_APPS = [
@@ -78,11 +86,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database configuration
 DATABASE_URL = os.environ.get('DATABASE_URL')
+
 if DATABASE_URL:
-    # Production PostgreSQL
+    # Production PostgreSQL на Railway
     DATABASES = {
-        'default': dj_database_url.parse(DATABASE_URL)
+        'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
+    if config('DJANGO_DEBUG_CONFIG', default=False, cast=bool):
+        print("🗄️  Using PostgreSQL from Railway")
 else:
     # Local development SQLite
     DATABASES = {
@@ -91,6 +102,8 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
+    if config('DJANGO_DEBUG_CONFIG', default=False, cast=bool):
+        print("💾 Using local SQLite database")
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -117,7 +130,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+if IS_RAILWAY:
+    # Production - Whitenoise з компресією
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    # Development - звичайне зберігання
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 # Media files
 MEDIA_URL = '/media/'
@@ -125,9 +144,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Custom User Model (якщо у вас є)
-# AUTH_USER_MODEL = 'accounts.CustomUser'
 
 # Django REST Framework
 REST_FRAMEWORK = {
@@ -142,21 +158,20 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS settings for Railway
+# CORS settings
 if DEBUG:
-    # Development - дозволити всі origins
+    # Development - дозволити всі origins для зручності
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    # Production - Railway фронтенд
+    # Production - тільки фронтенд Railway
     FRONTEND_URL = config('FRONTEND_URL', default='')
     if FRONTEND_URL:
         CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
     else:
-        # Fallback - дозволити всі Railway домени
+        # Fallback - Railway домени
         CORS_ALLOWED_ORIGIN_REGEXES = [
             r"^https://.*\.railway\.app$",
         ]
-        CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_HEADERS = [
     'accept',
@@ -171,8 +186,11 @@ CORS_ALLOWED_HEADERS = [
 ]
 
 # Email configuration
-if config('RAILWAY_ENVIRONMENT_NAME', default=''):
-    # Production email settings
+if DEBUG:
+    # Development - console output
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    # Production - SMTP
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
     EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
@@ -180,12 +198,9 @@ if config('RAILWAY_ENVIRONMENT_NAME', default=''):
     EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
     EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
     DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default=EMAIL_HOST_USER)
-else:
-    # Development - console backend
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Security settings for production
-if not DEBUG:
+# Security settings - тільки для продакшн (НЕ DEBUG)
+if not DEBUG and IS_RAILWAY:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_HSTS_SECONDS = 31536000
@@ -194,7 +209,7 @@ if not DEBUG:
     SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_BROWSER_XSS_FILTER = True
     X_FRAME_OPTIONS = 'DENY'
-    
+
 # Logging configuration
 LOGGING = {
     'version': 1,
