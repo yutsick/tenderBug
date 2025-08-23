@@ -8,6 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ---------- Environment ----------
 ENV = os.getenv("DJANGO_ENV", "development").lower()
 IS_RAILWAY = bool(os.getenv("RAILWAY_ENVIRONMENT_NAME"))  # Railway автоматично виставляє
+USE_REMOTE_DB = config('USE_REMOTE_DB', default=False, cast=bool)
 
 # ---------- Security ----------
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
@@ -83,9 +84,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # ---------- Database ----------
-# Railway надає PG* змінні середовища. Якщо їх нема — локально використовуємо SQLite.
 pg_name = os.getenv('PGDATABASE') or os.getenv('DB_NAME', '')
-if (IS_RAILWAY or ENV == 'production') and pg_name:
+
+use_pg = False
+# Використовуємо Postgres якщо:
+# - ми на Railway/проді і є назва БД, АБО
+# - явно просимо USE_REMOTE_DB=1 і вказали DB_NAME (зовнішній PG)
+if (os.getenv('RAILWAY_ENVIRONMENT_NAME') or os.getenv('DJANGO_ENV') == 'production') and pg_name:
+    use_pg = True
+elif USE_REMOTE_DB and pg_name:
+    use_pg = True
+
+if use_pg:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -94,6 +104,7 @@ if (IS_RAILWAY or ENV == 'production') and pg_name:
             'PASSWORD': os.getenv('PGPASSWORD') or os.getenv('DB_PASSWORD', ''),
             'HOST': os.getenv('PGHOST') or os.getenv('DB_HOST', 'localhost'),
             'PORT': os.getenv('PGPORT') or os.getenv('DB_PORT', '5432'),
+            'OPTIONS': {'sslmode': os.getenv('DB_SSLMODE', 'require')},  # зовнішній Railway зазвичай потребує SSL
         }
     }
 else:

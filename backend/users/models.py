@@ -276,14 +276,14 @@ class UserDocumentStatus(models.Model):
 
 # Довідники
 class WorkType(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Тип робіт")
+    name = models.TextField(verbose_name="Тип робіт")
 
     def __str__(self):
         return self.name
 
 class WorkSubType(models.Model):
     work_type = models.ForeignKey(WorkType, on_delete=models.CASCADE, related_name='subtypes')
-    name = models.CharField(max_length=100, verbose_name="Підтип робіт")
+    name = models.TextField(verbose_name="Підтип робіт")
     has_equipment = models.BooleanField(default=False, verbose_name="Потребує обладнання")
 
     def __str__(self):
@@ -291,7 +291,7 @@ class WorkSubType(models.Model):
 
 class Equipment(models.Model):
     subtype = models.ForeignKey(WorkSubType, on_delete=models.CASCADE, related_name='equipment')
-    name = models.CharField(max_length=100, verbose_name="Обладнання")
+    name = models.TextField(verbose_name="Обладнання")
 
     def __str__(self):
         return f"{self.name} - {self.subtype.name}"
