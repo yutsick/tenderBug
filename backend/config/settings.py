@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'tender_system.urls'  # Замініть на назву вашого проекту
+ROOT_URLCONF = 'config.urls'  # Замініть на назву вашого проекту
 
 TEMPLATES = [
     {
@@ -74,14 +74,28 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'tender_system.wsgi.application'  # Замініть на назву вашого проекту
+WSGI_APPLICATION = 'config.wsgi.application'  # Замініть на назву вашого проекту
 
-# Database configuration
+# Database configuration with better error handling
 if config('RAILWAY_ENVIRONMENT_NAME', default=''):
     # Production database on Railway
-    DATABASES = {
-        'default': dj_database_url.parse(config('DATABASE_URL'))
-    }
+    DATABASE_URL = config('DATABASE_URL', default='')
+    if DATABASE_URL:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+        # Additional database settings for Railway
+        DATABASES['default']['OPTIONS'] = {
+            'charset': 'utf8mb4',
+        } if 'mysql' in DATABASE_URL else {}
+    else:
+        # Fallback to SQLite if DATABASE_URL not available
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 else:
     # Local SQLite database
     DATABASES = {
@@ -141,15 +155,21 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS settings for frontend connection
+# CORS settings for Railway
 if DEBUG:
     # Development - дозволити всі origins
     CORS_ALLOW_ALL_ORIGINS = True
 else:
-    # Production - тільки конкретні domains
-    CORS_ALLOWED_ORIGINS = [
-        config('FRONTEND_URL', default='https://your-frontend.vercel.app'),
-    ]
+    # Production - Railway фронтенд
+    FRONTEND_URL = config('FRONTEND_URL', default='')
+    if FRONTEND_URL:
+        CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+    else:
+        # Fallback - дозволити всі Railway домени
+        CORS_ALLOWED_ORIGIN_REGEXES = [
+            r"^https://.*\.railway\.app$",
+        ]
+        CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_HEADERS = [
     'accept',
@@ -203,3 +223,4 @@ LOGGING = {
             'level': config('DJANGO_LOG_LEVEL', default='INFO'),
         },
     },
+}
