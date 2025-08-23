@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    'accounts',  # Ваш додаток для авторизації
+    'django_select2',
+    'users',  # Ваш додаток для авторизації
     'tenders',   # Ваш додаток для тендерів
 ]
 
