@@ -5,12 +5,25 @@ import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Security
-SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
-DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+# ---------- Environment ----------
+ENV = os.getenv("DJANGO_ENV", "development").lower()
+IS_RAILWAY = bool(os.getenv("RAILWAY_ENVIRONMENT_NAME"))  # Railway автоматично виставляє
 
-# Application definition
+# ---------- Security ----------
+SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
+
+DEBUG = config('DEBUG', default=(ENV != 'production'), cast=bool)
+if IS_RAILWAY or ENV == 'production':
+    DEBUG = False
+
+# ALLOWED_HOSTS
+_allowed_hosts_env = config('ALLOWED_HOSTS', default='localhost,127.0.0.1')
+ALLOWED_HOSTS = [s.strip() for s in _allowed_hosts_env.split(',') if s.strip()]
+if IS_RAILWAY:
+    ALLOWED_HOSTS += ['.railway.app']
+ALLOWED_HOSTS = sorted({h for h in ALLOWED_HOSTS if h})
+
+# ---------- Apps ----------
 DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,9 +49,11 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# ---------- Middleware ----------
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # статика у проді
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,51 +82,61 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+# ---------- Database ----------
+# Railway надає PG* змінні середовища. Якщо їх нема — локально використовуємо SQLite.
+pg_name = os.getenv('PGDATABASE') or os.getenv('DB_NAME', '')
+if (IS_RAILWAY or ENV == 'production') and pg_name:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': pg_name,
+            'USER': os.getenv('PGUSER') or os.getenv('DB_USER', 'postgres'),
+            'PASSWORD': os.getenv('PGPASSWORD') or os.getenv('DB_PASSWORD', ''),
+            'HOST': os.getenv('PGHOST') or os.getenv('DB_HOST', 'localhost'),
+            'PORT': os.getenv('PGPORT') or os.getenv('DB_PORT', '5432'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
-# Password validation
+# ---------- Password validation ----------
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# ---------- I18N ----------
 LANGUAGE_CODE = 'uk-ua'
-TIME_ZONE = 'Europe/Kiev'
+TIME_ZONE = 'Europe/Kyiv'
 USE_I18N = True
 USE_TZ = True
 
-# Static files
+# ---------- Static & Media ----------
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Папка для розробки
-]
-# Media files
+# локальна папка для дев-статик (не завадить і на Railway)
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.isdir(os.path.join(BASE_DIR, 'static')) else []
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Default primary key field type
+# Whitenoise storage у проді
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+else:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# ---------- Defaults ----------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# REST Framework
+# ---------- DRF ----------
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -124,73 +149,54 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
-# CORS
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # React dev server
-    "http://127.0.0.1:3000",
-    "http://localhost:3002",  # Додайте цей рядок
-    "http://127.0.0.1:3002",  # І цей
-]
+# ---------- CORS / CSRF ----------
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
+
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+    CSRF_TRUSTED_ORIGINS = []
+else:
+    CORS_ALLOWED_ORIGINS = [FRONTEND_URL] if FRONTEND_URL else []
+    # Додатково довіряємо Railway-доменам
+    CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
+    if IS_RAILWAY:
+        CSRF_TRUSTED_ORIGINS += ['https://*.railway.app']
 
 CORS_ALLOW_CREDENTIALS = True
 
-# Custom user model
+# ---------- Auth ----------
 AUTH_USER_MODEL = 'users.User'
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailOrUsernameBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
-# File upload settings
+# ---------- Upload limits ----------
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 
-# Email settings (for later phases)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
+# ---------- Email ----------
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@yoursite.com')
 
-# Logging
+# ---------- Logging ----------
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'django.log',
-        },
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-        },
+        'file': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': 'django.log'},
+        'console': {'level': 'INFO', 'class': 'logging.StreamHandler'},
     },
     'loggers': {
-        'django': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'sync_1c': {
-            'handlers': ['file', 'console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
+        'django': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': True},
+        'sync_1c': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': True},
     },
 }
-# backend/config/settings.py - додати ці налаштування
-FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
 
-# Email налаштування
-DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@yoursite.com')
-
-# Додати в INSTALLED_APPS якщо ще немає
-# 'django.contrib.sites',
-
-# Налаштування сайту
+# ---------- Sites (опціонально) ----------
 SITE_ID = 1
-
-# Authentication backends
-AUTHENTICATION_BACKENDS = [
-    'users.backends.EmailOrUsernameBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
