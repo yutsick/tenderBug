@@ -6,15 +6,6 @@ import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Debug environment variables
-print("=== ENVIRONMENT DEBUG ===")
-print(f"All environment keys: {list(os.environ.keys())}")
-print(f"DATABASE_URL in env: {'DATABASE_URL' in os.environ}")
-if 'DATABASE_URL' in os.environ:
-    db_url = os.environ['DATABASE_URL']
-    print(f"DATABASE_URL value (first 50): {db_url[:50]}...")
-print("=== END ENV DEBUG ===")
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-development-key-change-in-production')
 
@@ -65,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls'  # Замініть на назву вашого проекту
+ROOT_URLCONF = 'config.urls'
 
 TEMPLATES = [
     {
@@ -83,53 +74,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application'  # Замініть на назву вашого проекту
+WSGI_APPLICATION = 'config.wsgi.application'
 
-# Database configuration with better error handling
-print("=== DATABASE CONFIGURATION DEBUG ===")
-print(f"RAILWAY_ENVIRONMENT_NAME: {config('RAILWAY_ENVIRONMENT_NAME', default='NOT_SET')}")
-print(f"DATABASE_URL exists: {'DATABASE_URL' in os.environ}")
-
-if config('RAILWAY_ENVIRONMENT_NAME', default=''):
-    # Production database on Railway
-    DATABASE_URL = config('DATABASE_URL', default='')
-    print(f"DATABASE_URL (first 50 chars): {DATABASE_URL[:50]}...")
-    
-    if DATABASE_URL:
-        try:
-            DATABASES = {
-                'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-            }
-            print("✅ Database parsed successfully")
-        except Exception as e:
-            print(f"❌ Database parse error: {e}")
-            # Fallback to SQLite
-            DATABASES = {
-                'default': {
-                    'ENGINE': 'django.db.backends.sqlite3',
-                    'NAME': BASE_DIR / 'db.sqlite3',
-                }
-            }
-    else:
-        print("❌ DATABASE_URL is empty!")
-        # Fallback to SQLite
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
+# Database configuration
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    # Production PostgreSQL
+    DATABASES = {
+        'default': dj_database_url.parse(DATABASE_URL)
+    }
 else:
-    # Local SQLite database
+    # Local development SQLite
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
-print(f"Final DATABASE ENGINE: {DATABASES['default']['ENGINE']}")
-print("=== END DATABASE DEBUG ===
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
