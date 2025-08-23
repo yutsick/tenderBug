@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "build:railway": "npm run type-check && npm run build"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
