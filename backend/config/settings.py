@@ -211,3 +211,15 @@ LOGGING = {
 
 # ---------- Sites (опціонально) ----------
 SITE_ID = 1
+
+# CORS / CSRF (production)
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "https://zahnbug-production.up.railway.app/",   # ← справжній фронтовий домен
+    "http://localhost:3000",              # якщо тестуєш локально
+    "http://127.0.0.1:3000",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "https://zahnbug-production.up.railway.app/",
+    "https://*.railway.app",              # довіряємо railway для форм/логіну
+]
