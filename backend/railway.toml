@@ -10,9 +10,6 @@ cmds = [
     "python manage.py collectstatic --noinput"
 ]
 
-[build.nixpacksPlan.phases.deploy]
-cmds = ["python manage.py migrate"]
-
 [deploy]
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 10
