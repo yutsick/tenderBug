@@ -89,12 +89,22 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASE_URL = os.environ.get('DATABASE_URL')
 
 if DATABASE_URL:
-    # Production PostgreSQL на Railway
+    # Production PostgreSQL через DATABASE_URL
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
     }
-    if config('DJANGO_DEBUG_CONFIG', default=False, cast=bool):
-        print("🗄️  Using PostgreSQL from Railway")
+elif os.environ.get('PGHOST'):
+    # Production PostgreSQL через окремі змінні
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('PGDATABASE'),
+            'USER': os.environ.get('PGUSER'),
+            'PASSWORD': os.environ.get('PGPASSWORD'),
+            'HOST': os.environ.get('PGHOST'),
+            'PORT': os.environ.get('PGPORT'),
+        }
+    }
 else:
     # Local development SQLite
     DATABASES = {
@@ -103,8 +113,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-    if config('DJANGO_DEBUG_CONFIG', default=False, cast=bool):
-        print("💾 Using local SQLite database")
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
