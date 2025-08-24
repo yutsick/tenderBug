@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ---------- Environment ----------
 ENV = os.getenv("DJANGO_ENV", "development").lower()
-IS_RAILWAY = bool(os.getenv("RAILWAY_ENVIRONMENT_NAME"))  # Railway автоматично виставляє
+IS_RAILWAY = bool(os.getenv("RAILWAY_ENVIRONMENT_NAME"))
 USE_REMOTE_DB = config('USE_REMOTE_DB', default=False, cast=bool)
 
 # ---------- Security ----------
@@ -54,7 +54,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # статика у проді
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -87,9 +87,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 pg_name = os.getenv('PGDATABASE') or os.getenv('DB_NAME', '')
 
 use_pg = False
-# Використовуємо Postgres якщо:
-# - ми на Railway/проді і є назва БД, АБО
-# - явно просимо USE_REMOTE_DB=1 і вказали DB_NAME (зовнішній PG)
 if (os.getenv('RAILWAY_ENVIRONMENT_NAME') or os.getenv('DJANGO_ENV') == 'production') and pg_name:
     use_pg = True
 elif USE_REMOTE_DB and pg_name:
@@ -104,7 +101,7 @@ if use_pg:
             'PASSWORD': os.getenv('PGPASSWORD') or os.getenv('DB_PASSWORD', ''),
             'HOST': os.getenv('PGHOST') or os.getenv('DB_HOST', 'localhost'),
             'PORT': os.getenv('PGPORT') or os.getenv('DB_PORT', '5432'),
-            'OPTIONS': {'sslmode': os.getenv('DB_SSLMODE', 'require')},  # зовнішній Railway зазвичай потребує SSL
+            'OPTIONS': {'sslmode': os.getenv('DB_SSLMODE', 'require')},
         }
     }
 else:
@@ -132,17 +129,25 @@ USE_TZ = True
 # ---------- Static & Media ----------
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-# локальна папка для дев-статик (не завадить і на Railway)
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.isdir(os.path.join(BASE_DIR, 'static')) else []
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.getenv("MEDIA_ROOT", "/data/media")
+# MEDIA налаштування - КЛЮЧОВЕ ВИПРАВЛЕННЯ
+if IS_RAILWAY:
+    # На Railway використовуємо volume
+    MEDIA_ROOT = '/data/media'
+    MEDIA_URL = '/media/'
+else:
+    # Локально
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_URL = '/media/'
 
-# Whitenoise storage у проді
+# Whitenoise для статики
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-else:
-    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# ---------- URL Configuration for Media ----------
+# Додаємо налаштування для обслуговування медіа файлів через Django
+USE_DJANGO_MEDIA_HANDLER = IS_RAILWAY  # На Railway Django сам роздає медіа
 
 # ---------- Defaults ----------
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -168,7 +173,8 @@ if DEBUG:
     CSRF_TRUSTED_ORIGINS = []
 else:
     CORS_ALLOWED_ORIGINS = [FRONTEND_URL] if FRONTEND_URL else []
-    # Додатково довіряємо Railway-доменам
+    if IS_RAILWAY:
+        CORS_ALLOWED_ORIGINS += ['https://*.railway.app']
     CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
     if IS_RAILWAY:
         CSRF_TRUSTED_ORIGINS += ['https://*.railway.app']
@@ -209,21 +215,15 @@ LOGGING = {
     },
 }
 
-# ---------- Sites (опціонально) ----------
-SITE_ID = 1
-
-# CORS / CSRF (production)
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = [
-    "https://zahnbug-production.up.railway.app",   # ← справжній фронтовий домен
-    "http://localhost:3000",              # якщо тестуєш локально
-    "http://127.0.0.1:3000",
-]
-CSRF_TRUSTED_ORIGINS = [
-    "https://zahnbug-production.up.railway.app",
-    "https://*.railway.app",              # довіряємо railway для форм/логіну
-]
-
-
+# ---------- Security (Production) ----------
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# ---------- Debug Info ----------
+if DEBUG:
+    print(f"🐍 Django Settings:")
+    print(f"  - Environment: {ENV}")
+    print(f"  - Is Railway: {IS_RAILWAY}")
+    print(f"  - DEBUG: {DEBUG}")
+    print(f"  - MEDIA_ROOT: {MEDIA_ROOT}")
+    print(f"  - Database: {'PostgreSQL' if use_pg else 'SQLite'}")
