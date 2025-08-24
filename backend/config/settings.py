@@ -160,20 +160,7 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20,
 }
 
-# ---------- CORS / CSRF ----------
-FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
 
-if DEBUG:
-    CORS_ALLOW_ALL_ORIGINS = True
-    CSRF_TRUSTED_ORIGINS = []
-else:
-    CORS_ALLOWED_ORIGINS = [FRONTEND_URL] if FRONTEND_URL else []
-    # Додатково довіряємо Railway-доменам
-    CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
-    if IS_RAILWAY:
-        CSRF_TRUSTED_ORIGINS += ['https://*.railway.app']
-
-CORS_ALLOW_CREDENTIALS = True
 
 # ---------- Auth ----------
 AUTH_USER_MODEL = 'users.User'
@@ -227,3 +214,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+if IS_RAILWAY:
+    MEDIA_ROOT = '/data/media'
+else:
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
