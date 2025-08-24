@@ -170,11 +170,17 @@ FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
-    CSRF_TRUSTED_ORIGINS = []
+    CSRF_TRUSTED_ORIGINS = ['http://localhost:3000', 'http://127.0.0.1:3000']
 else:
-    CORS_ALLOWED_ORIGINS = [FRONTEND_URL] if FRONTEND_URL else []
+    # Продакшн CORS - додай сюди свій справжній фронтенд домен!
+    CORS_ALLOWED_ORIGINS = [
+        FRONTEND_URL,
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ]
     if IS_RAILWAY:
         CORS_ALLOWED_ORIGINS += ['https://*.railway.app']
+    
     CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
     if IS_RAILWAY:
         CSRF_TRUSTED_ORIGINS += ['https://*.railway.app']
