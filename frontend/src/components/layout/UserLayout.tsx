@@ -44,12 +44,12 @@ export default function UserLayout({ children }: UserLayoutProps) {
       label: 'Кабінет',
       path: '/cabinet'
     },
-    {
-      key: 'documents',
-      icon: DocumentTextIcon,
-      label: 'Документи',
-      path: '/cabinet/documents'
-    },
+    // {
+    //   key: 'documents',
+    //   icon: DocumentTextIcon,
+    //   label: 'Документи',
+    //   path: '/cabinet/documents'
+    // },
     {
       key: 'status',
       icon: CheckCircleIcon,
