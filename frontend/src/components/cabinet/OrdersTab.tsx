@@ -253,8 +253,8 @@ export default function OrdersTab({ onSubmit }: OrdersTabProps) {
         }
       }));
 
-      // If order exists on server, update it
-      if (existingOrder) {
+      // If order exists on server and has a valid id, update it
+      if (existingOrder && typeof existingOrder.id === 'string') {
         try {
           await updateOrder(existingOrder.id, {
             order_type: orderKey,
@@ -295,7 +295,7 @@ export default function OrdersTab({ onSubmit }: OrdersTabProps) {
           order_type: 'custom',
           custom_title: customOrderForm.custom_title.trim(),
           documents: customOrderForm.documents
-        });
+        } as any);
         
         // Додаємо до збережених наказів
         const newSavedOrder: SavedCustomOrder = {

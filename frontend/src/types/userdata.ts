@@ -110,6 +110,7 @@ export interface UserOrder {
 export interface CreateUserOrder {
   order_type: string;
   documents: FileInfo[];
+  custom_title?: string;
 }
 
 // ===================================================================

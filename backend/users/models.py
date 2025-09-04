@@ -158,19 +158,17 @@ class User(AbstractUser):
         return self.department.name if self.department else ""
 
     def create_documents_folder(self):
-        """Створення папки для документів"""
-        if not self.documents_folder and self.tender_number:
+        """Створення папки для документів при збереженні файлу"""
+        if self.tender_number:
             from django.conf import settings
-            folder_name = f"tender_{self.tender_number}"
-            folder_path = os.path.join(settings.MEDIA_ROOT, 'tenders', folder_name)
-
-            # Створюємо папку якщо не існує
-            os.makedirs(folder_path, exist_ok=True)
-
-            self.documents_folder = folder_name
-            self.save(update_fields=['documents_folder'])
-
-        return self.documents_folder
+            import os
+            
+            tender_path = os.path.join(settings.MEDIA_ROOT, 'tenders', f'tender_{self.tender_number}')
+            sub_dirs = ['works', 'employees', 'technics', 'instruments', 'orders', 'ppe']
+            
+            for sub_dir in sub_dirs:
+                full_path = os.path.join(tender_path, sub_dir)
+                os.makedirs(full_path, exist_ok=True)
 
     def get_documents_path(self):
         """Отримання повного шляху до папки документів"""

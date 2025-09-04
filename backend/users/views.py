@@ -299,6 +299,12 @@ class UserWorkListCreateView(generics.ListCreateAPIView):
         return UserWork.objects.filter(user=self.request.user).select_related(
             'work_type', 'work_sub_type'
         )
+    
+    def perform_create(self, serializer):
+        """Створення папок перед збереженням файлу"""
+        user = self.request.user
+        user.create_documents_folder()  # Створюємо папки
+        serializer.save(user=user)
 
 
 class UserWorkDetailView(generics.RetrieveUpdateDestroyAPIView):
