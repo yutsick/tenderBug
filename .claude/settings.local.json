@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(/D:\\OpenServer\\domains\\tender-system\\backend\\users/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

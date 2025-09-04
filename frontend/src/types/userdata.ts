@@ -97,6 +97,7 @@ export interface CreateUserEmployee {
 // Накази (таб Накази)
 
 export interface UserOrder {
+  custom_title: string;
   id?: string;
   order_type: string;
   order_type_display: string;

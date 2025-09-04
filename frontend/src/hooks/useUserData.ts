@@ -291,6 +291,19 @@ export function useUserOrders() {
     }
   }, []);
 
+  const deleteOrder = useCallback(async (id: string) => {
+    setMutating(true);
+    
+    try {
+      await apiClient.deleteUserOrder(id);
+      setOrders(prev => (Array.isArray(prev) ? prev : []).filter(order => order.id !== id));
+    } catch (err) {
+      throw err;
+    } finally {
+      setMutating(false);
+    }
+  }, []);
+
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
@@ -302,6 +315,7 @@ export function useUserOrders() {
     mutating,
     createOrder,
     updateOrder,
+    deleteOrder,
     refetch: fetchOrders
   };
 }

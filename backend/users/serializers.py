@@ -253,13 +253,14 @@ class UserEmployeeSerializer(serializers.ModelSerializer):
 class UserOrderSerializer(serializers.ModelSerializer):
     """Серіалізатор для наказів користувача"""
     order_type_display = serializers.CharField(source='get_order_type_display', read_only=True)
+    display_title = serializers.CharField(read_only=True)  # НОВЕ ПОЛЕ
     documents_info = serializers.SerializerMethodField()
     
     class Meta:
         model = UserOrder
         fields = [
-            'id', 'order_type', 'order_type_display', 'documents', 
-            'documents_info', 'created_at', 'updated_at'
+            'id', 'order_type', 'order_type_display', 'custom_title', 'display_title',
+            'documents', 'documents_info', 'created_at', 'updated_at'
         ]
         read_only_fields = ['user', 'created_at', 'updated_at']
     
@@ -282,10 +283,28 @@ class UserOrderSerializer(serializers.ModelSerializer):
         
         return documents_with_urls
     
+    def validate(self, attrs):
+        """Валідація даних"""
+        order_type = attrs.get('order_type')
+        custom_title = attrs.get('custom_title', '').strip()
+        
+        # Для кастомних наказів обов'язково потрібна назва
+        if order_type == 'custom' and not custom_title:
+            raise serializers.ValidationError({
+                'custom_title': 'Для кастомних наказів обов\'язково вказати назву'
+            })
+        
+        # Для звичайних наказів custom_title має бути пустим
+        if order_type != 'custom' and custom_title:
+            raise serializers.ValidationError({
+                'custom_title': 'Назва може бути вказана тільки для кастомних наказів'
+            })
+        
+        return attrs
+    
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)
-
 
 # ===================================================================
 # ТЕХНІКА (таб Техніка)

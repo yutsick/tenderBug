@@ -507,6 +507,18 @@ async updateUserOrder(id: string, orderData: Partial<CreateUserOrder>): Promise<
     throw error;
   }
 }
+
+/**
+ * Видалити наказ
+ */
+async deleteUserOrder(id: string): Promise<void> {
+  try {
+    await this.client.delete(`/auth/user-orders/${id}/`);
+  } catch (error) {
+    console.error('Error deleting user order:', error);
+    throw error;
+  }
+}
   // ===================================================================
   // Техніка (таб Техніка)
 

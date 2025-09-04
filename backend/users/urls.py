@@ -13,10 +13,11 @@ urlpatterns = [
     path('user-works/', views.UserWorkListCreateView.as_view(), name='user-works-list'), 
     path('user-works/<int:pk>/', views.UserWorkDetailView.as_view(), name='user-works-detail'),
     # path('login/', views.CustomAuthToken.as_view(), name='login'),
-    path('login/', views.LoginView.as_view(), name='login'), 
+    
 
 
     # Авторизовані endpoints
+    path('login/', views.LoginView.as_view(), name='login'), 
     path('logout/', views.logout_view, name='logout'),
     path('profile/', views.user_profile_view, name='user-profile'),
     

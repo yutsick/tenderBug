@@ -462,6 +462,7 @@ class UserOrder(models.Model):
         ('certificates_protocols', 'Копії посвідчень та протоколів навчання і перевірки знань правил з охорони праці відповідальних осіб'),
         ('worker_training', 'Копії посвідчень та протоколів навчання і перевірки знань правил з охорони праці та навчання безпечним методам роботи працівників'),
         ('medical_conclusions', 'Медичні заключення про допуск до виконання робіт за зазначеними професіями'),
+        ('custom', 'Інші накази'),  # НОВИЙ ТИП
     ]
     
     user = models.ForeignKey(
@@ -471,18 +472,43 @@ class UserOrder(models.Model):
         verbose_name='Користувач'
     )
     order_type = models.CharField('Тип наказу', max_length=50, choices=ORDER_TYPES)
-    documents = models.JSONField('Документи', default=list)  # Список файлів
+    
+    # НОВЕ ПОЛЕ для назви кастомного наказу
+    custom_title = models.CharField(
+        'Назва кастомного наказу', 
+        max_length=500, 
+        blank=True,
+        help_text='Заповнюється тільки для типу "Інші накази"'
+    )
+    
+    documents = models.JSONField('Документи', default=list)
     created_at = models.DateTimeField('Створено', auto_now_add=True)
     updated_at = models.DateTimeField('Оновлено', auto_now=True)
     
     class Meta:
         verbose_name = 'Наказ'
         verbose_name_plural = 'Накази'
-        ordering = ['user', 'order_type']
+        ordering = ['user', 'order_type', '-created_at']
+        # ВИДАЛЯЄМО unique_together щоб дозволити декілька кастомних наказів
     
     def __str__(self):
+        if self.order_type == 'custom' and self.custom_title:
+            return f"{self.user.tender_number} - {self.custom_title}"
         return f"{self.user.tender_number} - {self.get_order_type_display()}"
-
+    
+    def clean(self):
+        """Валідація моделі"""
+        super().clean()
+        if self.order_type == 'custom' and not self.custom_title.strip():
+            from django.core.exceptions import ValidationError
+            raise ValidationError({'custom_title': 'Для кастомних наказів обов\'язково вказати назву'})
+    
+    @property 
+    def display_title(self):
+        """Повертає назву для відображення"""
+        if self.order_type == 'custom' and self.custom_title:
+            return self.custom_title
+        return self.get_order_type_display()
 
 class UserTechnic(models.Model):
     """Техніка користувача (таб Техніка)"""
