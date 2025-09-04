@@ -4,32 +4,55 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import RegexValidator
 from django.utils import timezone
+from django.conf import settings
 import uuid
 import os
 
 def user_work_permit_path(instance, filename):
     """Шлях для дозволів на роботи"""
-    return f'tenders/tender_{instance.user.tender_number}/works/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/works'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
 
 def user_employee_photo_path(instance, filename):
     """Шлях для фото співробітників"""
-    return f'tenders/tender_{instance.user.tender_number}/employees/photos/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/employees/photos'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
 
 def user_employee_qualification_path(instance, filename):
     """Шлях для кваліфікацій співробітників"""
-    return f'tenders/tender_{instance.user.tender_number}/employees/qualifications/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/employees/qualifications/'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
+
 
 def user_employee_safety_path(instance, filename):
     """Шлях для документів з охорони праці"""
-    return f'tenders/tender_{instance.user.tender_number}/employees/safety/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/employees/safety/'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
+
 
 def user_employee_special_path(instance, filename):
     """Шлях для спеціального навчання"""
-    return f'tenders/tender_{instance.user.tender_number}/employees/special/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/employees/special/'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
+
 
 def user_document_path(instance, filename):
     """Загальний шлях для документів користувача"""
-    return f'tenders/tender_{instance.user.tender_number}/temp/{filename}'
+    tender_path = f'tenders/tender_{instance.user.tender_number}/temp/'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
+
 
 
 
