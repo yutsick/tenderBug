@@ -11,6 +11,7 @@ def setup_media_directories(media_root):
     
     # Основні директорії для файлової системи тендерів
     directories = [
+        'permits', 
         'employees',    # Фото та документи співробітників
         'technics',     # Документи техніки  
         'instruments',  # Сертифікати інструментів
@@ -18,6 +19,7 @@ def setup_media_directories(media_root):
         'ppe',          # Документи ЗІЗ
         'works',        # Дозволи на роботи
         'temp',         # Тимчасові файли
+        'tenders',     # Файли тендерів
     ]
     
     try:

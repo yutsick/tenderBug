@@ -7,6 +7,31 @@ from django.utils import timezone
 import uuid
 import os
 
+def user_work_permit_path(instance, filename):
+    """Шлях для дозволів на роботи"""
+    return f'tenders/tender_{instance.user.tender_number}/works/{filename}'
+
+def user_employee_photo_path(instance, filename):
+    """Шлях для фото співробітників"""
+    return f'tenders/tender_{instance.user.tender_number}/employees/photos/{filename}'
+
+def user_employee_qualification_path(instance, filename):
+    """Шлях для кваліфікацій співробітників"""
+    return f'tenders/tender_{instance.user.tender_number}/employees/qualifications/{filename}'
+
+def user_employee_safety_path(instance, filename):
+    """Шлях для документів з охорони праці"""
+    return f'tenders/tender_{instance.user.tender_number}/employees/safety/{filename}'
+
+def user_employee_special_path(instance, filename):
+    """Шлях для спеціального навчання"""
+    return f'tenders/tender_{instance.user.tender_number}/employees/special/{filename}'
+
+def user_document_path(instance, filename):
+    """Загальний шлях для документів користувача"""
+    return f'tenders/tender_{instance.user.tender_number}/temp/{filename}'
+
+
 
 class Department(models.Model):
     """Підрозділи"""
@@ -236,7 +261,7 @@ class UserDocument(models.Model):
 
     # Значення залежно від типу поля
     text_value = models.TextField(blank=True, verbose_name=_('Текстове значення'))
-    file_value = models.FileField(upload_to='temp/', blank=True, verbose_name=_('Файл'))
+    file_value = models.FileField(upload_to=user_document_path, blank=True, verbose_name=_('Файл'))
     number_value = models.DecimalField(max_digits=15, decimal_places=2, null=True, blank=True)
     date_value = models.DateField(null=True, blank=True)
 
@@ -318,7 +343,7 @@ class UserWork(models.Model):
     expiry_date = models.DateField('Дата завершення дії дозволу')
     permit_file = models.FileField(
         'Файл дозволу', 
-        upload_to='permits/', 
+        upload_to=user_work_permit_path, 
         blank=True, 
         null=True
     )
@@ -397,7 +422,7 @@ class UserEmployee(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='employees')
     name = models.CharField(max_length=255, verbose_name="ПІБ співробітника")
     photo = models.FileField(
-        upload_to='employees/photos/', 
+        upload_to=user_employee_photo_path, 
         blank=True, null=True,
         verbose_name="Фото співробітника"
     )
@@ -416,7 +441,7 @@ class UserEmployee(models.Model):
         verbose_name="Посада"
     )
     qualification_certificate = models.FileField(
-        upload_to='employees/qualifications/', 
+        upload_to=user_employee_qualification_path, 
         blank=True, null=True,
         verbose_name="Посвідчення кваліфікації"
     )
@@ -425,7 +450,7 @@ class UserEmployee(models.Model):
         verbose_name="Дата видачі посвідчення"
     )
     safety_training_certificate = models.FileField(
-        upload_to='employees/safety/', 
+        upload_to=user_employee_safety_path, 
         blank=True, null=True,
         verbose_name="Посвідчення з охорони праці"
     )
@@ -434,7 +459,7 @@ class UserEmployee(models.Model):
         verbose_name="Дата навчання з охорони праці"
     )
     special_training_certificate = models.FileField(
-        upload_to='employees/special/', 
+        upload_to=user_employee_special_path, 
         blank=True, null=True,
         verbose_name="Посвідчення спеціального навчання"
     )
