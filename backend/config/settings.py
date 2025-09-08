@@ -50,11 +50,13 @@ LOCAL_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
-# ---------- Middleware ----------
+# ---------- Middleware ---------- 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # статика у проді
+    # ✅ ДОДАЄМО middleware для медіа файлів
+    'utils.middleware.MediaFileMiddleware',  # НОВИЙ MIDDLEWARE
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,6 +140,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] if os.path.isdir(os.path.j
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.getenv("MEDIA_ROOT", "/data/media")
 
+# ✅ НАЛАШТУВАННЯ ДЛЯ МЕДІА ФАЙЛІВ
+# Завжди використовуємо Django для обслуговування медіа файлів на Railway
+USE_DJANGO_MEDIA_HANDLER = config('USE_DJANGO_MEDIA_HANDLER', default=IS_RAILWAY, cast=bool)
+
+# Для локальної розробки використовуємо стандартну папку
+if not IS_RAILWAY and ENV == 'development':
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Whitenoise storage у проді
 if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
@@ -159,8 +169,6 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 20,
 }
-
-
 
 # ---------- Auth ----------
 AUTH_USER_MODEL = 'users.User'
@@ -186,13 +194,41 @@ DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@yoursite.com'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
-        'file': {'level': 'INFO', 'class': 'logging.FileHandler', 'filename': 'django.log'},
-        'console': {'level': 'INFO', 'class': 'logging.StreamHandler'},
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
-        'django': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': True},
-        'sync_1c': {'handlers': ['file', 'console'], 'level': 'INFO', 'propagate': True},
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'utils.middleware': {  # ✅ Логування нашого middleware
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'sync_1c': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': True,
+        },
     },
 }
 
@@ -211,10 +247,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://*.railway.app",              # довіряємо railway для форм/логіну
 ]
 
-
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# ✅ MEDІА ROOT залежно від середовища
 if IS_RAILWAY:
-    MEDIA_ROOT = '/data/media'
+    MEDIA_ROOT = os.getenv("MEDIA_ROOT", "/data/media")
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

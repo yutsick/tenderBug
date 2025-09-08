@@ -70,5 +70,8 @@ urlpatterns = [
     path('admin/instruments/', views.AdminInstrumentListView.as_view(), name='admin-instruments'),
     path('admin/ppe/', views.AdminPPEListView.as_view(), name='admin-ppe'),
     path('admin/specifications/', views.AdminSpecificationListView.as_view(), name='admin-specifications'),
+
+    # DEBUG: endpoint для перевірки обслуговування медіа файлів
+    path('debug-media/', views.debug_media, name='debug_media'),
    
 ]

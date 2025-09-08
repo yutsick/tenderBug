@@ -880,3 +880,57 @@ def decline_user(request, user_id):
         return Response({
             'error': 'Користувача не знайдено'
         }, status=status.HTTP_404_NOT_FOUND)
+    
+# Додайте цей код в кінець вашого users/views.py
+
+from django.http import JsonResponse
+import logging
+
+logger = logging.getLogger(__name__)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def debug_media(request):
+    """
+    Debug endpoint для перевірки медіа файлів
+    GET /api/auth/debug-media/
+    """
+    if not (settings.DEBUG or os.getenv('RAILWAY_ENVIRONMENT_NAME')):
+        return JsonResponse({'error': 'Not available in production'}, status=403)
+    
+    try:
+        media_root = settings.MEDIA_ROOT
+        debug_info = {
+            'media_root': media_root,
+            'media_url': settings.MEDIA_URL,
+            'is_railway': bool(os.getenv('RAILWAY_ENVIRONMENT_NAME')),
+            'debug': settings.DEBUG,
+            'exists': os.path.exists(media_root),
+            'is_dir': os.path.isdir(media_root) if os.path.exists(media_root) else False,
+            'permissions': oct(os.stat(media_root).st_mode)[-3:] if os.path.exists(media_root) else 'N/A',
+            'files': []
+        }
+        
+        # Рекурсивно сканчемо всі файли
+        if os.path.exists(media_root) and os.path.isdir(media_root):
+            for root, dirs, files in os.walk(media_root):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    rel_path = os.path.relpath(file_path, media_root)
+                    file_info = {
+                        'path': rel_path,
+                        'full_path': file_path,
+                        'size': os.path.getsize(file_path),
+                        'url': request.build_absolute_uri(settings.MEDIA_URL + rel_path.replace('\\', '/')),
+                        'exists': os.path.exists(file_path),
+                        'modified': os.path.getmtime(file_path)
+                    }
+                    debug_info['files'].append(file_info)
+        
+        debug_info['total_files'] = len(debug_info['files'])
+        
+        return JsonResponse(debug_info)
+        
+    except Exception as e:
+        logger.error(f"Debug media error: {str(e)}")
+        return JsonResponse({'error': str(e)}, status=500)
