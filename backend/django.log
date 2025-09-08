@@ -4871,3 +4871,4 @@ INFO 2025-09-08 19:14:34,199 autoreload 29332 37448 Watching for file changes wi
 INFO 2025-09-08 19:16:16,360 autoreload 29332 37448 D:\OpenServer\domains\tender-system\backend\users\urls.py changed, reloading.
 INFO 2025-09-08 19:16:16,721 autoreload 31032 35932 Watching for file changes with StatReloader
 INFO 2025-09-08 19:18:30,935 autoreload 31032 35932 D:\OpenServer\domains\tender-system\backend\users\views.py changed, reloading.
+INFO 2025-09-08 19:18:31,300 autoreload 15496 17672 Watching for file changes with StatReloader
