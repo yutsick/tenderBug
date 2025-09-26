@@ -5,7 +5,7 @@ from django.core.exceptions import ValidationError
 from .models import (
     User, Department, PasswordResetToken, WorkType, WorkSubType, Equipment, 
     UserWork, TechnicType, InstrumentType, UserSpecification, UserEmployee, 
-    UserOrder, UserTechnic, UserInstrument, UserPPE
+    UserOrder, UserTechnic, UserInstrument, UserPPE, Permit
 )
 
 # ===================================================================
@@ -536,3 +536,26 @@ class PasswordResetConfirmSerializer(serializers.Serializer):
             raise serializers.ValidationError(e.messages)
         
         return attrs
+    
+# Перепустки
+
+class PermitSerializer(serializers.ModelSerializer):
+    subject_name = serializers.SerializerMethodField()
+    permit_type_display = serializers.CharField(source='get_permit_type_display', read_only=True)
+    pdf_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = Permit
+        fields = ['id', 'permit_number', 'permit_type', 'permit_type_display', 'subject_name', 'pdf_url', 'created_at']
+    
+    def get_subject_name(self, obj):
+        if obj.employee:
+            return obj.employee.name
+        return obj.technic.display_name if obj.technic else "Невідомо"
+    
+    def get_pdf_url(self, obj):
+        if obj.pdf_file:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.pdf_file.url)
+        return None

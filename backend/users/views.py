@@ -881,3 +881,16 @@ def decline_user(request, user_id):
             'error': 'Користувача не знайдено'
         }, status=status.HTTP_404_NOT_FOUND)
     
+
+# Перепустки
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def user_permits(request, user_id):
+    """Адміни можуть дивитись перепустки через API"""
+    # Логіка як в approve_user
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def generate_permits(request, user_id):
+    """Генерація перепусток для адмінів"""
+    # Логіка як в approve_user

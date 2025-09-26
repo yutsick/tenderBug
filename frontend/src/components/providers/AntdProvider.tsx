@@ -1,6 +1,6 @@
 'use client';
 
-import { ConfigProvider } from 'antd';
+import { App, ConfigProvider } from 'antd';
 import ukUA from 'antd/locale/uk_UA';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 
@@ -17,7 +17,9 @@ export default function AntdProvider({ children }: { children: React.ReactNode }
           },
         }}
       >
-        {children}
+        <App>
+          {children}
+        </App>
       </ConfigProvider>
     </AntdRegistry>
   );

@@ -641,3 +641,49 @@ class UserPPE(models.Model):
     def __str__(self):
         return f"{self.user.tender_number} - ЗІЗ"
     
+# Перепустки
+
+def user_permit_path(instance, filename):
+    """Шлях для PDF перепусток"""
+    tender_path = f'tenders/tender_{instance.user.tender_number}/permits'
+    full_path = os.path.join(settings.MEDIA_ROOT, tender_path)
+    os.makedirs(full_path, exist_ok=True)
+    return f'{tender_path}/{filename}'
+
+class Permit(models.Model):
+    """Перепустки для працівників та техніки"""
+    PERMIT_TYPES = [
+        ('employee', 'Працівник'),
+        ('technic', 'Техніка')
+    ]
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='permits')
+    permit_number = models.CharField(max_length=50, unique=True)
+    permit_type = models.CharField(max_length=20, choices=PERMIT_TYPES)
+    
+    # Зв'язок з об'єктом
+    employee = models.OneToOneField(UserEmployee, on_delete=models.CASCADE, null=True, blank=True, related_name='permit')
+    technic = models.OneToOneField(UserTechnic, on_delete=models.CASCADE, null=True, blank=True, related_name='permit')
+    
+    pdf_file = models.FileField(upload_to=user_permit_path)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='created_permits')
+    
+    class Meta:
+        verbose_name = 'Перепустка'
+        verbose_name_plural = 'Перепустки'
+    
+    def __str__(self):
+        if self.employee:
+            return f"{self.permit_number} - {self.employee.name}"
+        return f"{self.permit_number} - {self.technic.display_name}"
+    
+    @classmethod
+    def generate_permit_number(cls, user):
+        last_permit = cls.objects.filter(user=user).order_by('-created_at').first()
+        if last_permit:
+            last_number = int(last_permit.permit_number.split('-')[-1])
+            next_number = last_number + 1
+        else:
+            next_number = 1
+        return f"{user.tender_number}-{next_number}"

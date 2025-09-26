@@ -4880,3 +4880,1323 @@ INFO 2025-09-08 19:35:36,237 autoreload 33948 39616 D:\OpenServer\domains\tender
 INFO 2025-09-08 19:35:36,611 autoreload 34492 27916 Watching for file changes with StatReloader
 INFO 2025-09-08 19:35:49,123 autoreload 34492 27916 D:\OpenServer\domains\tender-system\backend\users\urls.py changed, reloading.
 INFO 2025-09-08 19:35:49,497 autoreload 38736 27132 Watching for file changes with StatReloader
+INFO 2025-09-08 20:07:15,133 basehttp 38736 10364 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:07:29,019 basehttp 38736 36744 "GET / HTTP/1.1" 302 0
+INFO 2025-09-08 20:07:29,123 basehttp 38736 36744 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-09-08 20:07:29,212 basehttp 38736 36744 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4378
+INFO 2025-09-08 20:07:29,363 basehttp 38736 36744 "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-09-08 20:07:29,403 basehttp 38736 37024 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-09-08 20:07:29,403 basehttp 38736 8312 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-09-08 20:07:29,406 basehttp 38736 40548 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2025-09-08 20:07:29,408 basehttp 38736 8312 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-09-08 20:07:29,408 basehttp 38736 42256 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-09-08 20:07:29,409 basehttp 38736 13992 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+WARNING 2025-09-08 20:07:29,620 log 38736 13992 Not Found: /favicon.ico
+WARNING 2025-09-08 20:07:29,620 basehttp 38736 13992 "GET /favicon.ico HTTP/1.1" 404 2823
+INFO 2025-09-08 20:07:32,267 basehttp 38736 13992 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-09-08 20:07:32,284 basehttp 38736 13992 "GET /admin/ HTTP/1.1" 200 17434
+INFO 2025-09-08 20:07:32,319 basehttp 38736 13992 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-09-08 20:07:32,355 basehttp 38736 8312 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-09-08 20:07:32,355 basehttp 38736 13992 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-09-08 20:07:32,355 basehttp 38736 42256 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-09-08 20:07:33,801 basehttp 38736 8312 "GET /admin/users/tenderuser/ HTTP/1.1" 200 19968
+INFO 2025-09-08 20:07:33,832 basehttp 38736 8312 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-09-08 20:07:33,837 basehttp 38736 36744 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-09-08 20:07:33,838 basehttp 38736 37024 "GET /static/admin/js/tabs.js HTTP/1.1" 200 8130
+INFO 2025-09-08 20:07:33,838 basehttp 38736 8312 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-09-08 20:07:33,839 basehttp 38736 42256 "GET /static/admin/css/tabs.css HTTP/1.1" 200 7020
+INFO 2025-09-08 20:07:33,842 basehttp 38736 37024 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-09-08 20:07:33,842 basehttp 38736 36744 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-09-08 20:07:33,843 basehttp 38736 8312 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-09-08 20:07:33,844 basehttp 38736 42256 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-09-08 20:07:33,846 basehttp 38736 13992 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:07:33,846 basehttp 38736 37024 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-09-08 20:07:33,848 basehttp 38736 40548 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-09-08 20:07:33,849 basehttp 38736 36744 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-09-08 20:07:33,884 basehttp 38736 36744 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-09-08 20:07:33,901 basehttp 38736 36744 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-09-08 20:07:33,901 basehttp 38736 40548 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-09-08 20:10:00,211 basehttp 38736 10364 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,550 basehttp 38736 10364 "POST /api/auth/login/ HTTP/1.1" 200 181
+INFO 2025-09-08 20:10:00,915 basehttp 38736 10364 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,917 basehttp 38736 10364 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,919 basehttp 38736 10364 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,921 basehttp 38736 10364 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,922 basehttp 38736 10364 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,924 basehttp 38736 10364 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:00,931 basehttp 38736 10364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:10:00,938 basehttp 38736 10364 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:10:00,948 basehttp 38736 10364 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:10:00,954 basehttp 38736 10364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:10:00,962 basehttp 38736 10364 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+WARNING 2025-09-08 20:10:00,970 log 38736 33036 Not Found: /api/user-works
+WARNING 2025-09-08 20:10:00,970 basehttp 38736 33036 "GET /api/user-works HTTP/1.1" 404 2832
+INFO 2025-09-08 20:10:00,973 basehttp 38736 10364 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+WARNING 2025-09-08 20:10:00,982 log 38736 33640 Not Found: /api/user-works
+WARNING 2025-09-08 20:10:00,983 basehttp 38736 33640 "GET /api/user-works HTTP/1.1" 404 2832
+INFO 2025-09-08 20:10:00,997 basehttp 38736 10364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:10:01,002 basehttp 38736 10364 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:10:01,007 basehttp 38736 10364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:10:01,013 basehttp 38736 10364 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:10:12,393 basehttp 38736 10364 "OPTIONS /api/auth/user-employees/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:12,393 basehttp 38736 31688 "OPTIONS /api/auth/user-employees/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:10:12,406 basehttp 38736 31688 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:10:12,418 basehttp 38736 10364 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:10:19,704 basehttp 38736 21140 "GET /media/employees/photos/hero-weight-loss-medical-2.png HTTP/1.1" 200 297779
+WARNING 2025-09-08 20:10:19,951 log 38736 21140 Not Found: /favicon.ico
+WARNING 2025-09-08 20:10:19,954 basehttp 38736 21140 "GET /favicon.ico HTTP/1.1" 404 2823
+WARNING 2025-09-08 20:11:06,393 log 38736 26328 Not Found: /api/user-works
+WARNING 2025-09-08 20:11:06,395 basehttp 38736 26328 "GET /api/user-works HTTP/1.1" 404 2832
+WARNING 2025-09-08 20:11:06,419 log 38736 28712 Not Found: /api/user-works
+WARNING 2025-09-08 20:11:06,422 basehttp 38736 28712 "GET /api/user-works HTTP/1.1" 404 2832
+INFO 2025-09-08 20:11:06,689 basehttp 38736 29716 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:11:06,690 basehttp 38736 3840 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:11:06,696 basehttp 38736 25476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:11:06,704 basehttp 38736 29716 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:11:06,712 basehttp 38736 25476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:11:06,712 basehttp 38736 3840 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:11:06,727 basehttp 38736 25476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:11:06,733 basehttp 38736 3840 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:11:06,745 basehttp 38736 29716 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:11:06,749 basehttp 38736 25476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+WARNING 2025-09-08 20:11:34,544 log 38736 13256 Not Found: /api/user-works
+WARNING 2025-09-08 20:11:34,546 basehttp 38736 13256 "GET /api/user-works HTTP/1.1" 404 2832
+WARNING 2025-09-08 20:11:42,240 log 38736 28340 Not Found: /api/user-works
+WARNING 2025-09-08 20:11:42,242 basehttp 38736 28340 "GET /api/user-works HTTP/1.1" 404 2832
+INFO 2025-09-08 20:22:28,654 basehttp 38736 30540 "GET / HTTP/1.1" 302 0
+INFO 2025-09-08 20:22:28,676 basehttp 38736 30540 "GET /admin/ HTTP/1.1" 200 17434
+INFO 2025-09-08 20:22:33,705 basehttp 38736 33692 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:22:33,706 basehttp 38736 13712 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:22:33,718 basehttp 38736 33692 "GET /api/auth/user-works/ HTTP/1.1" 200 1022
+INFO 2025-09-08 20:22:33,759 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:33,766 basehttp 38736 13712 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:33,773 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:33,778 basehttp 38736 13712 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:36,446 basehttp 38736 13712 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:36,457 basehttp 38736 33692 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:36,462 basehttp 38736 7728 "GET /api/auth/user-works/ HTTP/1.1" 200 1022
+INFO 2025-09-08 20:22:36,462 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:36,464 basehttp 38736 26612 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:22:36,481 basehttp 38736 13712 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:36,482 basehttp 38736 7728 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:22:36,486 basehttp 38736 33692 "GET /api/auth/user-works/ HTTP/1.1" 200 1022
+INFO 2025-09-08 20:22:36,511 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:36,519 basehttp 38736 13712 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:36,528 basehttp 38736 7728 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:36,532 basehttp 38736 33692 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:39,996 basehttp 38736 33692 "OPTIONS /api/auth/user-works/4/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:22:40,012 basehttp 38736 33692 "DELETE /api/auth/user-works/4/ HTTP/1.1" 204 0
+ERROR 2025-09-08 20:22:50,715 log 38736 33692 Internal Server Error: /api/auth/user-works/
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: UNIQUE constraint failed: users_userwork.user_id, users_userwork.work_sub_type_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\views\generic\base.py", line 105, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\generics.py", line 246, in post
+    return self.create(request, *args, **kwargs)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\mixins.py", line 19, in create
+    self.perform_create(serializer)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\users\views.py", line 307, in perform_create
+    serializer.save(user=user)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 208, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\users\serializers.py", line 517, in create
+    return super().create(validated_data)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\rest_framework\serializers.py", line 989, in create
+    instance = ModelClass._default_manager.create(**validated_data)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\query.py", line 663, in create
+    obj.save(force_insert=True, using=self.db)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\base.py", line 902, in save
+    self.save_base(
+    ~~~~~~~~~~~~~~^
+        using=using,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        update_fields=update_fields,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\base.py", line 1008, in save_base
+    updated = self._save_table(
+        raw,
+    ...<4 lines>...
+        update_fields,
+    )
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\base.py", line 1169, in _save_table
+    results = self._do_insert(
+        cls._base_manager, using, fields, returning_fields, raw
+    )
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\base.py", line 1210, in _do_insert
+    return manager._insert(
+           ~~~~~~~~~~~~~~~^
+        [self],
+        ^^^^^^^
+    ...<3 lines>...
+        raw=raw,
+        ^^^^^^^^
+    )
+    ^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\query.py", line 1868, in _insert
+    return query.get_compiler(using=using).execute_sql(returning_fields)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1882, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\backend\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.IntegrityError: UNIQUE constraint failed: users_userwork.user_id, users_userwork.work_sub_type_id
+ERROR 2025-09-08 20:22:50,731 basehttp 38736 33692 "POST /api/auth/user-works/ HTTP/1.1" 500 229690
+INFO 2025-09-08 20:22:52,024 basehttp 38736 33692 "PATCH /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:22:53,460 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:53,461 basehttp 38736 13712 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:22:53,462 basehttp 38736 26612 "GET /api/auth/user-works/ HTTP/1.1" 200 465
+INFO 2025-09-08 20:22:53,482 basehttp 38736 7728 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:53,489 basehttp 38736 15332 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:22:53,516 basehttp 38736 13712 "GET /api/auth/user-works/ HTTP/1.1" 200 465
+INFO 2025-09-08 20:22:53,517 basehttp 38736 33692 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:53,522 basehttp 38736 26612 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:53,538 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:53,539 basehttp 38736 15332 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:53,555 basehttp 38736 26612 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:22:53,560 basehttp 38736 33692 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:22:55,617 basehttp 38736 30540 "GET /admin/users/department/ HTTP/1.1" 200 17152
+INFO 2025-09-08 20:22:55,669 basehttp 38736 30540 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:22:55,671 basehttp 38736 16424 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-09-08 20:22:55,710 basehttp 38736 16424 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-09-08 20:22:56,413 basehttp 38736 16424 "GET /admin/users/tenderuser/ HTTP/1.1" 200 19968
+INFO 2025-09-08 20:22:56,455 basehttp 38736 16424 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:22:58,073 basehttp 38736 16424 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99265
+INFO 2025-09-08 20:22:58,106 basehttp 38736 30540 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-09-08 20:22:58,107 basehttp 38736 24312 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-09-08 20:22:58,107 basehttp 38736 16424 "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2025-09-08 20:22:58,108 basehttp 38736 38296 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-09-08 20:22:58,110 basehttp 38736 6128 "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+INFO 2025-09-08 20:22:58,115 basehttp 38736 42180 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:22:58,132 basehttp 38736 16424 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-09-08 20:22:58,134 basehttp 38736 42180 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11991
+INFO 2025-09-08 20:22:58,301 basehttp 38736 16424 "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-09-08 20:22:58,302 basehttp 38736 42180 "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-09-08 20:23:10,714 basehttp 38736 42180 "GET /media/permits/ava.jpg HTTP/1.1" 200 1198426
+INFO 2025-09-08 20:23:18,939 basehttp 38736 37792 "GET /media/permits/ava.jpg HTTP/1.1" 200 1198426
+INFO 2025-09-08 20:23:33,451 basehttp 38736 33692 "POST /api/auth/user-works/ HTTP/1.1" 201 527
+INFO 2025-09-08 20:23:35,445 basehttp 38736 33692 "PATCH /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:37,951 basehttp 38736 26612 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:37,961 basehttp 38736 15332 "GET /api/auth/user-works/ HTTP/1.1" 200 993
+INFO 2025-09-08 20:23:37,964 basehttp 38736 33692 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:37,968 basehttp 38736 13712 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:37,971 basehttp 38736 7728 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:37,986 basehttp 38736 26612 "GET /api/auth/user-works/ HTTP/1.1" 200 993
+INFO 2025-09-08 20:23:37,987 basehttp 38736 26224 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:38,001 basehttp 38736 15332 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:38,004 basehttp 38736 26612 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:38,014 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:38,021 basehttp 38736 26224 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:38,033 basehttp 38736 15332 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:42,536 basehttp 38736 37792 "GET /media/tenders/tender_123456/works/Invoice_July_25_b2W6yTO.pdf HTTP/1.1" 200 52170
+INFO 2025-09-08 20:23:46,627 basehttp 38736 42180 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99714
+INFO 2025-09-08 20:23:46,672 basehttp 38736 42180 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:23:49,239 basehttp 38736 42180 "GET /media/tenders/tender_123456/works/Invoice_July_25_b2W6yTO.pdf HTTP/1.1" 200 52170
+INFO 2025-09-08 20:23:54,035 basehttp 38736 15332 "OPTIONS /api/auth/user-works/6/ HTTP/1.1" 200 0
+INFO 2025-09-08 20:23:54,051 basehttp 38736 15332 "DELETE /api/auth/user-works/6/ HTTP/1.1" 204 0
+INFO 2025-09-08 20:23:55,301 basehttp 38736 15332 "PATCH /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:56,545 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:56,559 basehttp 38736 7728 "GET /api/auth/user-works/ HTTP/1.1" 200 579
+INFO 2025-09-08 20:23:56,561 basehttp 38736 26224 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:56,561 basehttp 38736 26612 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:56,569 basehttp 38736 13712 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:56,579 basehttp 38736 7728 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:23:56,580 basehttp 38736 15332 "GET /api/auth/user-works/ HTTP/1.1" 200 579
+INFO 2025-09-08 20:23:56,585 basehttp 38736 26612 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:56,595 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:56,602 basehttp 38736 7728 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:56,610 basehttp 38736 26612 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:23:56,615 basehttp 38736 15332 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:23:59,316 basehttp 38736 42180 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99399
+INFO 2025-09-08 20:23:59,365 basehttp 38736 42180 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:25:49,506 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:25:49,517 basehttp 38736 7728 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:25:49,523 basehttp 38736 26612 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:25:49,523 basehttp 38736 13712 "GET /api/auth/user-works/ HTTP/1.1" 200 579
+INFO 2025-09-08 20:25:49,532 basehttp 38736 26224 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:25:49,535 basehttp 38736 15332 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:25:49,542 basehttp 38736 7728 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:25:49,545 basehttp 38736 26612 "GET /api/auth/user-works/ HTTP/1.1" 200 579
+INFO 2025-09-08 20:25:49,590 basehttp 38736 26612 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:25:49,602 basehttp 38736 15332 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:25:49,603 basehttp 38736 7728 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:25:49,619 basehttp 38736 15332 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:26:06,841 basehttp 38736 15332 "POST /api/auth/user-works/ HTTP/1.1" 201 782
+INFO 2025-09-08 20:26:12,655 basehttp 38736 42180 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99911
+INFO 2025-09-08 20:26:12,679 basehttp 38736 42180 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 20:45:11,847 basehttp 38736 41356 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:45:11,852 basehttp 38736 41588 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:45:11,852 basehttp 38736 16780 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:45:11,853 basehttp 38736 34916 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:45:11,917 basehttp 38736 34916 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:45:11,919 basehttp 38736 41588 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:45:11,922 basehttp 38736 16780 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:45:11,924 basehttp 38736 34916 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:52:52,207 basehttp 38736 42364 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:52:52,212 basehttp 38736 42364 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:52:56,385 basehttp 38736 31696 "GET /media/employees/photos/hero-weight-loss-medical-2.png HTTP/1.1" 304 0
+INFO 2025-09-08 20:54:43,931 basehttp 38736 42364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:43,936 basehttp 38736 42364 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:54:43,975 basehttp 38736 42364 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:54:43,982 basehttp 38736 42364 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:54:43,986 basehttp 38736 42364 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:43,996 basehttp 38736 42364 - Broken pipe from ('127.0.0.1', 53200)
+INFO 2025-09-08 20:54:45,307 basehttp 38736 35476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:45,310 basehttp 38736 27560 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:54:45,314 basehttp 38736 42816 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:54:45,318 basehttp 38736 35476 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:54:45,322 basehttp 38736 27560 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:45,323 basehttp 38736 42816 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:54:45,327 basehttp 38736 35476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:54:45,329 basehttp 38736 27560 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:54:45,378 basehttp 38736 27560 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:45,378 basehttp 38736 35476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:54:45,381 basehttp 38736 42816 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:54:45,384 basehttp 38736 27560 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:54:46,779 basehttp 38736 27560 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:54:46,784 basehttp 38736 42816 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:55:07,826 basehttp 38736 35476 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:55:07,835 basehttp 38736 42816 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:55:07,835 basehttp 38736 35488 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:55:07,845 basehttp 38736 27560 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:55:07,852 basehttp 38736 33440 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:55:07,865 basehttp 38736 35476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:55:07,873 basehttp 38736 42816 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:55:07,874 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:55:07,923 basehttp 38736 42816 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:55:07,928 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:55:07,933 basehttp 38736 35476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:55:07,938 basehttp 38736 42816 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:55:08,908 basehttp 38736 42816 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:55:08,920 basehttp 38736 35476 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:56:32,023 basehttp 38736 31696 "GET /media/employees/photos/top-logo_hxwiaLV.png HTTP/1.1" 200 13434
+INFO 2025-09-08 20:56:34,335 basehttp 38736 31696 "GET /media/employees/qualifications/top-logo.png HTTP/1.1" 200 13434
+WARNING 2025-09-08 20:56:53,113 log 38736 35476 Bad Request: /api/auth/user-employees/
+WARNING 2025-09-08 20:56:53,115 basehttp 38736 35476 "POST /api/auth/user-employees/ HTTP/1.1" 400 122
+INFO 2025-09-08 20:56:57,475 basehttp 38736 35488 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:56:57,481 basehttp 38736 33440 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:56:57,486 basehttp 38736 35476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:56:57,488 basehttp 38736 42816 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:56:57,495 basehttp 38736 27560 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:56:57,503 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:56:57,505 basehttp 38736 35488 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:56:57,510 basehttp 38736 35476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:56:57,542 basehttp 38736 35476 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:56:57,542 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:56:57,549 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:56:57,554 basehttp 38736 35476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:56:58,653 basehttp 38736 35476 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:56:58,662 basehttp 38736 33440 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+INFO 2025-09-08 20:57:11,961 basehttp 38736 33440 "GET /api/auth/user-employees/ HTTP/1.1" 200 1833
+WARNING 2025-09-08 20:57:25,671 log 38736 33440 Bad Request: /api/auth/user-employees/
+WARNING 2025-09-08 20:57:25,672 basehttp 38736 33440 "POST /api/auth/user-employees/ HTTP/1.1" 400 122
+WARNING 2025-09-08 20:57:43,500 log 38736 33440 Bad Request: /api/auth/user-employees/
+WARNING 2025-09-08 20:57:43,501 basehttp 38736 33440 "POST /api/auth/user-employees/ HTTP/1.1" 400 122
+INFO 2025-09-08 20:57:54,473 basehttp 38736 33440 "POST /api/auth/user-employees/ HTTP/1.1" 201 695
+INFO 2025-09-08 20:57:54,481 basehttp 38736 33440 "OPTIONS /api/auth/user-employees/2/ HTTP/1.1" 200 0
+WARNING 2025-09-08 20:57:54,496 log 38736 33440 Bad Request: /api/auth/user-employees/2/
+WARNING 2025-09-08 20:57:54,497 basehttp 38736 33440 "PATCH /api/auth/user-employees/2/ HTTP/1.1" 400 122
+INFO 2025-09-08 20:58:14,367 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:58:14,375 basehttp 38736 27560 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:58:14,375 basehttp 38736 35488 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:58:14,385 basehttp 38736 35476 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:58:14,397 basehttp 38736 42816 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:58:14,402 basehttp 38736 33440 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 20:58:14,404 basehttp 38736 27560 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 20:58:14,410 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:58:14,439 basehttp 38736 35488 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:58:14,450 basehttp 38736 27560 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:58:14,454 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 20:58:14,464 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 20:58:15,527 basehttp 38736 35488 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 20:58:15,537 basehttp 38736 33440 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:02:16,131 basehttp 38736 33440 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:02:25,379 basehttp 38736 27560 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:02:25,391 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:02:25,391 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:02:25,394 basehttp 38736 42816 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:02:25,411 basehttp 38736 35476 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:02:25,411 basehttp 38736 27560 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:02:25,413 basehttp 38736 35488 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:02:25,416 basehttp 38736 33440 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:02:25,454 basehttp 38736 33440 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:02:25,461 basehttp 38736 35488 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:02:25,468 basehttp 38736 27560 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:02:25,474 basehttp 38736 33440 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:02:26,652 basehttp 38736 33440 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:02:26,663 basehttp 38736 27560 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:09:06,995 basehttp 38736 15048 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:10:18,644 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:18,646 basehttp 38736 26680 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:10:18,651 basehttp 38736 35136 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:10:18,651 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:18,658 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:18,660 basehttp 38736 26680 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:10:18,661 basehttp 38736 35136 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:10:18,662 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:18,678 basehttp 38736 18036 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:18,680 basehttp 38736 35136 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:18,683 basehttp 38736 26680 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:18,686 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:19,791 basehttp 38736 18036 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:10:19,796 basehttp 38736 26680 "GET /api/auth/user-employees/ HTTP/1.1" 200 2529
+INFO 2025-09-08 21:10:29,922 basehttp 38736 26680 "OPTIONS /api/auth/user-employees/1/ HTTP/1.1" 200 0
+INFO 2025-09-08 21:10:29,938 basehttp 38736 26680 "DELETE /api/auth/user-employees/1/ HTTP/1.1" 204 0
+INFO 2025-09-08 21:10:36,280 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:36,283 basehttp 38736 35136 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:10:36,291 basehttp 38736 26680 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:36,291 basehttp 38736 42992 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:36,304 basehttp 38736 18036 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:10:36,305 basehttp 38736 13720 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:10:36,305 basehttp 38736 35136 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:36,317 basehttp 38736 18036 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:10:36,351 basehttp 38736 18036 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:36,356 basehttp 38736 35136 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:36,360 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:10:36,366 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:10:37,873 basehttp 38736 18036 "GET /api/auth/user-employees/ HTTP/1.1" 200 1705
+INFO 2025-09-08 21:10:37,883 basehttp 38736 13720 "GET /api/auth/user-employees/ HTTP/1.1" 200 1705
+INFO 2025-09-08 21:10:43,259 basehttp 38736 36848 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99774
+INFO 2025-09-08 21:10:43,288 basehttp 38736 36848 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 21:10:56,123 basehttp 38736 36848 "GET /media/tenders/tender_123456/employees/photos/HARD-LEVEL.png HTTP/1.1" 200 837610
+INFO 2025-09-08 21:11:11,950 basehttp 38736 35136 "OPTIONS /api/auth/user-orders/ HTTP/1.1" 200 0
+INFO 2025-09-08 21:11:11,950 basehttp 38736 13720 "OPTIONS /api/auth/user-orders/ HTTP/1.1" 200 0
+INFO 2025-09-08 21:11:11,951 basehttp 38736 42992 "OPTIONS /api/auth/order-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 21:11:11,951 basehttp 38736 18036 "OPTIONS /api/auth/order-types/ HTTP/1.1" 200 0
+INFO 2025-09-08 21:11:11,977 basehttp 38736 18036 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:11:11,979 basehttp 38736 42992 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-08 21:11:11,985 basehttp 38736 13720 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:11:11,996 basehttp 38736 18036 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-08 21:11:22,304 basehttp 38736 42992 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:11:22,318 basehttp 38736 13720 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:11:22,319 basehttp 38736 18036 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:11:22,323 basehttp 38736 35136 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:11:22,330 basehttp 38736 26680 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:11:22,334 basehttp 38736 42992 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:11:22,343 basehttp 38736 18036 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:11:22,352 basehttp 38736 13720 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:11:22,385 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:11:22,388 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:11:22,395 basehttp 38736 42992 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:11:22,399 basehttp 38736 13720 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:11:22,901 basehttp 38736 42992 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:11:22,917 basehttp 38736 13720 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-08 21:11:22,918 basehttp 38736 18036 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:11:22,936 basehttp 38736 42992 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-08 21:11:29,419 basehttp 38736 36848 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99774
+INFO 2025-09-08 21:11:29,478 basehttp 38736 36848 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 21:11:49,101 basehttp 38736 36848 "GET /admin/users/userwork/ HTTP/1.1" 200 46253
+INFO 2025-09-08 21:11:49,146 basehttp 38736 36848 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-08 21:12:01,375 basehttp 38736 13720 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:12:01,375 basehttp 38736 42992 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:12:01,389 basehttp 38736 26680 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:12:01,393 basehttp 38736 35136 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-08 21:12:01,394 basehttp 38736 18036 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:12:01,411 basehttp 38736 42992 "GET /api/auth/user-works/ HTTP/1.1" 200 1362
+INFO 2025-09-08 21:12:01,411 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:12:01,413 basehttp 38736 26680 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:12:01,431 basehttp 38736 13720 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:12:01,434 basehttp 38736 26680 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:12:01,446 basehttp 38736 42992 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-08 21:12:01,449 basehttp 38736 13720 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-08 21:12:02,632 basehttp 38736 42992 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:12:02,632 basehttp 38736 13720 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-08 21:12:02,654 basehttp 38736 26680 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-08 21:12:02,654 basehttp 38736 42992 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-24 19:33:39,237 autoreload 2568 20232 Watching for file changes with StatReloader
+INFO 2025-09-24 19:33:42,771 basehttp 2568 13364 "GET / HTTP/1.1" 302 0
+INFO 2025-09-24 19:33:42,932 basehttp 2568 13364 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-09-24 19:33:43,041 basehttp 2568 13364 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4378
+INFO 2025-09-24 19:33:43,216 basehttp 2568 13364 "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-09-24 19:33:43,218 basehttp 2568 3352 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-09-24 19:33:43,220 basehttp 2568 17296 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2025-09-24 19:33:43,221 basehttp 2568 27080 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-09-24 19:33:43,221 basehttp 2568 25976 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-09-24 19:33:43,222 basehttp 2568 5804 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-09-24 19:33:43,227 basehttp 2568 5804 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+WARNING 2025-09-24 19:33:43,522 log 2568 5804 Not Found: /favicon.ico
+WARNING 2025-09-24 19:33:43,523 basehttp 2568 5804 "GET /favicon.ico HTTP/1.1" 404 2823
+INFO 2025-09-24 19:33:53,898 basehttp 2568 5804 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-09-24 19:33:53,918 basehttp 2568 5804 "GET /admin/ HTTP/1.1" 200 17434
+INFO 2025-09-24 19:33:54,014 basehttp 2568 5804 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-09-24 19:33:54,051 basehttp 2568 5804 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-09-24 19:33:54,053 basehttp 2568 25976 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-09-24 19:33:54,054 basehttp 2568 27080 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-09-24 19:34:02,138 basehttp 2568 27080 "GET /admin/users/tenderuser/ HTTP/1.1" 200 19968
+INFO 2025-09-24 19:34:02,191 basehttp 2568 27080 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-09-24 19:34:02,194 basehttp 2568 13364 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-09-24 19:34:02,194 basehttp 2568 5804 "GET /static/admin/css/tabs.css HTTP/1.1" 200 7020
+INFO 2025-09-24 19:34:02,195 basehttp 2568 3352 "GET /static/admin/js/tabs.js HTTP/1.1" 200 8130
+INFO 2025-09-24 19:34:02,199 basehttp 2568 25976 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:34:02,208 basehttp 2568 27080 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-09-24 19:34:02,213 basehttp 2568 17296 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-09-24 19:34:02,213 basehttp 2568 25976 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-09-24 19:34:02,214 basehttp 2568 3352 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-09-24 19:34:02,214 basehttp 2568 5804 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-09-24 19:34:02,215 basehttp 2568 13364 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-09-24 19:34:02,217 basehttp 2568 25976 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-09-24 19:34:02,219 basehttp 2568 27080 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-09-24 19:34:02,233 basehttp 2568 27080 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-09-24 19:34:02,250 basehttp 2568 27080 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+INFO 2025-09-24 19:34:02,251 basehttp 2568 25976 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-09-24 19:34:05,141 basehttp 2568 25976 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99774
+INFO 2025-09-24 19:34:05,207 basehttp 2568 27080 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-09-24 19:34:05,211 basehttp 2568 3352 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-09-24 19:34:05,212 basehttp 2568 5804 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-09-24 19:34:05,213 basehttp 2568 25976 "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2025-09-24 19:34:05,215 basehttp 2568 13364 "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+INFO 2025-09-24 19:34:05,226 basehttp 2568 17296 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:34:05,295 basehttp 2568 17296 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11991
+INFO 2025-09-24 19:34:05,302 basehttp 2568 17296 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-09-24 19:34:05,561 basehttp 2568 25976 "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-09-24 19:34:05,562 basehttp 2568 17296 "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-09-24 19:35:00,902 basehttp 2568 17296 "GET /admin/users/tenderuser/ HTTP/1.1" 200 19968
+INFO 2025-09-24 19:35:00,998 basehttp 2568 17296 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:35:32,377 autoreload 2568 20232 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:35:33,093 autoreload 22876 36972 Watching for file changes with StatReloader
+INFO 2025-09-24 19:35:47,521 autoreload 22876 36972 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:35:47,906 autoreload 17648 12112 Watching for file changes with StatReloader
+INFO 2025-09-24 19:35:51,104 basehttp 17648 30552 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20404
+INFO 2025-09-24 19:35:51,185 basehttp 17648 30552 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:35:52,661 basehttp 17648 30552 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100210
+INFO 2025-09-24 19:35:52,737 basehttp 17648 30552 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:36:04,800 basehttp 17648 30552 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20404
+INFO 2025-09-24 19:36:04,859 basehttp 17648 30552 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:36:22,428 autoreload 37848 36940 Watching for file changes with StatReloader
+INFO 2025-09-24 19:36:26,075 basehttp 37848 17728 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20404
+INFO 2025-09-24 19:36:26,266 basehttp 37848 17728 "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-09-24 19:36:26,269 basehttp 37848 17728 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-09-24 19:36:26,275 basehttp 37848 17728 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:36:26,278 basehttp 37848 17728 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-09-24 19:36:26,280 basehttp 37848 17728 "GET /static/admin/js/tabs.js HTTP/1.1" 200 8130
+INFO 2025-09-24 19:36:26,282 basehttp 37848 17728 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-09-24 19:36:26,283 basehttp 37848 37264 "GET /static/admin/css/tabs.css HTTP/1.1" 200 7020
+INFO 2025-09-24 19:36:26,285 basehttp 37848 25312 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-09-24 19:36:26,287 basehttp 37848 17728 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-09-24 19:36:26,288 basehttp 37848 16956 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-09-24 19:36:26,289 basehttp 37848 23752 "GET /static/admin/css/changelists.css HTTP/1.1" 200 6878
+INFO 2025-09-24 19:36:26,290 basehttp 37848 37264 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-09-24 19:36:26,292 basehttp 37848 11768 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-09-24 19:36:26,292 basehttp 37848 25312 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-09-24 19:36:26,292 basehttp 37848 17728 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-09-24 19:36:26,294 basehttp 37848 16956 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-09-24 19:36:26,294 basehttp 37848 25312 "GET /static/admin/img/search.svg HTTP/1.1" 200 458
+INFO 2025-09-24 19:36:26,298 basehttp 37848 37264 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-09-24 19:36:26,324 basehttp 37848 25312 "GET /static/admin/js/filters.js HTTP/1.1" 200 978
+INFO 2025-09-24 19:36:26,324 basehttp 37848 37264 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-09-24 19:36:26,340 basehttp 37848 25312 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-09-24 19:36:26,340 basehttp 37848 16956 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-09-24 19:36:26,340 basehttp 37848 37264 "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 200 331
+WARNING 2025-09-24 19:36:26,440 log 37848 37264 Not Found: /favicon.ico
+WARNING 2025-09-24 19:36:26,441 basehttp 37848 37264 "GET /favicon.ico HTTP/1.1" 404 2823
+INFO 2025-09-24 19:36:29,466 basehttp 37848 37264 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100210
+INFO 2025-09-24 19:36:29,491 basehttp 37848 37264 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+ERROR 2025-09-24 19:39:04,222 log 37848 37264 Internal Server Error: /admin/users/permit/
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users_permit
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\options.py", line 719, in wrapper
+    return self.admin_site.admin_view(view)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 246, in inner
+    return view(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 48, in _wrapper
+    return bound_method(*args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\options.py", line 2024, in changelist_view
+    cl = self.get_changelist_instance(request)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\options.py", line 867, in get_changelist_instance
+    return ChangeList(
+        request,
+    ...<12 lines>...
+        self.search_help_text,
+    )
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\views\main.py", line 146, in __init__
+    self.get_results(request)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\views\main.py", line 313, in get_results
+    result_count = paginator.count
+                   ^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\functional.py", line 47, in __get__
+    res = instance.__dict__[self.name] = self.func(instance)
+                                         ~~~~~~~~~^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\paginator.py", line 110, in count
+    return c()
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users_permit
+ERROR 2025-09-24 19:39:04,229 basehttp 37848 37264 "GET /admin/users/permit/ HTTP/1.1" 500 203195
+INFO 2025-09-24 19:40:17,929 basehttp 37848 37264 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100210
+INFO 2025-09-24 19:42:29,743 autoreload 37848 36940 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:42:30,206 autoreload 2012 20940 Watching for file changes with StatReloader
+INFO 2025-09-24 19:42:33,828 basehttp 2012 18452 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99774
+INFO 2025-09-24 19:42:33,923 basehttp 2012 18452 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:49:29,999 autoreload 2012 20940 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:49:30,425 autoreload 19632 30732 Watching for file changes with StatReloader
+INFO 2025-09-24 19:50:30,836 autoreload 19632 30732 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:50:31,261 autoreload 9124 8568 Watching for file changes with StatReloader
+INFO 2025-09-24 19:51:26,679 autoreload 9124 8568 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:51:27,072 autoreload 15432 31972 Watching for file changes with StatReloader
+INFO 2025-09-24 19:52:20,478 basehttp 15432 14564 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 99774
+INFO 2025-09-24 19:52:20,529 basehttp 15432 14564 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:53:33,162 autoreload 15432 31972 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:53:33,593 autoreload 36344 13256 Watching for file changes with StatReloader
+ERROR 2025-09-24 19:53:50,208 log 36344 14856 Internal Server Error: /admin/users/tenderuser/3/change/
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\options.py", line 683, in get_field
+    return self.fields_map[field_name]
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'permits_section'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 290, in lookup_field
+    f = _get_non_gfk_field(opts, name)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 330, in _get_non_gfk_field
+    field = opts.get_field(name)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\options.py", line 685, in get_field
+    raise FieldDoesNotExist(
+        "%s has no field named '%s'" % (self.object_name, field_name)
+    )
+django.core.exceptions.FieldDoesNotExist: TenderUser has no field named 'permits_section'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: users_permit
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\base.py", line 220, in _get_response
+    response = response.render()
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\response.py", line 114, in render
+    self.content = self.rendered_content
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\response.py", line 92, in rendered_content
+    return template.render(context, self._request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\loader_tags.py", line 159, in render
+    return compiled_parent._render(context)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\loader_tags.py", line 65, in render
+    result = block.nodelist.render(context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\loader_tags.py", line 210, in render
+    return template.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 173, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\defaulttags.py", line 327, in render
+    return nodelist.render(context)
+           ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 1075, in render
+    output = self.filter_expression.resolve(context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 722, in resolve
+    obj = self.var.resolve(context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 854, in resolve
+    value = self._resolve_lookup(context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\template\base.py", line 925, in _resolve_lookup
+    current = current()
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\helpers.py", line 275, in contents
+    f, attr, value = lookup_field(field, obj, model_admin)
+                     ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\utils.py", line 299, in lookup_field
+    value = attr(obj)
+  File "D:\OpenServer\domains\tender-system\backend\users\admin.py", line 819, in permits_section
+    permits_count = obj.permits.count() if hasattr(obj, 'permits') else 0
+                    ~~~~~~~~~~~~~~~~~^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\query.py", line 604, in count
+    return self.query.get_count(using=self.db)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\query.py", line 644, in get_count
+    return obj.get_aggregation(using, {"__count": Count("*")})["__count"]
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\query.py", line 626, in get_aggregation
+    result = compiler.execute_sql(SINGLE)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: users_permit
+ERROR 2025-09-24 19:53:50,217 basehttp 36344 14856 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 500 670101
+INFO 2025-09-24 19:57:39,427 basehttp 36344 24384 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100827
+INFO 2025-09-24 19:57:39,506 basehttp 36344 24384 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 19:59:51,356 autoreload 36344 13256 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 19:59:51,800 autoreload 24632 24664 Watching for file changes with StatReloader
+INFO 2025-09-24 19:59:52,785 basehttp 24632 37440 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100812
+INFO 2025-09-24 19:59:52,846 basehttp 24632 37440 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+WARNING 2025-09-24 20:00:02,882 log 24632 37440 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-24 20:00:02,883 basehttp 24632 37440 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-09-24 20:00:17,960 autoreload 24632 24664 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:00:18,384 autoreload 38144 17708 Watching for file changes with StatReloader
+INFO 2025-09-24 20:00:34,824 autoreload 38144 17708 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:00:35,223 autoreload 34944 3924 Watching for file changes with StatReloader
+INFO 2025-09-24 20:00:37,302 basehttp 34944 12824 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100832
+WARNING 2025-09-24 20:00:37,336 log 34944 12824 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-24 20:00:37,337 basehttp 34944 12824 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-09-24 20:00:37,352 basehttp 34944 12824 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:01:29,290 basehttp 34944 12824 "POST /admin/users/tenderuser/3/change/ HTTP/1.1" 302 0
+INFO 2025-09-24 20:01:29,358 basehttp 34944 12824 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20226
+WARNING 2025-09-24 20:01:29,411 log 34944 12824 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-24 20:01:29,413 basehttp 34944 12824 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-09-24 20:01:29,457 basehttp 34944 12824 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:01:29,719 basehttp 34944 12824 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-09-24 20:01:31,286 basehttp 34944 12824 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100834
+WARNING 2025-09-24 20:01:31,336 log 34944 12824 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-24 20:01:31,338 basehttp 34944 12824 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-09-24 20:01:31,355 basehttp 34944 12824 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:05:01,971 basehttp 34944 12824 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100557
+INFO 2025-09-24 20:05:02,028 basehttp 34944 12824 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+WARNING 2025-09-24 20:05:02,125 log 34944 12824 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-24 20:05:02,126 basehttp 34944 12824 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-09-24 20:08:56,630 autoreload 34944 3924 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:08:57,062 autoreload 12348 35728 Watching for file changes with StatReloader
+INFO 2025-09-24 20:09:44,324 autoreload 12348 35728 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:09:44,755 autoreload 11352 37844 Watching for file changes with StatReloader
+INFO 2025-09-24 20:09:46,292 basehttp 11352 12988 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:09:46,341 basehttp 11352 12988 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:11:49,382 autoreload 11352 37844 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:11:49,834 autoreload 33348 19288 Watching for file changes with StatReloader
+INFO 2025-09-24 20:11:53,774 basehttp 33348 13364 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:11:53,820 basehttp 33348 13364 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:13:25,202 autoreload 33348 19288 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:13:25,630 autoreload 38236 20892 Watching for file changes with StatReloader
+INFO 2025-09-24 20:13:28,878 basehttp 38236 27008 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:13:28,932 basehttp 38236 27008 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:13:30,472 basehttp 38236 27008 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:13:30,498 basehttp 38236 27008 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:13:55,775 autoreload 38236 20892 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:13:56,233 autoreload 10124 32792 Watching for file changes with StatReloader
+INFO 2025-09-24 20:13:58,697 basehttp 10124 10408 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:13:58,732 basehttp 10124 10408 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:18:45,315 autoreload 10124 32792 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:18:45,747 autoreload 35912 36384 Watching for file changes with StatReloader
+INFO 2025-09-24 20:18:48,071 basehttp 35912 19244 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:18:48,123 basehttp 35912 19244 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:18:50,671 basehttp 35912 19244 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:18:50,703 basehttp 35912 19244 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:21:58,615 autoreload 35912 36384 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:21:59,074 autoreload 38452 13000 Watching for file changes with StatReloader
+INFO 2025-09-24 20:22:03,962 basehttp 38452 19756 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102284
+INFO 2025-09-24 20:22:04,007 basehttp 38452 19756 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:25:31,475 autoreload 38452 13000 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:25:31,955 autoreload 14972 15068 Watching for file changes with StatReloader
+INFO 2025-09-24 20:25:33,475 basehttp 14972 29048 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100604
+INFO 2025-09-24 20:25:33,547 basehttp 14972 29048 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:25:55,037 autoreload 14972 15068 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:25:55,434 autoreload 8736 10736 Watching for file changes with StatReloader
+INFO 2025-09-24 20:25:58,487 basehttp 8736 20508 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 100618
+INFO 2025-09-24 20:25:58,510 basehttp 8736 20508 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:27:43,137 autoreload 8736 10736 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-24 20:27:43,578 autoreload 11496 8880 Watching for file changes with StatReloader
+INFO 2025-09-24 20:27:45,046 basehttp 11496 26608 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102050
+INFO 2025-09-24 20:27:45,100 basehttp 11496 26608 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:28:03,032 basehttp 11496 26608 "GET /media/tenders/tender_123456/permits/permit_123456-1.txt HTTP/1.1" 200 202
+INFO 2025-09-24 20:28:06,057 basehttp 11496 26608 "GET /media/tenders/tender_123456/permits/permit_123456-3.txt HTTP/1.1" 200 238
+INFO 2025-09-24 20:29:57,817 basehttp 11496 26608 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102050
+INFO 2025-09-24 20:29:57,886 basehttp 11496 26608 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:29:59,949 basehttp 11496 26608 "GET /media/tenders/tender_123456/permits/permit_123456-1.pdf HTTP/1.1" 200 2441
+INFO 2025-09-24 20:45:38,341 basehttp 11496 3704 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102074
+INFO 2025-09-24 20:45:38,422 basehttp 11496 3704 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:45:39,808 basehttp 11496 3704 "GET /media/tenders/tender_123456/permits/permit_123456-1_hW7nrfr.pdf HTTP/1.1" 200 88183
+INFO 2025-09-24 20:53:04,836 basehttp 11496 30824 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:05,186 basehttp 11496 30824 "POST /api/auth/login/ HTTP/1.1" 200 178
+INFO 2025-09-24 20:53:06,622 basehttp 11496 30824 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,623 basehttp 11496 16796 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,626 basehttp 11496 16796 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,626 basehttp 11496 30824 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,629 basehttp 11496 16796 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,630 basehttp 11496 30824 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,633 basehttp 11496 30824 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,633 basehttp 11496 16796 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:06,641 basehttp 11496 30824 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-24 20:53:06,643 basehttp 11496 16796 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-24 20:53:06,652 basehttp 11496 30824 "GET /api/auth/user-works/ HTTP/1.1" 200 1360
+INFO 2025-09-24 20:53:06,652 basehttp 11496 16796 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-24 20:53:06,663 basehttp 11496 30824 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-24 20:53:06,664 basehttp 11496 16796 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-24 20:53:06,675 basehttp 11496 16796 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-24 20:53:06,678 basehttp 11496 30824 "GET /api/auth/user-works/ HTTP/1.1" 200 1360
+INFO 2025-09-24 20:53:06,685 basehttp 11496 30824 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-24 20:53:06,687 basehttp 11496 16796 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-24 20:53:06,692 basehttp 11496 30824 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-24 20:53:06,695 basehttp 11496 16796 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-24 20:53:08,990 basehttp 11496 13384 "OPTIONS /api/auth/user-orders/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:08,990 basehttp 11496 16796 "OPTIONS /api/auth/user-orders/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:08,991 basehttp 11496 36048 "OPTIONS /api/auth/order-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:08,991 basehttp 11496 30824 "OPTIONS /api/auth/order-types/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:09,001 basehttp 11496 16796 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-24 20:53:09,009 basehttp 11496 36048 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-24 20:53:09,011 basehttp 11496 30824 "GET /api/auth/order-types/ HTTP/1.1" 200 1320
+INFO 2025-09-24 20:53:09,017 basehttp 11496 16796 "GET /api/auth/user-orders/ HTTP/1.1" 200 22814
+INFO 2025-09-24 20:53:14,411 basehttp 11496 30824 "OPTIONS /api/auth/user-employees/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:14,411 basehttp 11496 16796 "OPTIONS /api/auth/user-employees/ HTTP/1.1" 200 0
+INFO 2025-09-24 20:53:14,420 basehttp 11496 16796 "GET /api/auth/user-employees/ HTTP/1.1" 200 1705
+INFO 2025-09-24 20:53:14,426 basehttp 11496 30824 "GET /api/auth/user-employees/ HTTP/1.1" 200 1705
+INFO 2025-09-24 20:54:48,153 basehttp 11496 9084 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102077
+INFO 2025-09-24 20:54:48,261 basehttp 11496 9084 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:54:52,446 basehttp 11496 9084 "GET /media/tenders/tender_123456/permits/permit_123456-1_mC2vWXy.pdf HTTP/1.1" 200 86545
+INFO 2025-09-24 20:56:58,841 basehttp 11496 19616 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102077
+INFO 2025-09-24 20:56:58,906 basehttp 11496 19616 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:56:59,950 basehttp 11496 19616 "GET /media/tenders/tender_123456/permits/permit_123456-1_iLUshwb.pdf HTTP/1.1" 200 86501
+INFO 2025-09-24 20:57:30,832 basehttp 11496 19616 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102077
+INFO 2025-09-24 20:57:30,941 basehttp 11496 19616 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-24 20:57:33,336 basehttp 11496 19616 "GET /media/tenders/tender_123456/permits/permit_123456-1_EdzVEmW.pdf HTTP/1.1" 200 86491
+INFO 2025-09-25 18:25:38,885 autoreload 11496 8880 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:25:41,714 autoreload 33396 33472 Watching for file changes with StatReloader
+INFO 2025-09-25 18:26:54,805 autoreload 33396 33472 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:26:55,227 autoreload 24640 3096 Watching for file changes with StatReloader
+INFO 2025-09-25 18:28:41,377 autoreload 29396 32124 Watching for file changes with StatReloader
+INFO 2025-09-25 18:31:32,625 autoreload 24640 3096 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:31:33,042 autoreload 17008 28968 Watching for file changes with StatReloader
+INFO 2025-09-25 18:31:35,529 autoreload 32204 27848 Watching for file changes with StatReloader
+INFO 2025-09-25 18:31:39,773 basehttp 17008 19672 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102129
+INFO 2025-09-25 18:31:39,908 basehttp 17008 23412 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:31:39,930 basehttp 17008 19672 "GET /static/admin/js/permits.js HTTP/1.1" 200 2260
+WARNING 2025-09-25 18:31:45,198 log 17008 19672 Not Found: /admin/users/permit/18/delete/
+WARNING 2025-09-25 18:31:45,200 basehttp 17008 19672 "GET /admin/users/permit/18/delete/ HTTP/1.1" 404 7938
+INFO 2025-09-25 18:34:29,993 autoreload 32204 27848 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:34:30,001 autoreload 17008 28968 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:34:30,448 autoreload 28232 18204 Watching for file changes with StatReloader
+INFO 2025-09-25 18:34:30,453 autoreload 27844 21736 Watching for file changes with StatReloader
+INFO 2025-09-25 18:34:32,309 basehttp 28232 38236 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102505
+INFO 2025-09-25 18:34:33,717 basehttp 28232 38236 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102505
+INFO 2025-09-25 18:34:33,748 basehttp 28232 10276 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 18:34:33,751 basehttp 28232 38236 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:34:36,247 basehttp 28232 38236 "GET /admin/users/tenderuser/3/delete-permit/16/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:34:36,257 basehttp 28232 38236 "GET /admin/users/tenderuser/3/delete-permit/16/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:34:36,283 basehttp 28232 38236 "GET /admin/ HTTP/1.1" 200 18214
+INFO 2025-09-25 18:34:36,390 basehttp 28232 38236 "GET /static/admin/css/dashboard.css HTTP/1.1" 200 441
+INFO 2025-09-25 18:34:36,423 basehttp 28232 38236 "GET /static/admin/img/icon-alert.svg HTTP/1.1" 200 504
+INFO 2025-09-25 18:34:46,750 basehttp 28232 38236 "GET /admin/ HTTP/1.1" 200 17967
+INFO 2025-09-25 18:34:50,433 basehttp 28232 38236 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20366
+INFO 2025-09-25 18:34:50,485 basehttp 28232 38236 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:34:51,883 basehttp 28232 38236 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102505
+INFO 2025-09-25 18:34:51,930 basehttp 28232 38236 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:35:35,900 basehttp 28232 32396 "GET /admin/users/tenderuser/3/delete-permit/16/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:35:35,927 basehttp 28232 32396 "GET /admin/users/tenderuser/3/delete-permit/16/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:35:35,975 basehttp 28232 32396 "GET /admin/ HTTP/1.1" 200 18214
+INFO 2025-09-25 18:36:52,879 autoreload 27844 21736 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:36:52,880 autoreload 28232 18204 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:36:53,327 autoreload 444 33644 Watching for file changes with StatReloader
+INFO 2025-09-25 18:36:53,334 autoreload 27568 496 Watching for file changes with StatReloader
+INFO 2025-09-25 18:38:50,917 autoreload 27568 496 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:38:50,921 autoreload 444 33644 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:38:51,358 autoreload 13036 1728 Watching for file changes with StatReloader
+INFO 2025-09-25 18:38:51,359 autoreload 20408 38436 Watching for file changes with StatReloader
+INFO 2025-09-25 18:38:55,091 basehttp 13036 15312 "GET /admin/users/permit/ HTTP/1.1" 200 18843
+INFO 2025-09-25 18:38:55,184 basehttp 13036 15312 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:40:01,663 basehttp 13036 15312 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20366
+INFO 2025-09-25 18:40:01,728 basehttp 13036 33472 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 18:40:01,729 basehttp 13036 15312 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:40:03,345 basehttp 13036 15312 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102505
+INFO 2025-09-25 18:40:03,392 basehttp 13036 15312 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:40:06,130 basehttp 13036 15312 "GET /admin/users/tenderuser/3/delete-permit/16/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:40:06,202 basehttp 13036 15312 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102362
+INFO 2025-09-25 18:40:06,234 basehttp 13036 15312 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:40:06,361 basehttp 13036 15312 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-09-25 18:40:08,440 basehttp 13036 15312 "GET /admin/users/permit/ HTTP/1.1" 200 18317
+INFO 2025-09-25 18:40:08,484 basehttp 13036 15312 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:40:57,469 autoreload 20408 38436 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:40:57,476 autoreload 13036 1728 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:40:57,935 autoreload 2536 18376 Watching for file changes with StatReloader
+INFO 2025-09-25 18:40:57,941 autoreload 24840 3192 Watching for file changes with StatReloader
+WARNING 2025-09-25 18:41:01,606 log 2536 6940 Not Found: /admin/users/permit/
+WARNING 2025-09-25 18:41:01,607 basehttp 2536 6940 "POST /admin/users/permit/ HTTP/1.1" 404 7909
+WARNING 2025-09-25 18:41:03,309 log 2536 6940 Not Found: /admin/users/permit/
+WARNING 2025-09-25 18:41:03,310 basehttp 2536 6940 "GET /admin/users/permit/ HTTP/1.1" 404 7908
+INFO 2025-09-25 18:41:06,701 basehttp 2536 6940 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101848
+INFO 2025-09-25 18:41:08,644 basehttp 2536 6940 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20029
+INFO 2025-09-25 18:41:08,686 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:12,542 basehttp 2536 6940 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101848
+INFO 2025-09-25 18:41:12,596 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:15,409 basehttp 2536 6940 "GET /admin/users/tenderuser/3/delete-permit/17/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:41:15,692 basehttp 2536 6940 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101705
+INFO 2025-09-25 18:41:15,765 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:18,387 basehttp 2536 6940 "GET /admin/users/tenderuser/3/delete-permit/18/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:41:18,614 basehttp 2536 6940 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101431
+INFO 2025-09-25 18:41:18,649 basehttp 2536 35956 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 18:41:18,657 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:23,675 basehttp 2536 6940 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 200 571
+INFO 2025-09-25 18:41:29,811 basehttp 2536 6940 "POST /admin/users/tenderuser/3/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:41:29,851 basehttp 2536 6940 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20278
+INFO 2025-09-25 18:41:29,908 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:32,372 basehttp 2536 6940 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 18:41:32,418 basehttp 2536 6940 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:41:38,503 basehttp 2536 6940 "GET /media/tenders/tender_123456/permits/permit_123456-1_r4QC4bQ.pdf HTTP/1.1" 200 86358
+INFO 2025-09-25 18:50:52,658 basehttp 2536 8748 "GET /admin/users/staffuser/ HTTP/1.1" 200 20218
+INFO 2025-09-25 18:50:52,754 basehttp 2536 8748 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:50:52,891 basehttp 2536 8748 "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 200 1097
+INFO 2025-09-25 18:51:05,386 basehttp 2536 8748 "POST /admin/logout/ HTTP/1.1" 200 3841
+INFO 2025-09-25 18:51:07,316 basehttp 2536 8748 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:51:07,345 basehttp 2536 8748 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4378
+INFO 2025-09-25 18:51:07,399 basehttp 2536 8748 "GET /static/admin/css/login.css HTTP/1.1" 200 951
+INFO 2025-09-25 18:51:18,512 basehttp 2536 8748 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-09-25 18:51:18,535 basehttp 2536 8748 "GET /admin/ HTTP/1.1" 200 7158
+INFO 2025-09-25 18:51:20,941 basehttp 2536 8748 "GET /admin/users/tenderuser/ HTTP/1.1" 200 11873
+INFO 2025-09-25 18:51:21,053 basehttp 2536 8748 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 18:51:24,491 basehttp 2536 8748 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 16169
+INFO 2025-09-25 18:51:24,576 basehttp 2536 8748 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:56:03,322 basehttp 2536 8748 "GET /admin/users/tenderuser/3/download-all-permits/ HTTP/1.1" 200 707
+INFO 2025-09-25 18:59:19,385 autoreload 24840 3192 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:59:19,476 autoreload 2536 18376 D:\OpenServer\domains\tender-system\backend\users\admin.py changed, reloading.
+INFO 2025-09-25 18:59:19,853 autoreload 9248 28256 Watching for file changes with StatReloader
+INFO 2025-09-25 18:59:19,932 autoreload 27312 33812 Watching for file changes with StatReloader
+INFO 2025-09-25 18:59:22,448 basehttp 9248 26288 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 15935
+INFO 2025-09-25 18:59:22,488 basehttp 9248 26288 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 18:59:22,496 basehttp 9248 29184 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 18:59:25,419 basehttp 9248 29184 "GET /media/tenders/tender_123456/permits/permit_123456-1_r4QC4bQ.pdf HTTP/1.1" 304 0
+INFO 2025-09-25 18:59:29,834 basehttp 9248 29184 "GET /media/tenders/tender_123456/permits/permit_123456-1_r4QC4bQ.pdf HTTP/1.1" 200 86358
+INFO 2025-09-25 18:59:32,113 basehttp 9248 29184 "GET /admin/users/tenderuser/3/download-all-permits/ HTTP/1.1" 200 248599
+INFO 2025-09-25 19:12:43,589 basehttp 9248 32524 "POST /admin/logout/ HTTP/1.1" 200 3841
+INFO 2025-09-25 19:12:47,983 basehttp 9248 32524 "GET /admin/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:12:48,011 basehttp 9248 32524 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4378
+INFO 2025-09-25 19:12:57,974 basehttp 9248 32524 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:12:58,016 basehttp 9248 32524 "GET /admin/ HTTP/1.1" 200 17455
+INFO 2025-09-25 19:13:03,164 basehttp 9248 32524 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20029
+INFO 2025-09-25 19:13:03,254 basehttp 9248 13976 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 19:13:03,262 basehttp 9248 32524 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:13:05,043 basehttp 9248 32524 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:13:05,088 basehttp 9248 32524 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:13:09,312 basehttp 9248 32524 "GET /admin/users/tenderuser/3/delete-permit/19/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:13:09,557 basehttp 9248 32524 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102025
+INFO 2025-09-25 19:13:09,626 basehttp 9248 32524 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:13:11,740 basehttp 9248 32524 "GET /admin/users/tenderuser/3/delete-permit/20/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:13:11,951 basehttp 9248 32524 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101705
+INFO 2025-09-25 19:13:11,988 basehttp 9248 32524 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:13:14,403 basehttp 9248 32524 "GET /admin/users/tenderuser/3/delete-permit/21/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:13:14,616 basehttp 9248 32524 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101431
+INFO 2025-09-25 19:13:14,655 basehttp 9248 32524 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+ERROR 2025-09-25 19:13:17,987 log 9248 32524 Internal Server Error: /admin/users/tenderuser/3/generate-permits-ajax/
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 246, in inner
+    return view(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\backend\users\admin.py", line 987, in generate_permits_ajax
+    from users.services.pdf_generator import PermitPDFGenerator
+  File "D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py", line 2, in <module>
+    from weasyprint import HTML, CSS
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\weasyprint\__init__.py", line 433, in <module>
+    from .css import preprocess_stylesheet  # noqa: I001, E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\weasyprint\css\__init__.py", line 28, in <module>
+    from .computed_values import COMPUTER_FUNCTIONS
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\weasyprint\css\computed_values.py", line 9, in <module>
+    from ..text.ffi import FROM_UNITS, ffi, pango
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\weasyprint\text\ffi.py", line 475, in <module>
+    gobject = _dlopen(
+        ffi, 'libgobject-2.0-0', 'gobject-2.0-0', 'gobject-2.0',
+        'libgobject-2.0.so.0', 'libgobject-2.0.dylib', 'libgobject-2.0-0.dll')
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\weasyprint\text\ffi.py", line 463, in _dlopen
+    return ffi.dlopen(names[0], flags)  # pragma: no cover
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\cffi\api.py", line 150, in dlopen
+    lib, function_cache = _make_ffi_library(self, name, flags)
+                          ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\cffi\api.py", line 834, in _make_ffi_library
+    backendlib = _load_backend_lib(backend, libname, flags)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\cffi\api.py", line 829, in _load_backend_lib
+    raise OSError(msg)
+OSError: cannot load library 'libgobject-2.0-0': error 0x7e.  Additionally, ctypes.util.find_library() did not manage to locate a library called 'libgobject-2.0-0'
+ERROR 2025-09-25 19:13:18,010 basehttp 9248 32524 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 500 186942
+INFO 2025-09-25 19:23:52,874 basehttp 9248 26144 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101214
+INFO 2025-09-25 19:23:52,973 basehttp 9248 26144 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:23:52,984 basehttp 9248 34752 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+ERROR 2025-09-25 19:23:55,291 log 9248 34752 Internal Server Error: /admin/users/tenderuser/3/generate-permits-ajax/
+Traceback (most recent call last):
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 192, in _view_wrapper
+    result = _process_exception(request, e)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\utils\decorators.py", line 190, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\views\decorators\cache.py", line 80, in _view_wrapper
+    response = view_func(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\django\contrib\admin\sites.py", line 246, in inner
+    return view(request, *args, **kwargs)
+  File "D:\OpenServer\domains\tender-system\backend\users\admin.py", line 987, in generate_permits_ajax
+    from users.services.pdf_generator import PermitPDFGenerator
+  File "D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py", line 12, in <module>
+    from svglib.svglib import renderSVG
+ImportError: cannot import name 'renderSVG' from 'svglib.svglib' (D:\OpenServer\domains\tender-system\.venv\Lib\site-packages\svglib\svglib.py). Did you mean: 'renderPDF'?
+ERROR 2025-09-25 19:23:55,302 basehttp 9248 34752 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 500 109864
+INFO 2025-09-25 19:24:58,112 basehttp 9248 34752 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101214
+INFO 2025-09-25 19:24:58,182 basehttp 9248 34752 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:24:59,410 basehttp 9248 34752 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 200 571
+INFO 2025-09-25 19:25:00,085 autoreload 9248 28256 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
+INFO 2025-09-25 19:25:02,874 autoreload 28264 28844 Watching for file changes with StatReloader
+INFO 2025-09-25 19:25:03,973 basehttp 28264 37164 "POST /admin/users/tenderuser/3/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:25:04,017 basehttp 28264 37164 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20278
+INFO 2025-09-25 19:25:04,057 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:25:05,750 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:25:05,794 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:25:08,823 basehttp 28264 37164 "GET /media/tenders/tender_123456/permits/permit_123456-1_lryHvfv.pdf HTTP/1.1" 200 86153
+INFO 2025-09-25 19:27:13,723 basehttp 28264 37164 "GET /admin/users/tenderuser/3/delete-permit/22/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:27:13,949 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102025
+INFO 2025-09-25 19:27:14,171 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:27:16,086 basehttp 28264 37164 "GET /admin/users/tenderuser/3/delete-permit/23/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:27:16,280 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101705
+INFO 2025-09-25 19:27:16,330 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:27:19,373 basehttp 28264 37164 "GET /admin/users/tenderuser/3/delete-permit/24/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:27:19,588 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101431
+INFO 2025-09-25 19:27:19,623 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:28:55,697 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101214
+INFO 2025-09-25 19:28:55,766 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:28:57,812 basehttp 28264 37164 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 200 571
+INFO 2025-09-25 19:28:59,608 basehttp 28264 37164 "POST /admin/users/tenderuser/3/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:28:59,652 basehttp 28264 37164 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20278
+INFO 2025-09-25 19:28:59,709 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:29:01,143 basehttp 28264 37164 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:29:01,213 basehttp 28264 37164 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:29:05,401 basehttp 28264 37164 "GET /media/tenders/tender_123456/permits/permit_123456-1_x5hxmSs.pdf HTTP/1.1" 200 85767
+INFO 2025-09-25 19:31:56,034 autoreload 28264 28844 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
+INFO 2025-09-25 19:31:56,521 autoreload 25336 38464 Watching for file changes with StatReloader
+INFO 2025-09-25 19:32:17,761 basehttp 25336 14320 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:32:17,810 basehttp 25336 6188 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 19:32:17,815 basehttp 25336 14320 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:32:19,200 basehttp 25336 14320 "GET /media/tenders/tender_123456/permits/permit_123456-1_EG1bNpw.pdf HTTP/1.1" 200 94572
+INFO 2025-09-25 19:36:13,542 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:36:13,586 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:36:14,888 basehttp 25336 37308 "GET /media/tenders/tender_123456/permits/permit_123456-1_W74V9Lr.pdf HTTP/1.1" 200 94440
+INFO 2025-09-25 19:37:53,269 basehttp 25336 37308 "GET /media/tenders/tender_123456/permits/permit_123456-1_W74V9Lr.pdf HTTP/1.1" 304 0
+INFO 2025-09-25 19:40:40,596 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:40:40,638 basehttp 25336 19904 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 19:40:40,643 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:40:41,707 basehttp 25336 37308 "GET /media/tenders/tender_123456/permits/permit_123456-1_1pwkQu2.pdf HTTP/1.1" 200 93938
+INFO 2025-09-25 19:41:16,377 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:41:16,413 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:17,654 basehttp 25336 37308 "GET /media/tenders/tender_123456/permits/permit_123456-1_qDMuk4o.pdf HTTP/1.1" 200 93927
+INFO 2025-09-25 19:41:44,052 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:41:44,075 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:45,503 basehttp 25336 37308 "GET /admin/users/tenderuser/3/delete-permit/46/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:41:45,718 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102025
+INFO 2025-09-25 19:41:45,779 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:48,407 basehttp 25336 37308 "GET /admin/users/tenderuser/3/delete-permit/47/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:41:48,640 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101705
+INFO 2025-09-25 19:41:48,693 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:51,110 basehttp 25336 37308 "GET /admin/users/tenderuser/3/delete-permit/48/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:41:51,350 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 101431
+INFO 2025-09-25 19:41:51,426 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:53,800 basehttp 25336 37308 "POST /admin/users/tenderuser/3/generate-permits-ajax/ HTTP/1.1" 200 571
+INFO 2025-09-25 19:41:55,414 basehttp 25336 37308 "POST /admin/users/tenderuser/3/change/ HTTP/1.1" 302 0
+INFO 2025-09-25 19:41:55,503 basehttp 25336 37308 "GET /admin/users/tenderuser/ HTTP/1.1" 200 20278
+INFO 2025-09-25 19:41:55,589 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:57,236 basehttp 25336 37308 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:41:57,275 basehttp 25336 37308 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:41:59,748 basehttp 25336 37308 "GET /media/tenders/tender_123456/permits/permit_123456-1_g7SQL0j.pdf HTTP/1.1" 200 93929
+INFO 2025-09-25 19:43:31,155 autoreload 25336 38464 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
+INFO 2025-09-25 19:43:31,659 autoreload 18408 38244 Watching for file changes with StatReloader
+INFO 2025-09-25 19:43:38,075 basehttp 18408 29736 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:43:38,140 basehttp 18408 29736 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:43:39,516 basehttp 18408 29736 "GET /media/tenders/tender_123456/permits/permit_123456-1_kanmrkR.pdf HTTP/1.1" 200 93936
+INFO 2025-09-25 19:44:42,071 basehttp 18408 29736 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:44:42,209 basehttp 18408 29736 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:44:43,462 basehttp 18408 29736 "GET /media/tenders/tender_123456/permits/permit_123456-1_D8ex0Td.pdf HTTP/1.1" 200 93943
+INFO 2025-09-25 19:49:47,168 basehttp 18408 36144 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:49:47,200 basehttp 18408 22880 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-25 19:49:47,200 basehttp 18408 36144 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:49:48,700 basehttp 18408 36144 "GET /media/tenders/tender_123456/permits/permit_123456-1_sbISM7J.pdf HTTP/1.1" 200 93905
+INFO 2025-09-25 19:51:19,636 basehttp 18408 36144 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:51:19,679 basehttp 18408 36144 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:51:22,303 basehttp 18408 36144 "GET /media/tenders/tender_123456/permits/permit_123456-1_5J5pWXm.pdf HTTP/1.1" 200 93912
+INFO 2025-09-25 19:52:42,314 basehttp 18408 36144 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-25 19:52:42,358 basehttp 18408 36144 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-25 19:52:43,484 basehttp 18408 36144 "GET /media/tenders/tender_123456/permits/permit_123456-2_iAsw7kw.pdf HTTP/1.1" 200 93384
+INFO 2025-09-25 19:52:50,482 basehttp 18408 36144 "GET /media/tenders/tender_123456/permits/permit_123456-3_F7OV6Fq.pdf HTTP/1.1" 200 94308
+INFO 2025-09-26 07:39:48,896 basehttp 18408 15048 "GET /media/tenders/tender_123456/permits/permit_123456-3_F7OV6Fq.pdf HTTP/1.1" 304 0
+INFO 2025-09-26 07:42:17,903 basehttp 18408 26948 "OPTIONS /api/auth/user-technics/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:42:17,903 basehttp 18408 14008 "OPTIONS /api/auth/technic-types-detail/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:42:17,904 basehttp 18408 13572 "OPTIONS /api/auth/user-technics/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:42:17,905 basehttp 18408 13076 "OPTIONS /api/auth/technic-types-detail/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:42:17,945 basehttp 18408 13572 "GET /api/auth/technic-types-detail/ HTTP/1.1" 200 4846
+INFO 2025-09-26 07:42:17,953 basehttp 18408 13076 "GET /api/auth/user-technics/ HTTP/1.1" 200 4171
+INFO 2025-09-26 07:42:17,963 basehttp 18408 26948 "GET /api/auth/technic-types-detail/ HTTP/1.1" 200 4846
+INFO 2025-09-26 07:42:17,971 basehttp 18408 13572 "GET /api/auth/user-technics/ HTTP/1.1" 200 4171
+INFO 2025-09-26 07:52:16,445 basehttp 18408 6092 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,446 basehttp 18408 12664 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,452 basehttp 18408 17884 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,472 basehttp 18408 6092 "OPTIONS /api/auth/user-specification/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,473 basehttp 18408 12664 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,477 basehttp 18408 20864 "OPTIONS /api/auth/work-types/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,498 basehttp 18408 37584 "OPTIONS /api/auth/user-works/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,517 basehttp 18408 30712 "OPTIONS /api/auth/work-sub-types/ HTTP/1.1" 200 0
+INFO 2025-09-26 07:52:16,548 basehttp 18408 17884 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-26 07:52:16,549 basehttp 18408 6092 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-26 07:52:16,581 basehttp 18408 37584 "GET /api/auth/user-works/ HTTP/1.1" 200 1360
+INFO 2025-09-26 07:52:16,597 basehttp 18408 20864 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-26 07:52:16,648 basehttp 18408 30712 "GET /api/auth/user-specification/ HTTP/1.1" 200 143
+INFO 2025-09-26 07:52:16,650 basehttp 18408 6092 "GET /api/auth/user-works/ HTTP/1.1" 200 1360
+INFO 2025-09-26 07:52:16,653 basehttp 18408 12664 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-26 07:52:16,686 basehttp 18408 6092 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-26 07:52:16,700 basehttp 18408 20864 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-26 07:52:16,725 basehttp 18408 6092 "GET /api/auth/work-types/ HTTP/1.1" 200 5752
+INFO 2025-09-26 07:52:16,737 basehttp 18408 12664 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-26 07:52:16,762 basehttp 18408 6092 "GET /api/auth/work-sub-types/ HTTP/1.1" 200 18555
+INFO 2025-09-26 07:52:28,042 basehttp 18408 6384 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-26 07:52:28,132 basehttp 18408 22560 "GET /static/admin/js/permits.js HTTP/1.1" 304 0
+INFO 2025-09-26 07:52:28,138 basehttp 18408 6384 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-26 07:52:29,562 basehttp 18408 6384 "GET /media/tenders/tender_123456/permits/permit_123456-3_LO98KLh.pdf HTTP/1.1" 200 94955
+INFO 2025-09-26 07:54:05,581 basehttp 18408 6384 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-26 07:54:05,688 basehttp 18408 6384 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-26 07:54:07,045 basehttp 18408 6384 "GET /media/tenders/tender_123456/permits/permit_123456-3_QViobXz.pdf HTTP/1.1" 200 94717
+INFO 2025-09-26 07:55:14,011 basehttp 18408 6384 "GET /admin/users/tenderuser/3/change/ HTTP/1.1" 200 102168
+INFO 2025-09-26 07:55:14,095 basehttp 18408 6384 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-09-26 07:55:15,348 basehttp 18408 6384 "GET /media/tenders/tender_123456/permits/permit_123456-3_i3FTnGs.pdf HTTP/1.1" 200 94673
+INFO 2025-09-26 07:56:41,141 basehttp 18408 12664 "GET /api/auth/technic-types-detail/ HTTP/1.1" 200 4846
+INFO 2025-09-26 07:56:41,143 basehttp 18408 6092 "GET /api/auth/user-technics/ HTTP/1.1" 200 4171
+INFO 2025-09-26 07:56:41,153 basehttp 18408 20864 "GET /api/auth/technic-types-detail/ HTTP/1.1" 200 4846
+INFO 2025-09-26 07:56:41,161 basehttp 18408 12664 "GET /api/auth/user-technics/ HTTP/1.1" 200 4171

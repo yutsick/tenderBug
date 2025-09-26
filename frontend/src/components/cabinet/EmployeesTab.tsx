@@ -1,7 +1,7 @@
-// src/components/cabinet/EmployeesTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
+// src/components/cabinet/EmployeesTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ (контекст AntD App.useApp)
 import { useState, useEffect } from 'react';
 import { PlusIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, DocumentArrowUpIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { Alert, Spin, message, Modal } from 'antd';
+import { App, Alert, Spin } from 'antd';
 import { useUserEmployees } from '@/hooks/useUserData';
 import { convertEmployeeToFormData, convertFormDataToEmployee } from '@/types/userdata';
 import type { EmployeeFormData } from '@/types/userdata';
@@ -11,6 +11,9 @@ interface EmployeesTabProps {
 }
 
 export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
+  // АнтД контекстні API (повідомлення/модалки — без статичних викликів)
+  const { message: apiMessage, modal } = App.useApp();
+
   // Хук для роботи з API
   const { 
     employees, 
@@ -61,7 +64,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       specialTrainingDate: '',
       expanded: true
     };
-    setLocalEmployees([...localEmployees, newEmployee]);
+    setLocalEmployees(prev => [...prev, newEmployee]);
   };
 
   const removeEmployee = async (index: number) => {
@@ -71,28 +74,28 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       // Якщо співробітник збережений в API, видаляємо з сервера
       try {
         await deleteEmployee(employee.id);
-        message.success('Співробітника видалено');
+        apiMessage.success('Співробітника видалено');
       } catch (error) {
         console.error('Помилка видалення співробітника:', error);
-        message.error('Не вдалося видалити співробітника');
+        apiMessage.error('Не вдалося видалити співробітника');
         return;
       }
     }
     
     // Видаляємо з локального стейту
-    setLocalEmployees(localEmployees.filter((_, i) => i !== index));
+    setLocalEmployees(prev => prev.filter((_, i) => i !== index));
   };
 
   const toggleEmployee = (index: number) => {
-    setLocalEmployees(localEmployees.map((emp, i) => 
-      i === index ? { ...emp, expanded: !emp.expanded } : emp
-    ));
+    setLocalEmployees(prev =>
+      prev.map((emp, i) => i === index ? { ...emp, expanded: !emp.expanded } : emp)
+    );
   };
 
   const updateLocalEmployee = (index: number, field: keyof EmployeeFormData, value: any) => {
-    setLocalEmployees(localEmployees.map((emp, i) => 
-      i === index ? { ...emp, [field]: value } : emp
-    ));
+    setLocalEmployees(prev =>
+      prev.map((emp, i) => i === index ? { ...emp, [field]: value } : emp)
+    );
   };
 
   const handleFileUpload = (empIndex: number, field: string, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,23 +106,20 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
   };
 
   const saveEmployee = async (index: number) => {
-    console.log('HEY');
-    
     const employee = localEmployees[index];
-    console.log('🔍 BEFORE convert, employee:', employee);
+
     // Валідація
     if (!employee.name.trim()) {
-      message.warning('Введіть ім\'я співробітника');
+      apiMessage.warning('Введіть ім\'я співробітника');
       return;
     }
 
     try {
       const employeeData = convertFormDataToEmployee(employee);
-      console.log('🔍 AFTER convert, employeeData:', employeeData);
       if (employee.id) {
         // Оновлення існуючого
         await updateEmployee(employee.id, employeeData);
-        message.success('Дані співробітника оновлено');
+        apiMessage.success('Дані співробітника оновлено');
       } else {
         // Створення нового
         const newEmp = await createEmployee(employeeData);
@@ -127,61 +127,61 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
         setLocalEmployees(prev => prev.map((emp, i) => 
           i === index ? { ...emp, id: newEmp.id } : emp
         ));
-        message.success('Співробітника додано');
+        apiMessage.success('Співробітника додано');
       }
     } catch (error) {
       console.error('Помилка збереження співробітника:', error);
-      message.error('Не вдалося зберегти дані співробітника');
+      apiMessage.error('Не вдалося зберегти дані співробітника');
     }
   };
 
- const handleSubmit = async () => {
-  if (localEmployees.length === 0) {
-    message.warning('Додайте хоча б одного співробітника');
-    return;
-  }
-
-  const invalidEmployees = localEmployees.filter(emp => !emp.name.trim());
-  if (invalidEmployees.length > 0) {
-    message.warning('Заповніть імена всіх співробітників');
-    return;
-  }
-
-  setSubmitting(true);
-  try {
-    // ✅ СТВОРЮЄМО нових співробітників
-    const unsavedEmployees = localEmployees.filter(emp => !emp.id);
-    for (const employee of unsavedEmployees) {
-      const employeeData = convertFormDataToEmployee(employee);
-      await createEmployee(employeeData);
+  const handleSubmit = async () => {
+    if (localEmployees.length === 0) {
+      apiMessage.warning('Додайте хоча б одного співробітника');
+      return;
     }
 
-    // ✅ ОНОВЛЮЄМО існуючих співробітників
-    const existingEmployees = localEmployees.filter(emp => emp.id);
-    for (const employee of existingEmployees) {
-      const employeeData = convertFormDataToEmployee(employee);
-      await updateEmployee(employee.id!, employeeData);
+    const invalidEmployees = localEmployees.filter(emp => !emp.name.trim());
+    if (invalidEmployees.length > 0) {
+      apiMessage.warning('Заповніть імена всіх співробітників');
+      return;
     }
 
-    message.success('Всі дані співробітників збережено!');
-    onSubmit();
-  } catch (error) {
-    console.error('Помилка збереження:', error);
-    message.error('Не вдалося зберегти дані');
-  } finally {
-    setSubmitting(false);
-  }
-};
+    setSubmitting(true);
+    try {
+      // ✅ СТВОРЮЄМО нових співробітників
+      const unsavedEmployees = localEmployees.filter(emp => !emp.id);
+      for (const employee of unsavedEmployees) {
+        const employeeData = convertFormDataToEmployee(employee);
+        await createEmployee(employeeData);
+      }
+
+      // ✅ ОНОВЛЮЄМО існуючих співробітників
+      const existingEmployees = localEmployees.filter(emp => emp.id);
+      for (const employee of existingEmployees) {
+        const employeeData = convertFormDataToEmployee(employee);
+        await updateEmployee(employee.id!, employeeData);
+      }
+
+      apiMessage.success('Всі дані співробітників збережено!');
+      onSubmit();
+    } catch (error) {
+      console.error('Помилка збереження:', error);
+      apiMessage.error('Не вдалося зберегти дані');
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   const confirmDelete = (index: number) => {
     const employee = localEmployees[index];
-    Modal.confirm({
+    modal.confirm({
       title: 'Видалення співробітника',
       content: `Ви впевнені, що хочете видалити ${employee.name || 'цього співробітника'}?`,
       okText: 'Видалити',
       okType: 'danger',
       cancelText: 'Скасувати',
-      onOk: () => removeEmployee(index)
+      onOk: () => removeEmployee(index),
     });
   };
 

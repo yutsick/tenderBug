@@ -70,5 +70,9 @@ urlpatterns = [
     path('admin/instruments/', views.AdminInstrumentListView.as_view(), name='admin-instruments'),
     path('admin/ppe/', views.AdminPPEListView.as_view(), name='admin-ppe'),
     path('admin/specifications/', views.AdminSpecificationListView.as_view(), name='admin-specifications'),
-   
+
+    #    Перепустки
+    # path('users/<int:user_id>/permits/', views.user_permits, name='user-permits'),
+    # path('users/<int:user_id>/generate-permits/', views.generate_permits, name='generate-permits'),
+    # path('permits/<int:permit_id>/delete/', views.delete_permit, name='delete-permit'),
 ]

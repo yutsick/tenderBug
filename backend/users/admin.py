@@ -2,12 +2,13 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from django.contrib import messages
 from django.conf import settings
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django_select2.forms import ModelSelect2Widget
-from .models import User, Department, WorkType, WorkSubType, Equipment, UserWork, TechnicType, InstrumentType, UserSpecification, UserEmployee, UserOrder, UserTechnic, UserInstrument, UserPPE
+from .models import User, Department, WorkType, WorkSubType, Equipment, UserWork, TechnicType, InstrumentType, UserSpecification, UserEmployee, UserOrder, UserTechnic, UserInstrument, UserPPE, Permit
 from django.urls import reverse
 
 def get_file_url(file_field):
@@ -278,10 +279,11 @@ class UserWorkInline(admin.TabularInline):
             try:
                 if hasattr(obj.permit_file, 'url'):
                     file_name = obj.permit_file.name.split('/')[-1] if obj.permit_file.name else "permit.pdf"
-                    return format_html(
+                    result = format_html(
                         '<a href="{}" target="_blank" style="color: #007cba; text-decoration: none;">📄 {}</a>',
                         obj.permit_file.url, file_name
                     )
+                    return mark_safe(result)
                 else:
                     return format_html('<span style="color: #52c41a;">📄 Дозвіл завантажено</span>')
             except:
@@ -711,7 +713,7 @@ class TenderUserAdmin(admin.ModelAdmin):
     ]
     list_filter = ['status', 'is_activated', 'department']
     search_fields = ['tender_number', 'company_name', 'email', 'edrpou']
-    readonly_fields = ['tender_number', 'created_at', 'updated_at', 'activation_token', 'activation_link_field']
+    readonly_fields = ['tender_number', 'created_at', 'updated_at', 'activation_token', 'activation_link_field', 'permits_section']
     actions = ['approve_users', 'decline_users', 'regenerate_activation_tokens']
     
     # Приховуємо системні поля Django
@@ -720,20 +722,419 @@ class TenderUserAdmin(admin.ModelAdmin):
         'last_login', 'date_joined', 'is_active',
         'first_name', 'last_name', 'username'
     ]
-    inlines = [
-        UserSpecificationInline,
-        UserEmployeeInline, 
-        UserOrderInline,
-        UserTechnicInline,
-        UserInstrumentInline,
-        UserPPEInline,
-    ]
 
     class Media:
         css = {
             'all': ('admin/css/tabs.css',)
         }
-        js = ('admin/js/tabs.js',)
+        js = ('admin/js/tabs.js', 'admin/js/permits.js')
+
+    # ⭐ КЛЮЧОВІ ЗМІНИ: Різні права для різних користувачів
+    def get_inlines(self, request, obj):
+        """Суперадмін бачить всі деталі, адміни підрозділів - тільки базову інфо"""
+        if request.user.is_superuser:
+            # Суперадмін бачить ВСІ деталі
+            return [
+                UserSpecificationInline,
+                UserEmployeeInline, 
+                UserOrderInline,
+                UserTechnicInline,
+                UserInstrumentInline,
+                UserPPEInline,
+            ]
+        else:
+            # Адміни підрозділів НЕ БАЧАТЬ деталі документів
+            return []
+    
+    def get_fieldsets(self, request, obj=None):
+        """Різні fieldsets для різних користувачів"""
+        if request.user.is_superuser:
+            # Суперадмін бачить всі поля
+            return (
+                ('Основна інформація', {
+                    'fields': ('tender_number', 'email', 'status', 'department')
+                }),
+                ('Дані компанії', {
+                    'fields': ('company_name', 'edrpou', 'legal_address', 'actual_address', 
+                              'director_name', 'contact_person', 'phone')
+                }),
+                ('Управління активацією', {
+                    'fields': ('activation_link_field',),
+                    'classes': ('wide',)
+                }),
+                ('Системна інформація', {
+                    'fields': ('is_activated', 'activation_token', 'activation_expires', 'created_at', 'updated_at'),
+                    'classes': ('collapse',)
+                }),
+                ('Перепустки', {  # ← ДОДАЙТЕ ЦЕ
+                    'fields': ('permits_section',),
+                    'classes': ('wide',)
+                }),
+            )
+        else:
+            # Адміни підрозділів бачать тільки базову інформацію + перепустки
+            return (
+                ('Основна інформація', {
+                    'fields': ('tender_number', 'company_name', 'email', 'status', 'department')
+                }),
+                ('Контактна інформація', {
+                    'fields': ('director_name', 'contact_person', 'phone'),
+                    'classes': ('collapse',)
+                }),
+                ('Перепустки', {
+                    'fields': ('permits_section',),
+                    'classes': ('wide',)
+                }),
+            )
+
+    def get_readonly_fields(self, request, obj=None):
+        """Адміни підрозділів можуть редагувати тільки статус"""
+        base_readonly = ['tender_number', 'created_at', 'updated_at', 'activation_token', 'permits_section']
+        
+        if request.user.is_superuser:
+            # Суперадмін може редагувати все + бачить активацію
+            return base_readonly + ['activation_link_field']
+        else:
+            # Адміни підрозділів - тільки статус можна змінювати
+            return base_readonly + [
+                'company_name', 'email', 'edrpou', 'legal_address', 'actual_address', 
+                'director_name', 'contact_person', 'phone', 'department'
+            ]
+
+    def get_actions(self, request):
+        """Адміни підрозділів мають обмежені дії"""
+        actions = super().get_actions(request)
+        
+        if not request.user.is_superuser:
+            # Залишаємо тільки схвалення/відхилення
+            allowed_actions = ['approve_users', 'decline_users']
+            actions = {key: value for key, value in actions.items() if key in allowed_actions}
+        
+        return actions
+
+    def permits_section(self, obj):
+    # Секція перепусток з повним управлінням для суперадміна і завантаженням для адмінів
+        if not obj or not obj.pk:
+            return "Інформація недоступна"
+        
+        request = getattr(self, '_current_request', None)
+        permits_count = obj.permits.count() if hasattr(obj, 'permits') else 0
+    
+        if request and request.user.is_superuser:
+            # СУПЕРАДМІН: повне управління (код залишається той же)
+            if permits_count > 0:
+                permits_list = []
+                for permit in obj.permits.all():
+                    if permit.employee:
+                        subject_name = permit.employee.name
+                    elif permit.technic:
+                        subject_name = permit.technic.display_name
+                    else:
+                        subject_name = "Невідомо"
+                    permit_info = f"{permit.permit_number} - {subject_name}"
+                    
+                    if permit.pdf_file:
+                        download_link = f'<a href="{permit.pdf_file.url}" target="_blank" style="color: #007cba; text-decoration: none;">📄 {permit_info}</a>'
+                    else:
+                        download_link = f'📄 {permit_info}'
+                    
+                    delete_button = f'<a href="/admin/users/tenderuser/{permit.user.id}/delete-permit/{permit.id}/" style="color: #ff4d4f; margin-left: 10px; text-decoration: none;">🗑️ Видалити</a>'
+                    
+                    permits_list.append(f'{download_link}{delete_button}')
+                
+                permits_html = '<br>'.join(permits_list)
+                permits_html = mark_safe(permits_html)
+
+                result = format_html(
+                    '<div style="background: #f6ffed; padding: 15px; border-radius: 6px; border-left: 4px solid #52c41a;">'
+                    '<strong style="color: #52c41a;">📋 {} перепусток:</strong><br><br>{}<br><br>'
+                    '<div style="border-top: 1px solid #d9d9d9; padding-top: 15px; margin-top: 15px;">'
+                    '<strong>Управління:</strong><br><br>'
+                    '<code style="background: #f5f5f5; padding: 8px; display: block; border-radius: 4px; font-family: monospace; margin-bottom: 8px;">'
+                    'python manage.py generate_permits {} # Видалить старі і створить нові'
+                    '</code>'
+                    '</div>'
+                    '</div>',
+                    permits_count, permits_html, obj.tender_number
+                )
+                return mark_safe(result)
+            else:
+                # Код для генерації залишається той же...
+                if obj.status == 'accepted':
+                    result = format_html(
+                    '<div style="background: #f0f8f0; padding: 15px; border-radius: 6px; border-left: 4px solid #52c41a;">'
+                    '<strong style="color: #52c41a;">📋 Генерація перепусток</strong><br><br>'
+                    '<p>Перепустки відсутні. Згенеруйте їх:</p>'
+                    '<button type="button" onclick="generatePermits({})" id="generateBtn_{}" '
+                    'style="background: #52c41a; color: white; border: none; padding: 10px 20px; '
+                    'border-radius: 4px; cursor: pointer; font-weight: bold; margin: 10px 0;">'
+                    '⚡ Згенерувати перепустки'
+                    '</button>'
+                    '<div id="generateResult_{}" style="margin-top: 10px;"></div>'
+                    '</div>',
+                    obj.id, obj.id, obj.id
+                )
+                    return mark_safe(result)
+                else:
+                    result = format_html(
+                        '<div style="background: #fff7e6; padding: 15px; border-radius: 6px; border-left: 4px solid #faad14;">'
+                        '<strong style="color: #fa8c16;">📋 Перепустки</strong><br><br>'
+                        '<span style="color: #999;">Статус користувача має бути "Підтверджений" для генерації перепусток</span><br><br>'
+                        '<small style="color: #666;">Поточний статус: {}</small>'
+                        '</div>',
+                        obj.get_status_display()
+                    )
+                    return mark_safe(result)
+        else:
+            # АДМІН ПІДРОЗДІЛУ: перегляд + завантаження
+            if permits_count > 0:
+                permits_list = []
+                for permit in obj.permits.all():
+                    if permit.employee:
+                        subject_name = permit.employee.name
+                    elif permit.technic:
+                        subject_name = permit.technic.display_name
+                    else:
+                        subject_name = "Невідомо"
+                    permit_info = f"{permit.permit_number} - {subject_name}"
+                    if permit.pdf_file:
+                        permits_list.append(
+                            f'<a href="{permit.pdf_file.url}" target="_blank" style="color: #007cba; text-decoration: none;">📄 {permit_info}</a>'
+                            f' <a href="{permit.pdf_file.url}" download style="color: #52c41a; margin-left: 8px; text-decoration: none;">⬇️ Скачати</a>'
+                        )
+                    else:
+                        permits_list.append(f'📄 {permit_info} <span style="color: #ccc;">(файл відсутній)</span>')
+                
+                permits_html = '<br>'.join(permits_list)
+                permits_html = mark_safe(permits_html)
+                # Кнопка "Скачати всі" внизу
+                download_all_url = f"/admin/users/tenderuser/{obj.id}/download-all-permits/"
+                
+                result = format_html(
+                    '<div style="background: #f6ffed; padding: 15px; border-radius: 6px; border-left: 4px solid #52c41a;">'
+                    '<strong style="color: #52c41a;">📋 {} перепусток:</strong><br><br>{}<br><br>'
+                    '<div style="border-top: 1px solid #d9d9d9; padding-top: 15px; margin-top: 15px;">'
+                    '<a href="{}" style="background: #52c41a; color: white; padding: 8px 16px; text-decoration: none; border-radius: 4px; font-weight: bold;">'
+                    '📦 Скачати всі (ZIP)'
+                    '</a>'
+                    '</div>'
+                    '</div>',
+                    permits_count, permits_html, download_all_url
+                )
+            
+                return mark_safe(result)
+            else:
+                result = format_html(
+                    '<div style="background: #f5f5f5; padding: 15px; border-radius: 6px; border-left: 4px solid #d9d9d9;">'
+                    '<strong style="color: #666;">📋 Перепустки</strong><br><br>'
+                    '<span style="color: #999;">Перепустки на даний момент відсутні</span>'
+                    '</div>'
+                )
+                return mark_safe(result)
+
+    permits_section.short_description = 'Перепустки'
+    permits_section.allow_tags = True
+
+    def delete_permit_view(self, request, user_id, permit_id):
+        """Видалення конкретної перепустки"""
+        from django.shortcuts import redirect
+        from django.contrib import messages
+        from django.http import JsonResponse
+        
+        if not request.user.is_superuser:
+            if request.method == 'DELETE':
+                return JsonResponse({'error': 'Доступ заборонено'}, status=403)
+            messages.error(request, 'Доступ заборонено')
+            return redirect(f'/admin/users/tenderuser/{user_id}/change/')
+        
+        try:
+            permit = Permit.objects.get(id=permit_id, user_id=user_id)
+            
+            if permit.employee:
+                subject_name = permit.employee.name
+            elif permit.technic:
+                subject_name = permit.technic.display_name
+            else:
+                subject_name = "Невідомо"
+                
+            permit_info = f"{permit.permit_number} - {subject_name}"
+            permit.delete()
+            
+            if request.method == 'DELETE':
+                return JsonResponse({'success': True, 'message': f'Перепустку "{permit_info}" видалено'})
+            else:
+                messages.success(request, f'Перепустку "{permit_info}" видалено')
+                
+        except Permit.DoesNotExist:
+            if request.method == 'DELETE':
+                return JsonResponse({'error': 'Перепустку не знайдено'}, status=404)
+            messages.error(request, 'Перепустку не знайдено')
+        except Exception as e:
+            if request.method == 'DELETE':
+                return JsonResponse({'error': f'Помилка видалення: {str(e)}'}, status=500)
+            messages.error(request, f'Помилка видалення: {str(e)}')
+        
+        if request.method == 'DELETE':
+            return JsonResponse({'error': 'Невідома помилка'}, status=500)
+        
+        return redirect(f'/admin/users/tenderuser/{user_id}/change/')
+
+    def generate_permits_ajax(self, request, object_id):
+        """AJAX endpoint для генерації перепусток"""
+        import json
+        from django.http import JsonResponse
+        from django.db import transaction
+        from users.services.pdf_generator import PermitPDFGenerator
+        
+        # Перевіряємо права
+        if not request.user.is_superuser:
+            return JsonResponse({'error': 'Доступ заборонено'}, status=403)
+        
+        try:
+            user = self.get_object(request, object_id)
+            
+            if user.status != 'accepted':
+                return JsonResponse({
+                    'error': f'Користувач має статус "{user.get_status_display()}". Потрібен статус "Підтверджений"'
+                }, status=400)
+            
+            with transaction.atomic():
+                # Видаляємо старі перепустки
+                old_count = user.permits.count()
+                user.permits.all().delete()
+                
+                generator = PermitPDFGenerator()
+                created_permits = []
+                
+                # Створюємо для співробітників
+                for employee in user.employees.all():
+                    permit = Permit.objects.create(
+                        user=user,
+                        permit_number=Permit.generate_permit_number(user),
+                        permit_type='employee',
+                        employee=employee,
+                        created_by=request.user
+                    )
+                    generator.generate_permit(permit)
+                    permit.save()
+                    created_permits.append({
+                        'number': permit.permit_number,
+                        'name': employee.name
+                    })
+                
+                # Створюємо для техніки
+                for technic in user.technics.all():
+                    permit = Permit.objects.create(
+                        user=user,
+                        permit_number=Permit.generate_permit_number(user),
+                        permit_type='technic',
+                        technic=technic,
+                        created_by=request.user
+                    )
+                    generator.generate_permit(permit)
+                    permit.save()
+                    created_permits.append({
+                        'number': permit.permit_number,
+                        'name': technic.display_name
+                    })
+                
+                return JsonResponse({
+                    'success': True,
+                    'message': f'Успішно згенеровано {len(created_permits)} перепусток',
+                    'deleted': old_count,
+                    'created': len(created_permits),
+                    'permits': created_permits
+                })
+                
+        except Exception as e:
+            return JsonResponse({'error': f'Помилка генерації: {str(e)}'}, status=500)
+
+    def download_all_permits_view(self, request, object_id):
+        """Завантаження всіх перепусток користувача в ZIP архіві"""
+        import zipfile
+        import io
+        from django.http import HttpResponse
+        
+        # Отримуємо користувача
+        try:
+            user = self.get_object(request, object_id)
+        except:
+            from django.http import Http404
+            raise Http404("Користувач не знайдений")
+        
+        # Перевіряємо права доступу
+        if not request.user.is_staff:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied("Доступ заборонено")
+        
+        if not request.user.is_superuser:
+            # Адміни підрозділів можуть завантажувати тільки з свого підрозділу
+            if not hasattr(request.user, 'department') or user.department != request.user.department:
+                from django.core.exceptions import PermissionDenied
+                raise PermissionDenied("Ви можете завантажувати тільки перепустки свого підрозділу")
+        
+        permits = user.permits.all()
+        
+        if not permits.exists():
+            from django.http import HttpResponseNotFound
+            return HttpResponseNotFound("У користувача немає перепусток")
+        
+        # Створюємо ZIP архів в пам'яті
+        zip_buffer = io.BytesIO()
+        
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for permit in permits:
+                if permit.pdf_file:
+                    try:
+                        file_content = permit.pdf_file.read()
+                        
+                        if permit.employee:
+                            subject_name = permit.employee.name
+                        elif permit.technic:
+                            subject_name = permit.technic.display_name
+                        else:
+                            subject_name = "Unknown"
+                        
+                        file_extension = permit.pdf_file.name.split('.')[-1] if '.' in permit.pdf_file.name else 'pdf'
+                        file_name = f"{permit.permit_number}_{subject_name.replace(' ', '_')}.{file_extension}"
+                        zip_file.writestr(file_name, file_content)
+                    except Exception as e:
+                        error_info = f"Помилка доступу до файлу {permit.permit_number}: {str(e)}"
+                        zip_file.writestr(f"{permit.permit_number}_ERROR.txt", error_info.encode('utf-8'))
+        
+        zip_buffer.seek(0)
+        
+        # Відправляємо ZIP файл
+        response = HttpResponse(
+            zip_buffer.read(),
+            content_type='application/zip'
+        )
+        response['Content-Disposition'] = f'attachment; filename="permits_{user.tender_number}_{user.company_name}.zip"'
+        
+        return response
+
+    def get_urls(self):
+        from django.urls import path
+        urls = super().get_urls()
+        custom_urls = [
+            # ВАЖЛИВО: специфічніші URL мають йти ПЕРЕД загальними
+            path('<int:user_id>/delete-permit/<int:permit_id>/', 
+                self.admin_site.admin_view(self.delete_permit_view), 
+                name='users_tenderuser_delete_permit'),
+            path('<int:object_id>/download-all-permits/', 
+                self.admin_site.admin_view(self.download_all_permits_view), 
+                name='users_tenderuser_download_all_permits'),
+            path('<int:object_id>/generate-permits-ajax/', 
+                self.admin_site.admin_view(self.generate_permits_ajax), 
+                name='users_tenderuser_generate_permits_ajax'),
+        ]
+        # ВАЖЛИВО: custom URLs мають йти ПЕРЕД стандартними
+        return custom_urls + urls
+
+    def changeform_view(self, request, object_id=None, form_url='', extra_context=None):
+        """Зберігаємо request для використання в permits_section"""
+        self._current_request = request
+        return super().changeform_view(request, object_id, form_url, extra_context)
         
     def password_change_link(self, obj):
         if obj.pk:
@@ -746,11 +1147,6 @@ class TenderUserAdmin(admin.ModelAdmin):
     password_change_link.short_description = 'Дії'
 
     def get_queryset(self, request):
-        """
-        КЛЮЧОВА ЛОГІКА:
-        - Суперадмін бачить всіх переможців тендерів
-        - Адмін підрозділу бачить ТІЛЬКИ переможців зі СВОГО підрозділу
-        """
         qs = super().get_queryset(request).filter(is_staff=False)  # Тільки переможці тендерів
         
         if request.user.is_superuser:
@@ -871,27 +1267,6 @@ class TenderUserAdmin(admin.ModelAdmin):
         return "Токен активації недоступний"
     
     activation_link_field.short_description = 'Управління активацією'
-    
-    # ... (всі методи approve_users, decline_users, etc. залишаються без змін)
-    
-    fieldsets = (
-        ('Основна інформація', {
-            'fields': ('tender_number', 'email', 'status', 'department')
-        }),
-        ('Дані компанії', {
-            'fields': ('company_name', 'edrpou', 'legal_address', 'actual_address', 
-                      'director_name', 'contact_person', 'phone')
-        }),
-        ('Управління активацією', {
-            'fields': ('activation_link_field',),
-            'classes': ('wide',)
-        }),
-        ('Системна інформація', {
-            'fields': ('is_activated', 'activation_token', 'activation_expires', 'created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
-    )
-
 
 
 # Довідники
@@ -1040,3 +1415,32 @@ class InstrumentTypeAdmin(admin.ModelAdmin):
         return len(obj.required_documents)
     documents_count.short_description = 'К-сть документів'
 
+# Якщо потрібно - додати список перепусток в адмінку
+# @admin.register(Permit)
+# class PermitAdmin(admin.ModelAdmin):
+#     list_display = ['permit_number', 'user_tender', 'permit_type', 'subject_name', 'created_at']
+#     list_filter = ['permit_type', 'created_at', 'user__department']
+#     readonly_fields = ['permit_number', 'created_at']
+    
+#     def user_tender(self, obj):
+#         return f"{obj.user.tender_number} - {obj.user.company_name}"
+#     user_tender.short_description = 'Переможець тендеру'
+    
+#     def subject_name(self, obj):
+#         if obj.employee:
+#             return obj.employee.name
+#         elif obj.technic:
+#             return obj.technic.display_name
+#         return "Невідомо"
+#     subject_name.short_description = 'На кого/що видано'
+    
+#     def has_add_permission(self, request):
+#         return False  # Заборонити створення через admin
+    
+#     def get_queryset(self, request):
+#         qs = super().get_queryset(request)
+#         if request.user.is_superuser:
+#             return qs
+#         elif request.user.is_staff and hasattr(request.user, 'department'):
+#             return qs.filter(user__department=request.user.department)
+#         return qs.none()
