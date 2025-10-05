@@ -35,6 +35,7 @@ export interface FileInfo {
   url?: string;
   size?: number;
   document_type?: string;
+  expiry_date?: string;
 }
 
 export interface DocumentsCollection {
@@ -117,6 +118,7 @@ export interface CreateUserOrder {
 // Техніка (таб Техніка)
 
 export interface UserTechnic {
+  registration_number: string;
   id?: string;
   technic_type?: string;
   technic_type_name?: string;
@@ -133,6 +135,7 @@ export interface CreateUserTechnic {
   technic_type?: string;
   custom_type?: string;
   documents: DocumentsCollection;
+  registration_number: string;
 }
 
 // ===================================================================
@@ -191,12 +194,19 @@ export interface EmployeeFormData {
   expanded?: boolean;
 }
 
+export interface TechnicDocument {
+  file: File;
+  expiryDate?: string;
+
+}
+
 export interface TechnicFormData {
   id?: string;
   type: string;
   customType?: string;
+  registrationNumber?: string; 
   description?: string;
-  documents: { [key: string]: File[] };
+   documents: { [key: string]: TechnicDocument[] };
   expanded?: boolean;
 }
 

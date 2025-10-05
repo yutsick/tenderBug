@@ -326,6 +326,7 @@ class UserTechnicSerializer(serializers.ModelSerializer):
         model = UserTechnic
         fields = [
             'id', 'technic_type', 'technic_type_name', 'custom_type',
+            'registration_number',
             'display_name', 'documents', 'documents_info', 'required_documents',
             'created_at', 'updated_at'
         ]

@@ -165,21 +165,6 @@ class PermitPDFGenerator:
             y_pos -= 18
 
         
-        # Компанія
-        y_pos -= 6
-        label = "Компанія:"
-
-        # Лейбл звичайним
-        canvas.setFont(self.regular_font, 10)
-        canvas.setFillColor(colors.black)
-        canvas.drawString(margin, y_pos, label)
-
-        # Дані жирним після лейбла
-        text_width = canvas.stringWidth(label, self.regular_font, 10)
-        canvas.setFont(self.bold_font, 10)
-        canvas.drawString(margin + text_width + 5, y_pos, permit.user.company_name)
-
-        y_pos -= 18
 
         
 

@@ -498,7 +498,7 @@ class UserTechnicInline(admin.TabularInline):
     extra = 0
     can_delete = False
     readonly_fields = ['technic_display', 'documents_count', 'documents_links', 'created_at']
-    fields = ['technic_display', 'documents_count', 'documents_links', 'created_at']
+    fields = ['technic_display', 'documents_count', 'registration_number', 'documents_links', 'created_at']
 
     def technic_display(self, obj):
         if obj.technic_type:
@@ -1038,12 +1038,15 @@ class TenderUserAdmin(admin.ModelAdmin):
                         'name': technic.display_name
                     })
                 
+                change_url = reverse('admin:users_tenderuser_change', args=[object_id])
+                
                 return JsonResponse({
                     'success': True,
                     'message': f'Успішно згенеровано {len(created_permits)} перепусток',
                     'deleted': old_count,
                     'created': len(created_permits),
-                    'permits': created_permits
+                    'permits': created_permits,
+                    'redirect_url': change_url
                 })
                 
         except Exception as e:

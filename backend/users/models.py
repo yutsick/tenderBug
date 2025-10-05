@@ -571,6 +571,11 @@ class UserTechnic(models.Model):
         blank=True, null=True
     )
     custom_type = models.CharField('Інший тип (якщо не знайшли)', max_length=255, blank=True)
+    registration_number = models.CharField(  
+        max_length=50, 
+        blank=True, 
+        verbose_name="Реєстраційний номер"
+    )
     documents = models.JSONField('Документи', default=dict)  # Структура: {тип_документу: [файли]}
     created_at = models.DateTimeField('Створено', auto_now_add=True)
     updated_at = models.DateTimeField('Оновлено', auto_now=True)

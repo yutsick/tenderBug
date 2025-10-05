@@ -15,13 +15,13 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
   const { message: apiMessage, modal } = App.useApp();
 
   // Хук для роботи з API
-  const { 
-    employees, 
-    loading, 
-    mutating, 
-    createEmployee, 
-    updateEmployee, 
-    deleteEmployee 
+  const {
+    employees,
+    loading,
+    mutating,
+    createEmployee,
+    updateEmployee,
+    deleteEmployee
   } = useUserEmployees();
 
   // Локальний стейт
@@ -69,7 +69,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
 
   const removeEmployee = async (index: number) => {
     const employee = localEmployees[index];
-    
+
     if (employee.id) {
       // Якщо співробітник збережений в API, видаляємо з сервера
       try {
@@ -81,7 +81,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
         return;
       }
     }
-    
+
     // Видаляємо з локального стейту
     setLocalEmployees(prev => prev.filter((_, i) => i !== index));
   };
@@ -124,7 +124,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
         // Створення нового
         const newEmp = await createEmployee(employeeData);
         // Оновлюємо локальний стейт з ID з сервера
-        setLocalEmployees(prev => prev.map((emp, i) => 
+        setLocalEmployees(prev => prev.map((emp, i) =>
           i === index ? { ...emp, id: newEmp.id } : emp
         ));
         apiMessage.success('Співробітника додано');
@@ -193,7 +193,17 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       </div>
     );
   }
+  // helper функція
+  const getFullMediaUrl = (path: string | File) => {
+    if (typeof path !== 'string') return '';
+    if (path.startsWith('http')) return path; // Вже повний URL
 
+    // Беремо базовий URL без /api
+    const baseURL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
+
+    // Додаємо шлях
+    return `${baseURL}${path.startsWith('/') ? path : `/${path}`}`;
+  };
   return (
     <div className="space-y-4">
       {/* Показуємо статус збереження */}
@@ -234,7 +244,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     <p className="text-sm text-gray-600">{employee.name}</p>
                   )}
                 </div>
-                
+
                 {/* Кнопка швидкого збереження */}
                 {!employee.id && employee.name.trim() && (
                   <button
@@ -247,8 +257,8 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                 )}
               </div>
             </div>
-            
-            {localEmployees.length > 1 && (
+
+            {localEmployees.length >= 1 && (
               <button
                 onClick={() => confirmDelete(index)}
                 className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
@@ -274,11 +284,12 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Фото
                   </label>
+
                   <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
                     <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
                     <span className="text-sm text-gray-600">
@@ -291,6 +302,25 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                       accept="image/*"
                     />
                   </label>
+
+
+                  {/* Показати завантажене фото */}
+                  {employee.photo && typeof employee.photo === 'string' && (
+                    <div className="mb-2 p-2 bg-gray-50 border border-gray-200 rounded flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CheckCircleIcon className="w-4 h-4 text-green-500" />
+                        <span className="text-sm text-gray-700">Фото завантажено</span>
+                      </div>
+                      <a
+                        href={getFullMediaUrl(employee.photo)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        Переглянути
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -319,7 +349,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   />
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Посада/професія *
@@ -344,6 +374,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     <span className="text-sm text-gray-600">
                       {employee.qualificationCertificate ? (employee.qualificationCertificate as File).name || 'Файл завантажено' : 'Додати файл'}
                     </span>
+                    
                     <input
                       type="file"
                       className="hidden"
@@ -351,8 +382,25 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                     />
                   </label>
+                  {/* Показати завантажене фото */}
+                    {employee.qualificationCertificate && typeof employee.qualificationCertificate === 'string' && (
+                      <div className="mb-2 p-2 bg-gray-50 border border-gray-200 rounded flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <CheckCircleIcon className="w-4 h-4 text-green-500" />
+                          <span className="text-sm text-gray-700">Файл завантажено</span>
+                        </div>
+                        <a
+                          href={getFullMediaUrl(employee.qualificationCertificate)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800"
+                        >
+                          Переглянути
+                        </a>
+                      </div>
+                    )}
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Дата видачі
@@ -376,6 +424,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     <span className="text-sm text-gray-600">
                       {employee.safetyTrainingCertificate ? (employee.safetyTrainingCertificate as File).name || 'Файл завантажено' : 'Додати файл'}
                     </span>
+                    
                     <input
                       type="file"
                       className="hidden"
@@ -383,8 +432,25 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                     />
                   </label>
+                  {/* Показати завантажене фото */}
+                    {employee.safetyTrainingCertificate && typeof employee.safetyTrainingCertificate === 'string' && (
+                      <div className="mb-2 p-2 bg-gray-50 border border-gray-200 rounded flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <CheckCircleIcon className="w-4 h-4 text-green-500" />
+                          <span className="text-sm text-gray-700">Файл завантажено</span>
+                        </div>
+                        <a
+                          href={getFullMediaUrl(employee.safetyTrainingCertificate)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800"
+                        >
+                          Переглянути
+                        </a>
+                      </div>
+                    )}
                 </div>
-                
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Дата закінчення дії посвідчення
@@ -408,6 +474,8 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     <span className="text-sm text-gray-600">
                       {employee.specialTrainingCertificate ? (employee.specialTrainingCertificate as File).name || 'Файл завантажено' : 'Додати файл'}
                     </span>
+                    {/* Показати завантажене фото */}
+                    
                     <input
                       type="file"
                       className="hidden"
@@ -415,6 +483,22 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                       accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
                     />
                   </label>
+                  {employee.specialTrainingCertificate && typeof employee.specialTrainingCertificate === 'string' && (
+                      <div className="mb-2 p-2 bg-gray-50 border border-gray-200 rounded flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <CheckCircleIcon className="w-4 h-4 text-green-500" />
+                          <span className="text-sm text-gray-700">Файл завантажено</span>
+                        </div>
+                        <a
+                          href={getFullMediaUrl(employee.specialTrainingCertificate)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-blue-600 hover:text-blue-800"
+                        >
+                          Переглянути
+                        </a>
+                      </div>
+                    )}
                 </div>
 
                 <div>
@@ -436,7 +520,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
 
       {/* Кнопка додавання нового співробітника */}
       <div className="text-center">
-        <button 
+        <button
           onClick={addEmployee}
           disabled={mutating}
           className="inline-flex items-center px-4 py-2 border-2 border-dashed border-green-500 text-green-600 rounded-md hover:border-green-600 hover:bg-green-50 transition-colors disabled:opacity-50"
@@ -450,14 +534,13 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
 
       {/* Кнопка збереження всіх даних */}
       <div className="text-center">
-        <button 
+        <button
           onClick={handleSubmit}
           disabled={submitting || mutating || localEmployees.length === 0}
-          className={`px-8 py-3 rounded-md transition-colors font-medium inline-flex items-center gap-2 ${
-            !submitting && !mutating && localEmployees.length > 0
-              ? 'bg-green-600 hover:bg-green-700 text-white' 
-              : 'bg-gray-400 text-white cursor-not-allowed'
-          }`}
+          className={`px-8 py-3 rounded-md transition-colors font-medium inline-flex items-center gap-2 ${!submitting && !mutating && localEmployees.length > 0
+            ? 'bg-green-600 hover:bg-green-700 text-white'
+            : 'bg-gray-400 text-white cursor-not-allowed'
+            }`}
         >
           {(submitting || mutating) && <Spin size="small" />}
           {submitting || mutating ? 'Збереження...' : `Зберегти всіх співробітників (${localEmployees.length})`}

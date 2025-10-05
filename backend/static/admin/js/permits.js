@@ -22,11 +22,13 @@ function generatePermits(userId) {
                 <div style="background: #f6ffed; padding: 10px; border-radius: 4px; border: 1px solid #52c41a;">
                     <strong style="color: #52c41a;">✅ ${data.message}</strong><br>
                     <small>Видалено: ${data.deleted}, створено: ${data.created}</small><br>
-                    <button onclick="location.reload()" style="margin-top: 8px; background: #1890ff; color: white; border: none; padding: 6px 12px; border-radius: 3px; cursor: pointer;">
-                        🔄 Оновити сторінку
-                    </button>
+                    <p style="margin-top: 8px;">Оновлення через 2 секунди...</p>
                 </div>
             `;
+
+setTimeout(() => {
+    window.location.href = data.redirect_url;
+}, 2000);
         } else {
             result.innerHTML = `
                 <div style="background: #fff2f0; padding: 10px; border-radius: 4px; border: 1px solid #ff4d4f;">

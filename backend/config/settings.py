@@ -13,7 +13,7 @@ USE_REMOTE_DB = config('USE_REMOTE_DB', default=False, cast=bool)
 # ---------- Security ----------
 SECRET_KEY = config('SECRET_KEY', default='your-secret-key-here')
 
-DEBUG = config('DEBUG', default=(ENV != 'production'), cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 if IS_RAILWAY or ENV == 'production':
     DEBUG = False
 
@@ -254,3 +254,10 @@ if IS_RAILWAY:
     MEDIA_ROOT = os.getenv("MEDIA_ROOT", "/data/media")
 else:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+    # ---------- Frontend URL ----------
+# URL of your frontend application for email links, redirects, etc.
+if IS_RAILWAY or ENV == 'production':
+    FRONTEND_URL = config('FRONTEND_URL', default='https://zahnbug-production.up.railway.app')
+else:
+    FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
