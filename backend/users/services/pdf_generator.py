@@ -23,11 +23,11 @@ class PermitPDFGenerator:
         try:
             pdfmetrics.registerFont(TTFont("Montserrat", os.path.join(font_dir, "Montserrat-Regular.ttf")))
             pdfmetrics.registerFont(TTFont("Montserrat-Bold", os.path.join(font_dir, "Montserrat-Bold.ttf")))
-            self.font_name = "Montserrat-Regular"
+            self.font_name = "Montserrat"
             self.bold_font = "Montserrat-Bold"
             self.regular_font = self.font_name
         except Exception as e:
-            self.font_name = "Roboto-Regular"
+            self.font_name = "Roboto"
             self.bold_font = "Roboto-Bold"
             self.regular_font = self.font_name
 
