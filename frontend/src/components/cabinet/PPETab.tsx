@@ -29,7 +29,7 @@ export default function PPETab({ onSubmit }: PPETabProps) {
     saving, 
     updatePPE 
   } = useUserPPE();
-
+ 
   // Локальний стейт
   const [documents, setDocuments] = useState<LocalPPEDocument[]>([]);
   const [submitting, setSubmitting] = useState(false);
