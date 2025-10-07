@@ -18,18 +18,18 @@ class PermitPDFGenerator:
         self._register_fonts()
         
     def _register_fonts(self):
-        """Реєструємо шрифти з підтримкою кирилиці"""
+        font_dir = os.path.join(settings.BASE_DIR, "static", "fonts")
+
         try:
-            pdfmetrics.registerFont(TTFont('Arial', 'C:/Windows/Fonts/arial.ttf'))
-            pdfmetrics.registerFont(TTFont('Arial-Bold', 'C:/Windows/Fonts/arialbd.ttf'))
-            self.font_name = 'Arial'
-            self.bold_font = 'Arial-Bold'
+            pdfmetrics.registerFont(TTFont("Montserrat", os.path.join(font_dir, "Montserrat-Regular.ttf")))
+            pdfmetrics.registerFont(TTFont("Montserrat-Bold", os.path.join(font_dir, "Montserrat-Bold.ttf")))
+            self.font_name = "Montserrat-Regular"
+            self.bold_font = "Montserrat-Bold"
             self.regular_font = self.font_name
         except Exception as e:
-            # print(f"⚠️ Неможливо завантажити Arial: {e}")
-            self.font_name = 'Helvetica'
-            self.bold_font = 'Helvetica-Bold'
-            self.regular_font = self.font_name  # 👈 обов’язково
+            self.font_name = "Roboto-Regular"
+            self.bold_font = "Roboto-Bold"
+            self.regular_font = self.font_name
 
     
     def _draw_logo(self, canvas, x, y, width=30):
