@@ -11523,3 +11523,5 @@ WARNING 2025-10-07 23:56:41,387 basehttp 25416 15584 "POST /api/auth/activate/ H
 INFO 2025-10-07 23:58:02,876 basehttp 25416 15584 "GET /api/auth/profile/ HTTP/1.1" 200 500
 WARNING 2025-10-07 23:58:25,713 log 25416 15584 Bad Request: /api/auth/activate/
 WARNING 2025-10-07 23:58:25,713 basehttp 25416 15584 "POST /api/auth/activate/ HTTP/1.1" 400 86
+INFO 2025-10-08 00:33:48,375 autoreload 25416 8608 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
+INFO 2025-10-08 00:33:48,795 autoreload 4972 24236 Watching for file changes with StatReloader

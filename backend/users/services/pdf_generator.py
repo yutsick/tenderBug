@@ -25,9 +25,12 @@ class PermitPDFGenerator:
             self.font_name = 'Arial'
             self.bold_font = 'Arial-Bold'
             self.regular_font = self.font_name
-        except:
+        except Exception as e:
+            # print(f"⚠️ Неможливо завантажити Arial: {e}")
             self.font_name = 'Helvetica'
             self.bold_font = 'Helvetica-Bold'
+            self.regular_font = self.font_name  # 👈 обов’язково
+
     
     def _draw_logo(self, canvas, x, y, width=30):
         """Малює SVG логотип на вказаних координатах"""
