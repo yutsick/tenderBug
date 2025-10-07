@@ -79,7 +79,7 @@ function getWorkflowSteps(user: User) {
           ? 'Заявку відхилено'
           : user.status === 'pending'
             ? 'Документи на перевірці'
-            : 'Очікує подання документів',
+            : 'Очікує результату',
       completed: user.status === 'accepted',
       color: user.status === 'accepted' ? 'green' :
              user.status === 'declined' ? 'red' :
@@ -128,7 +128,7 @@ function getCurrentStatusInfo(user: User) {
       return {
         type: 'success' as const,
         title: 'Заявку підтверджено',
-        message: 'Вітаємо! Ваша заявка підтверджена. Тепер ви можете повноцінно працювати в системі.',
+        message: 'Вітаємо! Ваша заявка підтверджена. Тепер ви можете отримати необхідні перепустки та приступити до виконання робіт',
         action: null,
       };
     case 'declined':

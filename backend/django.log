@@ -11517,3 +11517,9 @@ INFO 2025-10-07 23:36:44,268 basehttp 25416 25272 "GET /admin/users/tenderuser/1
 INFO 2025-10-07 23:36:44,300 basehttp 25416 25272 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
 INFO 2025-10-07 23:36:50,062 basehttp 25416 25272 "GET /media/tenders/tender_345-asd-%D0%B0%D1%81%D0%BF/permits/permit_345-asd-%D0%B0%D1%81%D0%BF-3.pdf HTTP/1.1" 200 94397
 INFO 2025-10-07 23:36:56,134 basehttp 25416 25272 "GET /admin/users/tenderuser/11/download-all-permits/ HTTP/1.1" 200 269087
+INFO 2025-10-07 23:56:21,410 basehttp 25416 15584 "GET /api/auth/profile/ HTTP/1.1" 200 500
+WARNING 2025-10-07 23:56:41,386 log 25416 15584 Bad Request: /api/auth/activate/
+WARNING 2025-10-07 23:56:41,387 basehttp 25416 15584 "POST /api/auth/activate/ HTTP/1.1" 400 86
+INFO 2025-10-07 23:58:02,876 basehttp 25416 15584 "GET /api/auth/profile/ HTTP/1.1" 200 500
+WARNING 2025-10-07 23:58:25,713 log 25416 15584 Bad Request: /api/auth/activate/
+WARNING 2025-10-07 23:58:25,713 basehttp 25416 15584 "POST /api/auth/activate/ HTTP/1.1" 400 86
