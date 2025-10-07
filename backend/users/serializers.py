@@ -356,7 +356,15 @@ class UserTechnicSerializer(serializers.ModelSerializer):
         if obj.technic_type:
             return obj.technic_type.required_documents
         return []
-    
+
+    def validate_registration_number(self, value):
+        """Валідація державного реєстраційного номера"""
+        if not value or not value.strip():
+            raise serializers.ValidationError(
+                "Поле 'Державний реєстраційний номер' є обов'язковим для заповнення"
+            )
+        return value.strip()
+
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user
         return super().create(validated_data)

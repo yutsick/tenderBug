@@ -1,7 +1,7 @@
 // src/components/cabinet/PPETab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
 import { useState, useEffect } from 'react';
 import { DocumentArrowUpIcon, DocumentIcon, TrashIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
-import { Alert, Spin, message } from 'antd';
+import { Alert, Spin, message, App } from 'antd';
 import { useUserPPE } from '@/hooks/useUserData';
 import { apiClient } from '@/lib/api';
 import type { FileInfo } from '@/types/userdata';
@@ -14,7 +14,14 @@ interface LocalPPEDocument extends FileInfo {
   uploading?: boolean;
 }
 
+const getFullMediaUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  const baseURL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
+  return `${baseURL}${path}`;
+};
 export default function PPETab({ onSubmit }: PPETabProps) {
+  const { message} = App.useApp();
   // Хук для роботи з API
   const { 
     ppe, 
@@ -154,10 +161,11 @@ export default function PPETab({ onSubmit }: PPETabProps) {
                 )}
               </div>
 
+              
               {/* Посилання на перегляд файлу */}
-              {document.url && !document.uploading && (
+              {document.path && !document.uploading && (
                 <a
-                  href={document.url}
+                  href={getFullMediaUrl(document.path)}  // ✅ Змінено з document.url на getFullMediaUrl(document.path)
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-blue-600 hover:text-blue-800 px-3 py-1 bg-blue-50 rounded-md hover:bg-blue-100 transition-colors"

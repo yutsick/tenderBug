@@ -103,6 +103,7 @@ class LoginView(APIView):
                 'tender_number': user.tender_number,
                 'company_name': user.company_name,
                 'status': user.status,
+                'department_name': user.department.name if user.department else None,
             }
         })
  
@@ -341,7 +342,8 @@ class UserOrderListCreateView(generics.ListCreateAPIView):
     """API для наказів - переможці бачать свої, адміни бачать всі"""
     serializer_class = UserOrderSerializer
     permission_classes = [IsAuthenticated]
-    
+    pagination_class = None  # Вимикаємо пагінацію
+
     def get_queryset(self):
         user = self.request.user
         
@@ -761,8 +763,9 @@ class UserInstrumentDetailView(generics.RetrieveUpdateDestroyAPIView):
 def get_order_types(request):
     """API для отримання списку типів наказів"""
     order_types = [
-        {'value': choice[0], 'label': choice[1]}
-        for choice in UserOrder.ORDER_TYPES
+        {'value': value, 'label': label}
+        for value, label in UserOrder.ORDER_TYPES
+        if value != 'custom'  
     ]
     return Response(order_types) 
 
@@ -781,7 +784,8 @@ def logout_view(request):
 @permission_classes([IsAuthenticated])
 def user_profile_view(request):
     """Профіль поточного користувача"""
-    serializer = UserSerializer(request.user)
+    user = User.objects.select_related('department').get(pk=request.user.pk)
+    serializer = UserSerializer(user)
     return Response(serializer.data)
 
 
@@ -882,15 +886,15 @@ def decline_user(request, user_id):
         }, status=status.HTTP_404_NOT_FOUND)
     
 
-# Перепустки
-@api_view(['GET'])
-@permission_classes([IsAuthenticated]) 
-def user_permits(request, user_id):
-    """Адміни можуть дивитись перепустки через API"""
-    # Логіка як в approve_user
+# # Перепустки
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated]) 
+# def user_permits(request, user_id):
+#     """Адміни можуть дивитись перепустки через API"""
+#     # Логіка як в approve_user
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def generate_permits(request, user_id):
-    """Генерація перепусток для адмінів"""
-    # Логіка як в approve_user
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def generate_permits(request, user_id):
+#     """Генерація перепусток для адмінів"""
+#     # Логіка як в approve_user

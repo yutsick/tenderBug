@@ -1,7 +1,7 @@
 // src/components/cabinet/InstrumentsTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
 import { useState, useEffect } from 'react';
 import { PlusIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, DocumentArrowUpIcon, CheckCircleIcon, DocumentIcon } from '@heroicons/react/24/outline';
-import { Alert, Spin, message, Modal, Select, Input } from 'antd';
+import { Alert, Spin, message, Modal, Select, Input, App } from 'antd';
 import { useUserInstruments, useInstrumentTypes } from '@/hooks/useUserData';
 import { apiClient } from '@/lib/api';
 import type { InstrumentFormData, DocumentsCollection, RequiredDocument } from '@/types/userdata';
@@ -13,18 +13,26 @@ interface InstrumentsTabProps {
 }
 
 export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
-  // Хуки для роботи з API
-  const { 
-    instruments, 
-    loading: instrumentsLoading, 
-    mutating, 
-    createInstrument, 
-    updateInstrument, 
-    deleteInstrument 
-  } = useUserInstruments();
-  
-  const { instrumentTypes, loading: typesLoading } = useInstrumentTypes();
 
+  const { message } = App.useApp();
+
+  // Хуки для роботи з API
+  const {
+    instruments,
+    loading: instrumentsLoading,
+    mutating,
+    createInstrument,
+    updateInstrument,
+    deleteInstrument
+  } = useUserInstruments();
+
+  const { instrumentTypes, loading: typesLoading } = useInstrumentTypes();
+const getFullMediaUrl = (path: string) => {
+  if (!path) return '';
+  if (path.startsWith('http')) return path;
+  const baseURL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
+  return `${baseURL}${path}`;
+};
   // Локальний стейт
   const [localInstruments, setLocalInstruments] = useState<InstrumentFormData[]>([]);
   const [submitting, setSubmitting] = useState(false);
@@ -55,10 +63,15 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
   // Конвертуємо документи з API формату в форм дату
   const convertDocumentsToFormData = (docs: DocumentsCollection): { [key: string]: File[] } => {
     const result: { [key: string]: File[] } = {};
+    const baseURL = process.env.NEXT_PUBLIC_API_URL?.replace('/api', '') || '';
+
     Object.entries(docs).forEach(([docType, files]) => {
       result[docType] = files.map(file => {
         const mockFile = new File([''], file.name, { type: 'application/octet-stream' });
-        (mockFile as any).url = file.url || file.path;
+        // Формуємо правильний URL
+        const fullUrl = getFullMediaUrl(file.path || '');
+
+        (mockFile as any).url = fullUrl;
         return mockFile;
       });
     });
@@ -91,7 +104,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
 
   const removeInstrument = async (index: number) => {
     const instrument = localInstruments[index];
-    
+
     if (instrument.id) {
       try {
         await deleteInstrument(instrument.id);
@@ -102,18 +115,18 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
         return;
       }
     }
-    
+
     setLocalInstruments(localInstruments.filter((_, i) => i !== index));
   };
 
   const toggleInstrument = (index: number) => {
-    setLocalInstruments(localInstruments.map((inst, i) => 
+    setLocalInstruments(localInstruments.map((inst, i) =>
       i === index ? { ...inst, expanded: !inst.expanded } : inst
     ));
   };
 
   const updateLocalInstrument = (index: number, field: keyof InstrumentFormData, value: any) => {
-    setLocalInstruments(localInstruments.map((inst, i) => 
+    setLocalInstruments(localInstruments.map((inst, i) =>
       i === index ? { ...inst, [field]: value } : inst
     ));
   };
@@ -122,10 +135,11 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
     try {
       const uploadResponse = await apiClient.uploadDocument(file, `instrument_${docType}`);
       
+
       if (uploadResponse.success && uploadResponse.file_info) {
         const fileWithUrl = new File([file], file.name, { type: file.type });
-        (fileWithUrl as any).url = uploadResponse.file_info.path;
-        
+        (fileWithUrl as any).url = getFullMediaUrl(uploadResponse.file_info.path);;
+
         setLocalInstruments(prev => prev.map((inst, i) => {
           if (i === instIndex) {
             const updatedDocs = { ...inst.documents };
@@ -137,7 +151,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
           }
           return inst;
         }));
-        
+
         message.success('Файл успішно завантажено');
       }
     } catch (error) {
@@ -164,7 +178,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
 
   const saveInstrument = async (index: number) => {
     const instrument = localInstruments[index];
-    
+
     if (!instrument.type && !instrument.customType) {
       message.warning('Виберіть або введіть тип інструменту');
       return;
@@ -176,13 +190,13 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
         custom_type: instrument.type === 'custom' ? instrument.customType : undefined,
         documents: convertFormDataToDocuments(instrument.documents)
       };
-      
+
       if (instrument.id) {
         await updateInstrument(instrument.id, instrumentData);
         message.success('Дані інструменту оновлено');
       } else {
         const newInst = await createInstrument(instrumentData);
-        setLocalInstruments(prev => prev.map((inst, i) => 
+        setLocalInstruments(prev => prev.map((inst, i) =>
           i === index ? { ...inst, id: newInst.id } : inst
         ));
         message.success('Інструмент додано');
@@ -194,7 +208,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
   };
 
   const handleSubmit = async () => {
-  
+
     if (localInstruments.length === 0) {
       message.warning('Додайте хоча б один інструмент');
       return;
@@ -209,7 +223,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
     setSubmitting(true);
     try {
       const unsavedInstruments = localInstruments.filter(inst => !inst.id);
-      
+
       for (const instrument of unsavedInstruments) {
         const instrumentData = {
           instrument_type: instrument.type === 'custom' ? undefined : instrument.type,
@@ -219,15 +233,15 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
         await createInstrument(instrumentData);
       }
 
-          const existingInstruments = localInstruments.filter(inst => inst.id);
-    for (const instrument of existingInstruments) {
-      const instrumentData = {
-        instrument_type: instrument.type === 'custom' ? undefined : instrument.type,
-        custom_type: instrument.type === 'custom' ? instrument.customType : undefined,
-        documents: convertFormDataToDocuments(instrument.documents)
-      };
-      await updateInstrument(instrument.id!, instrumentData);
-    }
+      const existingInstruments = localInstruments.filter(inst => inst.id);
+      for (const instrument of existingInstruments) {
+        const instrumentData = {
+          instrument_type: instrument.type === 'custom' ? undefined : instrument.type,
+          custom_type: instrument.type === 'custom' ? instrument.customType : undefined,
+          documents: convertFormDataToDocuments(instrument.documents)
+        };
+        await updateInstrument(instrument.id!, instrumentData);
+      }
 
       message.success('Всі дані інструментів збережено!');
       onSubmit();
@@ -266,20 +280,11 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
 
   return (
     <div className="space-y-4">
-      {instruments.length > 0 && (
-        <Alert
-          message={`Збережено ${instruments.length} видів інструментів`}
-          description="Дані синхронізовані з сервером"
-          type="success"
-          icon={<CheckCircleIcon className="w-4 h-4" />}
-          showIcon
-          className="mb-4"
-        />
-      )}
+
 
       {localInstruments.map((instrument, index) => {
         const requiredDocuments = getRequiredDocuments(instrument.type);
-        
+
         return (
           <div key={index} className="bg-white border border-gray-200 rounded-lg relative">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
@@ -304,12 +309,12 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                     </h3>
                     {instrument.type && (
                       <p className="text-sm text-gray-600">
-                        {instrument.type === 'custom' ? instrument.customType : 
-                         instrumentTypes.find(t => t.id === instrument.type)?.name || instrument.type}
+                        {instrument.type === 'custom' ? instrument.customType :
+                          instrumentTypes.find(t => t.id === instrument.type)?.name || instrument.type}
                       </p>
                     )}
                   </div>
-                  
+
                   {!instrument.id && (instrument.type || instrument.customType) && (
                     <button
                       onClick={() => saveInstrument(index)}
@@ -321,8 +326,8 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                   )}
                 </div>
               </div>
-              
-              {localInstruments.length > 1 && (
+
+              {localInstruments.length >= 1 && (
                 <button
                   onClick={() => confirmDelete(index)}
                   className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors"
@@ -371,13 +376,13 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                 {requiredDocuments.length > 0 && (
                   <div className="space-y-4">
                     <h4 className="text-md font-medium text-gray-800">Необхідні документи:</h4>
-                    
+
                     {requiredDocuments.map((doc, docIndex) => (
                       <div key={docIndex} className="border border-gray-200 rounded-md p-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           {doc.name} {doc.is_multiple && "(можна додати кілька файлів)"}
                         </label>
-                        
+
                         {instrument.documents[doc.name] && instrument.documents[doc.name].length > 0 && (
                           <div className="space-y-2 mb-3">
                             {instrument.documents[doc.name].map((file, fileIndex) => (
@@ -385,9 +390,9 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                                 <DocumentIcon className="w-4 h-4 text-blue-500 flex-shrink-0" />
                                 <span className="flex-1 text-sm text-gray-700 truncate">{file.name}</span>
                                 {(file as any).url && (
-                                  <a 
-                                    href={(file as any).url} 
-                                    target="_blank" 
+                                  <a
+                                    href={(file as any).url}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-xs text-blue-600 hover:text-blue-800"
                                   >
@@ -425,7 +430,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                   </div>
                 )}
 
-                {(instrument.type === 'custom' || !instrument.type) && (
+                {(instrument.type === 'custom') && (
                   <div className="border border-gray-200 rounded-md p-4">
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       Документи інструменту
@@ -433,7 +438,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
                     <p className="text-sm text-gray-500 mb-3">
                       Додайте необхідні документи для цього інструменту
                     </p>
-                    
+
                     <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
                       <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
                       <span className="text-sm text-gray-600">Додати файл</span>
@@ -458,7 +463,7 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
       })}
 
       <div className="text-center">
-        <button 
+        <button
           onClick={addInstrument}
           disabled={mutating}
           className="inline-flex items-center px-4 py-2 border-2 border-dashed border-green-500 text-green-600 rounded-md hover:border-green-600 hover:bg-green-50 transition-colors disabled:opacity-50"
@@ -471,14 +476,13 @@ export default function InstrumentsTab({ onSubmit }: InstrumentsTabProps) {
       <hr className="border-gray-200" />
 
       <div className="text-center">
-        <button 
+        <button
           onClick={handleSubmit}
           disabled={submitting || mutating || localInstruments.length === 0}
-          className={`px-8 py-3 rounded-md transition-colors font-medium inline-flex items-center gap-2 ${
-            !submitting && !mutating && localInstruments.length > 0
-              ? 'bg-green-600 hover:bg-green-700 text-white' 
+          className={`px-8 py-3 rounded-md transition-colors font-medium inline-flex items-center gap-2 ${!submitting && !mutating && localInstruments.length > 0
+              ? 'bg-green-600 hover:bg-green-700 text-white'
               : 'bg-gray-400 text-white cursor-not-allowed'
-          }`}
+            }`}
         >
           {(submitting || mutating) && <Spin size="small" />}
           {submitting || mutating ? 'Збереження...' : `Зберегти всі інструменти (${localInstruments.length})`}

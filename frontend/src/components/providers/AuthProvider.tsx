@@ -17,22 +17,63 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(() => {
+    // Ініціалізуємо з localStorage якщо є дані
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('user');
+      if (savedUser) {
+        try {
+          return JSON.parse(savedUser);
+        } catch {
+          return null;
+        }
+      }
+    }
+    return null;
+  });
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const token = authService.getToken();
-    const savedUser = authService.getUser();
-    
-    if (token && savedUser) {
-      setUser(savedUser);
-    }
-    
-    setIsLoading(false);
+    const loadUser = async () => {
+      const token = authService.getToken();
+
+      if (!token) {
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile/`, {
+          headers: {
+            'Authorization': `Token ${token}`
+          }
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          const token = authService.getToken()!;
+          authService.setAuth(token, userData);
+          localStorage.setItem('user', JSON.stringify(userData));
+          setUser(userData);
+        } else {
+          authService.clearAuth();
+          setUser(null);
+        }
+      } catch (error) {
+        console.error('Error loading user:', error);
+        authService.clearAuth();
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadUser();
   }, []);
 
   const login = (token: string, userData: User) => {
     authService.setAuth(token, userData);
+    localStorage.setItem('user', JSON.stringify(userData));
     setUser(userData);
   };
 

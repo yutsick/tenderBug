@@ -135,7 +135,7 @@ export interface CreateUserTechnic {
   technic_type?: string;
   custom_type?: string;
   documents: DocumentsCollection;
-  registration_number: string;
+  registration_number?: string;
 }
 
 // ===================================================================
@@ -197,6 +197,7 @@ export interface EmployeeFormData {
 export interface TechnicDocument {
   file: File;
   expiryDate?: string;
+  name?: string;
 
 }
 

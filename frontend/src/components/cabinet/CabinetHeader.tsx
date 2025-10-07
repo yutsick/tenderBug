@@ -14,11 +14,11 @@ export default function CabinetHeader({ user }: CabinetHeaderProps) {
             ЗАХІДНИЙ БУГ
           </h3>
         </div>
-        <div className="ml-auto">
+        {/* <div className="ml-auto">
           <select className="px-3 py-1 border border-gray-300 rounded-md text-sm bg-white">
             <option value="UA">UA</option>
           </select>
-        </div>
+        </div> */}
       </div>
       
       <h2 className="text-2xl font-bold text-gray-800 mb-2">
@@ -31,7 +31,8 @@ export default function CabinetHeader({ user }: CabinetHeaderProps) {
       
       <div className="mt-4">
         <p className="text-gray-700 font-medium mb-2">
-          Підрозділ ПП «Західний Буг»: {user?.department_name}
+
+          Підрозділ ПП «Західний Буг»: {user?.department_name || 'Не вказано'}
         </p>
         
       </div>

@@ -26,7 +26,12 @@ export function useTechnicTypes() {
     
     try {
       const response = await apiClient.getTechnicTypesDetail();
-      setTechnicTypes(response.data);
+      const technicTypesData = Array.isArray(response.data)
+        ? response.data
+        : (response.data && 'results' in response.data)
+          ? response.data.results
+          : [];
+      setTechnicTypes(Array.isArray(technicTypesData) ? technicTypesData : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Помилка завантаження типів техніки');
     } finally {
@@ -52,7 +57,12 @@ export function useInstrumentTypes() {
     
     try {
       const response = await apiClient.getInstrumentTypesDetail();
-      setInstrumentTypes(response.data);
+      const instrumentTypesData = Array.isArray(response.data)
+        ? response.data
+        : (response.data && 'results' in response.data)
+          ? response.data.results
+          : [];
+      setInstrumentTypes(Array.isArray(instrumentTypesData) ? instrumentTypesData : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Помилка завантаження типів інструментів');
     } finally {
@@ -78,7 +88,12 @@ export function useOrderTypes() {
     
     try {
       const response = await apiClient.getOrderTypes();
-      setOrderTypes(response.data);
+      const orderTypesData = Array.isArray(response.data)
+        ? response.data
+        : (response.data && 'results' in response.data)
+          ? response.data.results
+          : [];
+      setOrderTypes(Array.isArray(orderTypesData) ? orderTypesData : []);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Помилка завантаження типів наказів');
     } finally {
@@ -246,15 +261,20 @@ export function useUserOrders() {
   const fetchOrders = useCallback(async () => {
   setLoading(true);
   setError(null);
-  
+
   try {
     const response = await apiClient.getUserOrders();
-    
-    // ✅ ВИПРАВЛЕННЯ: API повертає пагіновані дані
-    const ordersData = response.data.results || response.data;
+
+    // API тепер повертає масив напряму (без пагінації)
+    let ordersData = response.data;
+
+    // Якщо все ще є пагінація (для сумісності)
+    if (ordersData && typeof ordersData === 'object' && 'results' in ordersData) {
+      ordersData = ordersData.results;
+    }
+
     setOrders(Array.isArray(ordersData) ? ordersData : []);
-    
-    console.log('✅ Накази завантажені:', ordersData); // DEBUG
+    console.log('✅ Накази завантажені:', ordersData.length, 'шт.'); // DEBUG
   } catch (err) {
     console.error('❌ Помилка завантаження наказів:', err); // DEBUG
     setError(err instanceof Error ? err.message : 'Помилка завантаження наказів');
@@ -293,11 +313,17 @@ export function useUserOrders() {
 
   const deleteOrder = useCallback(async (id: string) => {
     setMutating(true);
-    
+
     try {
+      console.log('🗑️ Видалення наказу з ID:', id);
       await apiClient.deleteUserOrder(id);
-      setOrders(prev => (Array.isArray(prev) ? prev : []).filter(order => order.id !== id));
+      setOrders(prev => {
+        const filtered = (Array.isArray(prev) ? prev : []).filter(order => order.id !== id);
+        console.log('✅ Наказ видалено. Залишилось наказів:', filtered.length);
+        return filtered;
+      });
     } catch (err) {
+      console.error('❌ Помилка видалення наказу:', err);
       throw err;
     } finally {
       setMutating(false);
@@ -337,7 +363,11 @@ const fetchTechnics = useCallback(async () => {
     const response = await apiClient.getUserTechnics();
     
     // ✅ ВИПРАВЛЕННЯ: API повертає пагіновані дані
-    const technicsData = response.data.results || response.data;
+    const technicsData = Array.isArray(response.data)
+      ? response.data
+      : (response.data && 'results' in response.data)
+        ? response.data.results
+        : [];
     setTechnics(Array.isArray(technicsData) ? technicsData : []);
     
     console.log('✅ Техніка завантажена:', technicsData); // DEBUG

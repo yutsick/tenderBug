@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/components/cabinet/**)",
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/components/providers/**)",
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/types/**)",
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/app/cabinet/**)",
+      "Bash(python manage.py:*)",
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -81,8 +81,8 @@ class User(AbstractUser):
     """
     STATUS_CHOICES = [
         ('new', _('Новий')),  # Щойно зареєструвався
-        ('in_progress', _('В процесі')),  # Акцептований, вносить дані
-        ('pending', _('Очікує рішення')),  # Завантажив документи
+        ('in_progress', _('Допущений')),  # Акцептований, вносить дані
+        # ('pending', _('Очікує рішення')),  # Завантажив документи
         ('accepted', _('Підтверджений')),  # Допущений до роботи
         ('declined', _('Відхилений')),  # Відхилений
         ('blocked', _('Заблокований')),  # Заблокований
@@ -186,12 +186,17 @@ class User(AbstractUser):
             from django.conf import settings
             import os
             
-            tender_path = os.path.join(settings.MEDIA_ROOT, 'tenders', f'tender_{self.tender_number}')
+            folder_name = f'tender_{self.tender_number}'  # ✅ Зберігаємо назву
+            tender_path = os.path.join(settings.MEDIA_ROOT, 'tenders', folder_name)
             sub_dirs = ['works', 'employees', 'technics', 'instruments', 'orders', 'ppe']
             
             for sub_dir in sub_dirs:
                 full_path = os.path.join(tender_path, sub_dir)
                 os.makedirs(full_path, exist_ok=True)
+            
+            return folder_name  # ✅ ПОВЕРТАЄМО НАЗВУ ПАПКИ
+        
+        return None  # ✅ Якщо немає номера тендеру
 
     def get_documents_path(self):
         """Отримання повного шляху до папки документів"""
@@ -571,10 +576,10 @@ class UserTechnic(models.Model):
         blank=True, null=True
     )
     custom_type = models.CharField('Інший тип (якщо не знайшли)', max_length=255, blank=True)
-    registration_number = models.CharField(  
-        max_length=50, 
-        blank=True, 
-        verbose_name="Реєстраційний номер"
+    registration_number = models.CharField(
+        max_length=50,
+        blank=False,  # Обов'язкове поле
+        verbose_name="Державний реєстраційний номер"
     )
     documents = models.JSONField('Документи', default=dict)  # Структура: {тип_документу: [файли]}
     created_at = models.DateTimeField('Створено', auto_now_add=True)

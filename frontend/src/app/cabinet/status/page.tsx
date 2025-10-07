@@ -194,11 +194,7 @@ export default function StatusPage() {
         style={{ marginBottom: 24 }}
         message={statusInfo.title}
         description={statusInfo.message}
-        action={statusInfo.action ? (
-          <span style={{ color: '#1890ff', cursor: 'pointer' }}>
-            {statusInfo.action}
-          </span>
-        ) : undefined}
+        
       />
 
       {/* Статистика */}

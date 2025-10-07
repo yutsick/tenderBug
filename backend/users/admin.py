@@ -1250,7 +1250,7 @@ class TenderUserAdmin(admin.ModelAdmin):
                 return format_html(
                     '<div style="background: #fff7e6; padding: 15px; border: 1px solid #faad14; border-radius: 5px;">'
                     '<h4 style="color: #fa8c16; margin-top: 0;">⏳ Очікує схвалення</h4>'
-                    '<p>Користувач ще не схвалений. Змініть статус на "В процесі" для активації.</p>'
+                    '<p>Користувач ще не схвалений. Змініть статус на "Допущений" для активації.</p>'
                     '</div>'
                 )
             elif obj.is_activated:

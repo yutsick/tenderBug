@@ -1,27 +1,18 @@
 // src/components/cabinet/WorksTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
 import { useState, useEffect } from 'react';
 import { PlusIcon, TrashIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import { Alert, Spin, message } from 'antd';
+import { Alert, Spin, message, App } from 'antd';
 import AddWorkModal from './AddWorkModal';
 import { useUserSpecification } from '@/hooks/useUserData';
 import { apiClient } from '@/lib/api';
-
-interface Work {
-  id: string;
-  work_type: string;
-  work_type_name: string;
-  work_sub_type: string;
-  work_sub_type_name: string;
-  expiry_date: string;
-  permit_file?: string;
-  is_expired: boolean;
-}
+import type { UserWork } from '@/types/works';
 
 interface WorksTabProps {
   onSubmit: () => void;
 }
 
 export default function WorksTab({ onSubmit }: WorksTabProps) {
+  const { message } = App.useApp();
   // Хук для специфікації
   const {
     specification,
@@ -32,7 +23,7 @@ export default function WorksTab({ onSubmit }: WorksTabProps) {
 
   // Локальний стейт для специфікації та робіт
   const [specificationType, setSpecificationType] = useState<string>('');
-  const [works, setWorks] = useState<Work[]>([]);
+  const [works, setWorks] = useState<UserWork[]>([]);
   const [worksLoading, setWorksLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -144,18 +135,7 @@ export default function WorksTab({ onSubmit }: WorksTabProps) {
         </p>
       </div>
 
-      {/* Показуємо статус збереження */}
-      {specification && (
-        <Alert
-          message="Дані раніше збережені"
-          description={`Останнє оновлення: ${new Date(specification.updated_at || '').toLocaleString('uk-UA')}`}
-          type="success"
-          icon={<CheckCircleIcon className="w-4 h-4" />}
-          showIcon
-          className="mb-4"
-        />
-      )}
-
+      
       {/* Поле специфікації */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <div>

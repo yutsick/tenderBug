@@ -155,12 +155,13 @@ class PermitPDFGenerator:
             # Лейбл звичайним
             canvas.setFont(self.regular_font, 10)
             canvas.setFillColor(colors.black)
-            canvas.drawString(margin, y_pos, label)
+            canvas.drawString(margin, y_pos, label)\
 
             # Значення жирним після лейбла
             text_width = canvas.stringWidth(label, self.regular_font, 10)
             canvas.setFont(self.bold_font, 10)
-            canvas.drawString(margin + text_width + 5, y_pos, "______________")
+            registration_number = permit.technic.registration_number or "______________"
+            canvas.drawString(margin + text_width + 5, y_pos, registration_number)
 
             y_pos -= 18
 

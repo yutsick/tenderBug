@@ -1,11 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { 
   UserIcon, 
   ArrowRightOnRectangleIcon,
   HomeIcon,
-  DocumentTextIcon,
   CheckCircleIcon,
   Cog6ToothIcon,
   Bars3Icon,
@@ -22,9 +21,15 @@ interface UserLayoutProps {
 export default function UserLayout({ children }: UserLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false); // Додаємо перевірку монтування
   const { user, logout } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+
+  // Перевірка що компонент змонтований на клієнті
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -44,12 +49,6 @@ export default function UserLayout({ children }: UserLayoutProps) {
       label: 'Кабінет',
       path: '/cabinet'
     },
-    // {
-    //   key: 'documents',
-    //   icon: DocumentTextIcon,
-    //   label: 'Документи',
-    //   path: '/cabinet/documents'
-    // },
     {
       key: 'status',
       icon: CheckCircleIcon,
@@ -80,6 +79,15 @@ export default function UserLayout({ children }: UserLayoutProps) {
     return user?.email || 'Користувач';
   };
 
+  // Показуємо loader поки не змонтовано або завантажується user
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 flex">
       {/* Sidebar */}
@@ -87,12 +95,16 @@ export default function UserLayout({ children }: UserLayoutProps) {
         {/* Logo/Brand */}
         <div className="h-16 flex items-center justify-center border-b border-gray-200 bg-gray-50">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-green-600 rounded-md flex items-center justify-center text-white font-bold text-sm">
-              ЗБ
-            </div>
+
+       
+            {collapsed && (
+              <h2 className="w-8 h-8">
+                <img src="favicon-128.svg" alt="" />
+              </h2>
+            )}
             {!collapsed && (
-              <h2 className="text-lg font-medium text-green-600 whitespace-nowrap">
-                Західний Буг
+              <h2 className="w-40">
+                <img src="logo-new.svg" alt="" />
               </h2>
             )}
           </div>
@@ -127,17 +139,21 @@ export default function UserLayout({ children }: UserLayoutProps) {
 
         {/* User Info in Sidebar */}
         {!collapsed && user && (
-          <div className="fixed w-56 bottom-4 left-4 right-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
-            <div className="flex items-center gap-2 mb-1">
-              <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
-                <UserIcon className="w-4 h-4 text-gray-600" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-medium text-gray-900 truncate">
-                  {getCompanyName()}
+          <div className="fixed bottom-4 left-4" style={{ width: 'calc(16rem - 2rem)' }}>
+            <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-6 h-6 bg-gray-300 rounded-full flex items-center justify-center">
+                  <UserIcon className="w-4 h-4 text-gray-600" />
                 </div>
-                <div className="text-xs text-gray-500">
-                  {user.department_name}
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-medium text-gray-900 truncate">
+                    {getCompanyName()}
+                  </div>
+                  {user.department_name && (
+                    <div className="text-xs text-gray-500">
+                      {user.department_name}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

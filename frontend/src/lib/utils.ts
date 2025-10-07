@@ -40,8 +40,8 @@ export function getStatusColor(status: string): string {
 export function getStatusText(status: string): string {
   const texts = {
     new: 'Новий',
-    in_progress: 'В процесі',
-    pending: 'Очікує рішення',
+    in_progress: 'Допущений',
+    // pending: 'Очікує рішення',
     accepted: 'Підтверджений',
     declined: 'Відхилений',
     blocked: 'Заблокований',

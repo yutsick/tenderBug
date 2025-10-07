@@ -37,18 +37,8 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       }));
       setLocalEmployees(converted);
     } else {
-      // Якщо немає збережених співробітників, додаємо один порожній
-      setLocalEmployees([{
-        id: undefined,
-        name: '',
-        medicalExamDate: '',
-        organizationName: '',
-        position: '',
-        qualificationIssueDate: '',
-        safetyTrainingDate: '',
-        specialTrainingDate: '',
-        expanded: true
-      }]);
+      // Якщо немає збережених співробітників, показуємо порожній список
+      setLocalEmployees([]);
     }
   }, [employees]);
 
@@ -206,17 +196,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
   };
   return (
     <div className="space-y-4">
-      {/* Показуємо статус збереження */}
-      {employees.length > 0 && (
-        <Alert
-          message={`Збережено ${employees.length} співробітників`}
-          description="Дані синхронізовані з сервером"
-          type="success"
-          icon={<CheckCircleIcon className="w-4 h-4" />}
-          showIcon
-          className="mb-4"
-        />
-      )}
+
 
       {localEmployees.map((employee, index) => (
         <div key={index} className="bg-white border border-gray-200 rounded-lg relative">
