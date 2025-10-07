@@ -11567,3 +11567,39 @@ ERROR 2025-10-08 00:48:34,455 basehttp 26732 19868 "POST /admin/users/tenderuser
 INFO 2025-10-08 00:48:46,850 autoreload 26732 21628 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
 INFO 2025-10-08 00:48:47,266 autoreload 6212 24068 Watching for file changes with StatReloader
 INFO 2025-10-08 00:48:47,753 basehttp 6212 16564 "POST /admin/users/tenderuser/11/generate-permits-ajax/ HTTP/1.1" 200 826
+INFO 2025-10-08 00:48:49,840 basehttp 6212 16564 "GET /admin/users/tenderuser/11/change/ HTTP/1.1" 200 60787
+WARNING 2025-10-08 00:48:49,872 log 6212 16564 Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-10-08 00:48:49,872 basehttp 6212 16564 "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 2934
+INFO 2025-10-08 00:48:49,986 basehttp 6212 4448 "GET /static/admin/css/base.css HTTP/1.1" 200 22120
+INFO 2025-10-08 00:48:49,988 basehttp 6212 4448 "GET /static/admin/css/responsive.css HTTP/1.1" 200 16565
+INFO 2025-10-08 00:48:49,991 basehttp 6212 16564 "GET /static/admin/css/dark_mode.css HTTP/1.1" 200 2808
+INFO 2025-10-08 00:48:49,994 basehttp 6212 4448 "GET /admin/jsi18n/ HTTP/1.1" 200 10649
+INFO 2025-10-08 00:48:49,994 basehttp 6212 20128 "GET /static/admin/css/tabs.css HTTP/1.1" 200 7020
+INFO 2025-10-08 00:48:49,996 basehttp 6212 20596 "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+INFO 2025-10-08 00:48:49,996 basehttp 6212 4556 "GET /static/admin/js/theme.js HTTP/1.1" 200 1653
+INFO 2025-10-08 00:48:49,996 basehttp 6212 21608 "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 200 2810
+INFO 2025-10-08 00:48:49,998 basehttp 6212 20128 "GET /static/admin/js/tabs.js HTTP/1.1" 200 8130
+INFO 2025-10-08 00:48:50,000 basehttp 6212 20596 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-08 00:48:50,001 basehttp 6212 4448 "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+INFO 2025-10-08 00:48:50,001 basehttp 6212 21608 "GET /static/admin/js/permits.js HTTP/1.1" 200 2162
+INFO 2025-10-08 00:48:50,002 basehttp 6212 4556 "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+INFO 2025-10-08 00:48:50,003 basehttp 6212 20128 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-08 00:48:50,006 basehttp 6212 4448 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-08 00:48:50,006 basehttp 6212 20596 "GET /static/admin/js/inlines.js HTTP/1.1" 200 15628
+INFO 2025-10-08 00:48:50,006 basehttp 6212 21608 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-08 00:48:50,006 basehttp 6212 4556 "GET /static/admin/css/widgets.css HTTP/1.1" 200 11991
+INFO 2025-10-08 00:48:50,007 basehttp 6212 20128 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-08 00:48:50,009 basehttp 6212 20596 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-08 00:48:50,011 basehttp 6212 21608 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-08 00:48:50,012 basehttp 6212 16564 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-08 00:48:50,014 basehttp 6212 4448 "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 325171
+INFO 2025-10-08 00:48:50,023 basehttp 6212 21608 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-10-08 00:48:50,023 basehttp 6212 4448 "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 200 3063
+INFO 2025-10-08 00:48:50,036 basehttp 6212 21608 "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 200 392
+INFO 2025-10-08 00:48:50,036 basehttp 6212 4448 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-10-08 00:48:50,036 basehttp 6212 20596 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-10-08 00:48:50,036 basehttp 6212 16564 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-10-08 00:48:50,284 basehttp 6212 16564 "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+INFO 2025-10-08 00:48:50,284 basehttp 6212 20596 "GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+INFO 2025-10-08 00:49:15,184 autoreload 6212 24068 D:\OpenServer\domains\tender-system\backend\users\services\pdf_generator.py changed, reloading.
+INFO 2025-10-08 00:49:15,590 autoreload 9496 26964 Watching for file changes with StatReloader
