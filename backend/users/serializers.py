@@ -169,7 +169,7 @@ class UserEmployeeSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'photo', 'photo_url', 'medical_exam_date',
             'organization_name', 'position', 'qualification_certificate',
-            'qualification_certificate_url', 'qualification_issue_date',
+            'qualification_certificate_url', 'qualification_expiry_date',
             'safety_training_certificate', 'safety_training_certificate_url',
             'safety_training_date', 'special_training_certificate',
             'special_training_certificate_url', 'special_training_date',
@@ -209,34 +209,25 @@ class UserEmployeeSerializer(serializers.ModelSerializer):
         """Валідація дат"""
         from django.utils import timezone
         today = timezone.now().date()
-        
+
         # ДАТИ ЩО МАЮТЬ БУТИ В МАЙБУТНЬОМУ (терміни закінчення)
-        future_fields = ['medical_exam_date', 'safety_training_date', 'special_training_date']
-        
+        future_fields = ['medical_exam_date', 'qualification_expiry_date', 'safety_training_date', 'special_training_date']
+
         for field in future_fields:
             if data.get(field) and data[field] <= today:
-                raise serializers.ValidationError(
-                    f"{field}: Дата закінчення дії має бути в майбутньому"
-                )
-        
-        # ДАТИ ЩО МАЮТЬ БУТИ В МИНУЛОМУ (дати видачі)
-        past_fields = ['qualification_issue_date']
-        
-        for field in past_fields:
-            if data.get(field) and data[field] > today:
-                raise serializers.ValidationError(
-                    f"{field}: Дата видачі не може бути в майбутньому"
-                )
-        
+                raise serializers.ValidationError({
+                    field: "Термін дії має бути в майбутньому"
+                })
+
         return data
     
     def create(self, validated_data):
         """Створення співробітника"""
         print(f"🔍 DEBUG CREATE: validated_data = {validated_data}")
         validated_data['user'] = self.context['request'].user
-        
+
         # Очищуємо пусті дати
-        date_fields = ['medical_exam_date', 'qualification_issue_date', 
+        date_fields = ['medical_exam_date', 'qualification_expiry_date',
                       'safety_training_date', 'special_training_date']
         for field in date_fields:
             if field in validated_data and not validated_data[field]:
@@ -357,13 +348,36 @@ class UserTechnicSerializer(serializers.ModelSerializer):
             return obj.technic_type.required_documents
         return []
 
-    def validate_registration_number(self, value):
-        """Валідація державного реєстраційного номера"""
-        if not value or not value.strip():
-            raise serializers.ValidationError(
-                "Поле 'Державний реєстраційний номер' є обов'язковим для заповнення"
-            )
-        return value.strip()
+    def validate(self, data):
+        """Валідація реєстраційного номера з урахуванням типу техніки"""
+        technic_type = data.get('technic_type')
+        custom_type = data.get('custom_type')
+        registration_number = data.get('registration_number', '').strip()
+
+        # Якщо це оновлення (self.instance існує), беремо тип з існуючого об'єкта, якщо не переданий новий
+        if self.instance:
+            technic_type = technic_type if technic_type is not None else self.instance.technic_type
+            custom_type = custom_type if custom_type else self.instance.custom_type
+
+        # Визначаємо чи це "Баштовий кран"
+        is_tower_crane = False
+        if technic_type:
+            is_tower_crane = technic_type.name == 'Баштовий кран'
+
+        # Перевіряємо обов'язковість реєстраційного номера
+        # Номер НЕ обов'язковий для: 1) Баштового крана, 2) Кастомних типів
+        is_custom = custom_type and not technic_type
+
+        if not is_tower_crane and not is_custom and not registration_number:
+            raise serializers.ValidationError({
+                'registration_number': "Поле 'Державний реєстраційний номер' є обов'язковим для заповнення"
+            })
+
+        # Якщо номер є - обрізаємо пробіли
+        if registration_number:
+            data['registration_number'] = registration_number
+
+        return data
 
     def create(self, validated_data):
         validated_data['user'] = self.context['request'].user

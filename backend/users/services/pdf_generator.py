@@ -112,7 +112,7 @@ class PermitPDFGenerator:
         # Тип перепустки
         y_pos = self.height - 40 * mm
         if permit.permit_type == 'technic':
-            self._draw_centered_text(canvas, y_pos, "на автомобіль", self.font_name, 11, colors.blue)
+            self._draw_centered_text(canvas, y_pos, "на автомобіль (техніку)", self.font_name, 11, colors.blue)
         elif permit.permit_type == 'employee':
             self._draw_centered_text(canvas, y_pos, "на працівника", self.font_name, 11, colors.blue)
         
@@ -152,21 +152,22 @@ class PermitPDFGenerator:
             
                 
         elif permit.technic:
-           # Держ. номер авто
-            label = "Державний реєстраційний номер автомобіля:"
+            if permit.technic.registration_number:
+                # Держ. номер авто
+                label = "Державний реєстраційний номер:"
 
-            # Лейбл звичайним
-            canvas.setFont(self.regular_font, 10)
-            canvas.setFillColor(colors.black)
-            canvas.drawString(margin, y_pos, label)\
+                # Лейбл звичайним
+                canvas.setFont(self.regular_font, 10)
+                canvas.setFillColor(colors.black)
+                canvas.drawString(margin, y_pos, label)\
 
-            # Значення жирним після лейбла
-            text_width = canvas.stringWidth(label, self.regular_font, 10)
-            canvas.setFont(self.bold_font, 10)
-            registration_number = permit.technic.registration_number or "______________"
-            canvas.drawString(margin + text_width + 5, y_pos, registration_number)
+                # Значення жирним після лейбла
+                text_width = canvas.stringWidth(label, self.regular_font, 10)
+                canvas.setFont(self.bold_font, 10)
+                registration_number = permit.technic.registration_number or "______________"
+                canvas.drawString(margin + text_width + 5, y_pos, registration_number)
 
-            y_pos -= 18
+                y_pos -= 18
 
         
 
@@ -203,7 +204,7 @@ class PermitPDFGenerator:
         y_pos = self.height - 35 * mm
         canvas.setFont(self.bold_font, 11)
         canvas.setFillColor(colors.Color(0.32, 0.77, 0.10))  # #52c41a
-        text = "Перелік документації згідно завантаженого переліку"
+        text = "Перелік документації"
         text_width = canvas.stringWidth(text, self.bold_font, 11)
         x_centered = (self.width - text_width) / 2
         canvas.drawString(x_centered, y_pos, text)
@@ -300,7 +301,7 @@ class PermitPDFGenerator:
         
         canvas.setFont(self.bold_font, 8)
         canvas.setFillColor(colors.black)
-        canvas.drawString(margin + 3, y_pos + 3, "Кваліфікаційне посвідчення")
+        canvas.drawString(margin + 3, y_pos + 3, "Назва документу")
         canvas.drawString(margin + col1_width + 3, y_pos + 3, "Дата закінчення дії")
         
         y_pos -= row_height
@@ -382,7 +383,7 @@ class PermitPDFGenerator:
             
             # Кваліфікація
             if emp.qualification_certificate:
-                expiry = emp.qualification_issue_date.strftime('%d.%m.%Y') if emp.qualification_issue_date else None
+                expiry = emp.qualification_expiry_date.strftime('%d.%m.%Y') if emp.qualification_expiry_date else None
                 documents.append({
                     'name': 'Кваліфікаційне посвідчення',
                     'expiry_date': expiry

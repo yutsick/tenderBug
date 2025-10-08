@@ -148,24 +148,7 @@ function addDataCounters(tabsNav, tabsContent) {
             recordsCount = Math.max(recordsCount, 1);
         }
         
-        // Видаляємо старий лічильник
-        const oldCounter = button.querySelector('.tab-counter');
-        if (oldCounter) {
-            oldCounter.remove();
-        }
         
-        // Оновлюємо класи
-        button.classList.remove('has-data', 'no-data');
-        
-        // Додаємо лічильник та класи
-        if (recordsCount > 0) {
-            const counterBadge = createElement('span', 'tab-counter');
-            counterBadge.textContent = recordsCount;
-            button.appendChild(counterBadge);
-            button.classList.add('has-data');
-        } else {
-            button.classList.add('no-data');
-        }
     });
 }
 

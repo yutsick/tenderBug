@@ -1,4 +1,4 @@
-// src/components/cabinet/TechnicsTab.tsx - З ПОВНОЮ API ІНТЕГРАЦІЄЮ
+// src/components/cabinet/TechnicsTab.tsx
 import { useState, useEffect } from 'react';
 import { PlusIcon, TrashIcon, ChevronDownIcon, ChevronUpIcon, DocumentArrowUpIcon, CheckCircleIcon, DocumentIcon } from '@heroicons/react/24/outline';
 import { Alert, Spin, Select, Input, DatePicker, App } from 'antd';
@@ -230,8 +230,42 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
       message.error('Виберіть або введіть тип техніки');
       return;
     }
-    if (!technic.registrationNumber?.trim()) {
+
+    // Перевіряємо чи це "Баштовий кран"
+    const selectedType = technicTypes.find(t => t.id === technic.type);
+    const isTowerCrane = selectedType?.name === 'Баштовий кран';
+
+    // Для всіх типів крім "Баштовий кран" і кастомних - номер обов'язковий
+    if (!isTowerCrane && technic.type !== 'custom' && !technic.registrationNumber?.trim()) {
       message.error('Поле "Державний реєстраційний номер" є обов\'язковим для заповнення');
+      return;
+    }
+
+    // Перевіряємо терміни дії документів
+    const requiredDocs = getRequiredDocuments(technic.type);
+    const missingDates: string[] = [];
+
+    // Перевірка required документів
+    requiredDocs.forEach(doc => {
+      const docsForType = technic.documents[doc.name] || [];
+      docsForType.forEach(docItem => {
+        if (!docItem.expiryDate) {
+          missingDates.push(`"${doc.name}"`);
+        }
+      });
+    });
+
+    // Перевірка 'general' документів для кастомних типів
+    if (technic.type === 'custom' && technic.documents['general']) {
+      technic.documents['general'].forEach(docItem => {
+        if (!docItem.expiryDate) {
+          missingDates.push(`"${docItem.file.name}"`);
+        }
+      });
+    }
+
+    if (missingDates.length > 0) {
+      message.error(`Вкажіть терміни дії для документів: ${missingDates.join(', ')}`);
       return;
     }
 
@@ -239,7 +273,7 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
       const technicData = {
         technic_type: technic.type === 'custom' ? undefined : technic.type,
         custom_type: technic.type === 'custom' ? technic.customType : undefined,
-        registration_number: technic.registrationNumber,
+        registration_number: technic.registrationNumber?.trim() || '',
         documents: convertFormDataToDocuments(technic.documents)
       };
 
@@ -271,9 +305,65 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
       return;
     }
 
-    const technicsWithoutRegNumber = localTechnics.filter(tech => !tech.registrationNumber?.trim());
+    // Перевіряємо обов'язковість реєстраційного номеру (крім "Баштовий кран" і кастомних)
+    const technicsWithoutRegNumber = localTechnics.filter(tech => {
+      const selectedType = technicTypes.find(t => t.id === tech.type);
+      const isTowerCrane = selectedType?.name === 'Баштовий кран';
+      const isCustom = tech.type === 'custom';
+
+      // Номер обов'язковий тільки для не-баштових і не-кастомних типів
+      return !isTowerCrane && !isCustom && !tech.registrationNumber?.trim();
+    });
+
     if (technicsWithoutRegNumber.length > 0) {
-      message.error('Поле "Державний реєстраційний номер" є обов\'язковим для всієї техніки');
+      message.error('Поле "Державний реєстраційний номер" є обов\'язковим для заповнення (крім Баштового крана)');
+      return;
+    }
+
+    // Перевіряємо чи всі документи мають терміни дії
+    const technicsWithMissingDates: string[] = [];
+    localTechnics.forEach((tech, index) => {
+      const requiredDocs = getRequiredDocuments(tech.type);
+
+      // Перевіряємо required документи для не-кастомних типів
+      requiredDocs.forEach(doc => {
+        const docsForType = tech.documents[doc.name] || [];
+        docsForType.forEach(docItem => {
+          if (!docItem.expiryDate) {
+            const techName = tech.type === 'custom'
+              ? tech.customType
+              : technicTypes.find(t => t.id === tech.type)?.name || `Техніка #${index + 1}`;
+            technicsWithMissingDates.push(`${techName} - "${doc.name}"`);
+          }
+        });
+      });
+
+      // Перевіряємо 'general' документи для кастомних типів
+      if (tech.type === 'custom' && tech.documents['general']) {
+        tech.documents['general'].forEach(docItem => {
+          if (!docItem.expiryDate) {
+            const techName = tech.customType || `Техніка #${index + 1}`;
+            technicsWithMissingDates.push(`${techName} - "Документ: ${docItem.file.name}"`);
+          }
+        });
+      }
+    });
+
+    if (technicsWithMissingDates.length > 0) {
+      modal.error({
+        title: 'Не заповнені терміни дії документів',
+        content: (
+          <div>
+            <p>Будь ласка, вкажіть терміни дії для наступних документів:</p>
+            <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
+              {technicsWithMissingDates.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ),
+        okText: 'Зрозуміло'
+      });
       return;
     }
 
@@ -284,7 +374,7 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
         const technicData = {
           technic_type: technic.type === 'custom' ? undefined : technic.type,
           custom_type: technic.type === 'custom' ? technic.customType : undefined,
-          registration_number: technic.registrationNumber,
+          registration_number: technic.registrationNumber?.trim() || '',
           documents: convertFormDataToDocuments(technic.documents)
         };
         await createTechnic(technicData);
@@ -295,7 +385,7 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
         const technicData = {
           technic_type: technic.type === 'custom' ? undefined : technic.type,
           custom_type: technic.type === 'custom' ? technic.customType : undefined,
-          registration_number: technic.registrationNumber,
+          registration_number: technic.registrationNumber?.trim() || '',
           documents: convertFormDataToDocuments(technic.documents)
         };
         await updateTechnic(technic.id!, technicData);
@@ -416,25 +506,33 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
                     <Option value="custom">Інший (вказати вручну)</Option>
                   </Select>
 
-                  {technic.type && technic.type !== 'custom' && (
-                    <div className="mt-4">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Державний реєстраційний номер <span className="text-red-500">*</span>
-                      </label>
-                      <Input
-                        value={technic.registrationNumber || ''}
-                        onChange={(e) => updateLocalTechnic(index, 'registrationNumber', e.target.value)}
-                        placeholder="AA1234BB"
-                        className="w-full"
-                        status={!technic.registrationNumber?.trim() ? 'error' : ''}
-                      />
-                      {!technic.registrationNumber?.trim() && (
-                        <div className="text-red-500 text-xs mt-1">
-                          Це поле обов'язкове для заповнення
-                        </div>
-                      )}
-                    </div>
-                  )}
+                  {technic.type && technic.type !== 'custom' && (() => {
+                    const selectedType = technicTypes.find(t => t.id === technic.type);
+                    const isTowerCrane = selectedType?.name === 'Баштовий кран';
+
+                    // Не показуємо поле для "Баштового крана"
+                    if (isTowerCrane) return null;
+
+                    return (
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Державний реєстраційний номер <span className="text-red-500">*</span>
+                        </label>
+                        <Input
+                          value={technic.registrationNumber || ''}
+                          onChange={(e) => updateLocalTechnic(index, 'registrationNumber', e.target.value)}
+                          placeholder="AA1234BB"
+                          className="w-full"
+                          status={!technic.registrationNumber?.trim() ? 'error' : ''}
+                        />
+                        {!technic.registrationNumber?.trim() && (
+                          <div className="text-red-500 text-xs mt-1">
+                            Це поле обов'язкове для заповнення
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {technic.type === 'custom' && (
@@ -451,20 +549,14 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Державний реєстраційний номер <span className="text-red-500">*</span>
+                        Державний реєстраційний номер (за наявності)
                       </label>
                       <Input
                         value={technic.registrationNumber || ''}
                         onChange={(e) => updateLocalTechnic(index, 'registrationNumber', e.target.value)}
                         placeholder="AA1234BB"
                         className="w-full"
-                        status={!technic.registrationNumber?.trim() ? 'error' : ''}
                       />
-                      {!technic.registrationNumber?.trim() && (
-                        <div className="text-red-500 text-xs mt-1">
-                          Це поле обов'язкове для заповнення
-                        </div>
-                      )}
                     </div>
                   </>
                 )}
@@ -480,12 +572,18 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
                         </label>
 
                         {technic.documents[doc.name]?.map((docItem, fileIndex) => (
-                          <div key={fileIndex} className="flex items-center gap-3 p-2 bg-gray-50 border border-gray-200 rounded-md mb-2">
-                            <DocumentIcon className="w-4 h-4 text-blue-500" />
+                          <div key={fileIndex} className={`flex items-center gap-3 p-2 rounded-md mb-2 ${
+                            !docItem.expiryDate
+                              ? 'bg-red-50 border border-red-200'
+                              : 'bg-gray-50 border border-gray-200'
+                          }`}>
+                            <DocumentIcon className={`w-4 h-4 ${!docItem.expiryDate ? 'text-red-500' : 'text-blue-500'}`} />
                             <div className="flex-1">
                               <div className="text-sm text-gray-700">{docItem.file.name}</div>
-                              {docItem.expiryDate && (
+                              {docItem.expiryDate ? (
                                 <div className="text-xs text-gray-500">Термін дії: {docItem.expiryDate}</div>
+                              ) : (
+                                <div className="text-xs text-red-600 font-medium">⚠️ Не вказано термін дії</div>
                               )}
                             </div>
                             {(docItem.file as any).url && (
@@ -504,38 +602,56 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
                           </div>
                         ))}
 
-                        <div className="grid grid-cols-2 gap-3 mt-2">
-                          <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                            <DocumentArrowUpIcon className="w-4 h-4 mr-2 text-gray-400" />
-                            <span className="text-sm text-gray-600">
-                              {tempFile?.techIndex === index && tempFile?.docType === doc.name
-                                ? tempFile.file.name
-                                : 'Виберіть файл...'}
-                            </span>
-                            <input
-                              type="file"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  setTempFile({ techIndex: index, docType: doc.name, file });
-                                }
-                              }}
-                              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                            />
-                          </label>
+                        <div className="space-y-2">
+                          {tempFile?.techIndex === index && tempFile?.docType === doc.name && (
+                            <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+                              <div className="flex items-center gap-2 mb-2">
+                                <DocumentIcon className="w-4 h-4 text-blue-600" />
+                                <span className="text-sm text-blue-900 font-medium">{tempFile.file.name}</span>
+                              </div>
+                              <div className="text-xs text-blue-700 mb-2">
+                                Виберіть термін дії для завантаження файлу:
+                              </div>
+                              <div className="flex gap-2">
+                                <DatePicker
+                                  placeholder="Термін дії *"
+                                  format="DD.MM.YYYY"
+                                  className="flex-1"
+                                  onChange={(date, dateString) => {
+                                    if (dateString) {
+                                      handleFileUpload(index, doc.name, tempFile.file, dateString as string);
+                                      setTempFile(null);
+                                    }
+                                  }}
+                                  autoFocus
+                                />
+                                <button
+                                  onClick={() => setTempFile(null)}
+                                  className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                                >
+                                  Скасувати
+                                </button>
+                              </div>
+                            </div>
+                          )}
 
-                          <DatePicker
-                            placeholder="Термін дії"
-                            format="DD.MM.YYYY"
-                            className="w-full"
-                            onChange={(date, dateString) => {
-                              if (tempFile && tempFile.techIndex === index && tempFile.docType === doc.name) {
-                                handleFileUpload(index, doc.name, tempFile.file, dateString as string);
-                                setTempFile(null);
-                              }
-                            }}
-                          />
+                          {(!tempFile || tempFile?.techIndex !== index || tempFile?.docType !== doc.name) && (
+                            <label className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                              <DocumentArrowUpIcon className="w-4 h-4 mr-2 text-gray-400" />
+                              <span className="text-sm text-gray-600">Додати файл</span>
+                              <input
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  if (file) {
+                                    setTempFile({ techIndex: index, docType: doc.name, file });
+                                  }
+                                }}
+                                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                              />
+                            </label>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -551,21 +667,90 @@ export default function TechnicsTab({ onSubmit }: TechnicsTabProps) {
                       Додайте необхідні документи для цієї техніки
                     </p>
 
-                    <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
-                      <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
-                      <span className="text-sm text-gray-600">Додати файл</span>
-                      <input
-                        type="file"
-                        className="hidden"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            handleFileUpload(index, 'general', file);
-                          }
-                        }}
-                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                      />
-                    </label>
+                    {/* Відображення завантажених файлів */}
+                    {technic.documents['general']?.map((docItem, fileIndex) => (
+                      <div key={fileIndex} className={`flex items-center gap-3 p-2 rounded-md mb-2 ${
+                        !docItem.expiryDate
+                          ? 'bg-red-50 border border-red-200'
+                          : 'bg-gray-50 border border-gray-200'
+                      }`}>
+                        <DocumentIcon className={`w-4 h-4 ${!docItem.expiryDate ? 'text-red-500' : 'text-blue-500'}`} />
+                        <div className="flex-1">
+                          <div className="text-sm text-gray-700">{docItem.file.name}</div>
+                          {docItem.expiryDate ? (
+                            <div className="text-xs text-gray-500">Термін дії: {docItem.expiryDate}</div>
+                          ) : (
+                            <div className="text-xs text-red-600 font-medium">⚠️ Не вказано термін дії</div>
+                          )}
+                        </div>
+                        {(docItem.file as any).url && (
+                          <a
+                            href={(docItem.file as any).url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:text-blue-800"
+                          >
+                            Переглянути
+                          </a>
+                        )}
+                        <button onClick={() => removeDocument(index, 'general', fileIndex)}>
+                          <TrashIcon className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+
+                    {/* UI для додавання нового файлу */}
+                    <div className="space-y-2">
+                      {tempFile?.techIndex === index && tempFile?.docType === 'general' && (
+                        <div className="p-3 bg-blue-50 border border-blue-200 rounded-md">
+                          <div className="flex items-center gap-2 mb-2">
+                            <DocumentIcon className="w-4 h-4 text-blue-600" />
+                            <span className="text-sm text-blue-900 font-medium">{tempFile.file.name}</span>
+                          </div>
+                          <div className="text-xs text-blue-700 mb-2">
+                            Виберіть термін дії для завантаження файлу:
+                          </div>
+                          <div className="flex gap-2">
+                            <DatePicker
+                              placeholder="Термін дії *"
+                              format="DD.MM.YYYY"
+                              className="flex-1"
+                              onChange={(date, dateString) => {
+                                if (dateString) {
+                                  handleFileUpload(index, 'general', tempFile.file, dateString as string);
+                                  setTempFile(null);
+                                }
+                              }}
+                              autoFocus
+                            />
+                            <button
+                              onClick={() => setTempFile(null)}
+                              className="px-3 py-1 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-colors"
+                            >
+                              Скасувати
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {(!tempFile || tempFile?.techIndex !== index || tempFile?.docType !== 'general') && (
+                        <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
+                          <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
+                          <span className="text-sm text-gray-600">Додати файл</span>
+                          <input
+                            type="file"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                setTempFile({ techIndex: index, docType: 'general', file });
+                              }
+                            }}
+                            accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                          />
+                        </label>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>

@@ -69,7 +69,7 @@ export interface UserEmployee {
   position: string;
   qualification_certificate?: File | string;
   qualification_certificate_url?: string;
-  qualification_issue_date: string;
+  qualification_expiry_date: string;
   safety_training_certificate?: File | string;
   safety_training_certificate_url?: string;
   safety_training_date: string;
@@ -186,7 +186,7 @@ export interface EmployeeFormData {
   organizationName: string;
   position: string;
   qualificationCertificate?: File | string;       // ✅ File або URL
-  qualificationIssueDate: string;
+  qualificationExpiryDate: string;
   safetyTrainingCertificate?: File | string;      // ✅ File або URL
   safetyTrainingDate: string;
   specialTrainingCertificate?: File | string;     // ✅ File або URL
@@ -293,7 +293,7 @@ export const convertEmployeeToFormData = (employee: UserEmployee): EmployeeFormD
   organizationName: employee.organization_name || '',
   position: employee.position || '',
   qualificationCertificate: employee.qualification_certificate || undefined,  // ✅ файл
-  qualificationIssueDate: employee.qualification_issue_date || '',
+  qualificationExpiryDate: employee.qualification_expiry_date || '',
   safetyTrainingCertificate: employee.safety_training_certificate || undefined,  // ✅ файл
   safetyTrainingDate: employee.safety_training_date || '',
   specialTrainingCertificate: employee.special_training_certificate || undefined,  // ✅ файл
@@ -329,8 +329,8 @@ export const convertFormDataToEmployee = (formData: EmployeeFormData): CreateUse
   if (isValidDate(formData.medicalExamDate)) {
     data.medical_exam_date = formData.medicalExamDate;
   }
-  if (isValidDate(formData.qualificationIssueDate)) {
-    data.qualification_issue_date = formData.qualificationIssueDate;
+  if (isValidDate(formData.qualificationExpiryDate)) {
+    data.qualification_expiry_date = formData.qualificationExpiryDate;
   }
   if (isValidDate(formData.safetyTrainingDate)) {
     data.safety_training_date = formData.safetyTrainingDate;

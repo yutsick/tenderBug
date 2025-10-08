@@ -439,6 +439,36 @@ const getFullMediaUrl = (path: string) => {
                       Додайте необхідні документи для цього інструменту
                     </p>
 
+                    {/* Відображення завантажених файлів */}
+                    {instrument.documents['general'] && instrument.documents['general'].length > 0 && (
+                      <div className="mb-3">
+                        {instrument.documents['general'].map((file, fileIndex) => (
+                          <div key={fileIndex} className="flex items-center justify-between p-2 bg-gray-50 border border-gray-200 rounded-md mb-2">
+                            <div className="flex items-center gap-2 flex-1">
+                              <DocumentIcon className="w-4 h-4 text-blue-500" />
+                              <span className="text-sm text-gray-700">{file.name}</span>
+                            </div>
+                            {(file as any).url && (
+                              <a
+                                href={(file as any).url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-600 hover:text-blue-800 mr-2"
+                              >
+                                Переглянути
+                              </a>
+                            )}
+                            <button
+                              onClick={() => removeDocument(index, 'general', fileIndex)}
+                              className="p-1 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded transition-colors"
+                            >
+                              <TrashIcon className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <label className="flex items-center justify-center w-full px-4 py-2 border-2 border-gray-300 border-dashed rounded-md cursor-pointer hover:border-green-400 hover:bg-green-50 transition-colors">
                       <DocumentArrowUpIcon className="w-5 h-5 mr-2 text-gray-400" />
                       <span className="text-sm text-gray-600">Додати файл</span>

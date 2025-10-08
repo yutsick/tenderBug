@@ -49,7 +49,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       medicalExamDate: '',
       organizationName: '',
       position: '',
-      qualificationIssueDate: '',
+      qualificationExpiryDate: '',
       safetyTrainingDate: '',
       specialTrainingDate: '',
       expanded: true
@@ -104,6 +104,22 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
       return;
     }
 
+    // Валідація: якщо документ завантажено - дата обов'язкова
+    if (employee.qualificationCertificate && !employee.qualificationExpiryDate) {
+      apiMessage.warning('Вкажіть термін дії посвідчення кваліфікації');
+      return;
+    }
+
+    if (employee.safetyTrainingCertificate && !employee.safetyTrainingDate) {
+      apiMessage.warning('Вкажіть дату закінчення дії посвідчення з безпеки');
+      return;
+    }
+
+    if (employee.specialTrainingCertificate && !employee.specialTrainingDate) {
+      apiMessage.warning('Вкажіть дату закінчення дії спеціального навчання');
+      return;
+    }
+
     try {
       const employeeData = convertFormDataToEmployee(employee);
       if (employee.id) {
@@ -135,6 +151,22 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
     if (invalidEmployees.length > 0) {
       apiMessage.warning('Заповніть імена всіх співробітників');
       return;
+    }
+
+    // Валідація: якщо документ завантажено - дата обов'язкова
+    for (const emp of localEmployees) {
+      if (emp.qualificationCertificate && !emp.qualificationExpiryDate) {
+        apiMessage.warning(`${emp.name}: вкажіть термін дії посвідчення кваліфікації`);
+        return;
+      }
+      if (emp.safetyTrainingCertificate && !emp.safetyTrainingDate) {
+        apiMessage.warning(`${emp.name}: вкажіть дату закінчення дії посвідчення з безпеки`);
+        return;
+      }
+      if (emp.specialTrainingCertificate && !emp.specialTrainingDate) {
+        apiMessage.warning(`${emp.name}: вкажіть дату закінчення дії спеціального навчання`);
+        return;
+      }
     }
 
     setSubmitting(true);
@@ -312,6 +344,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                   type="date"
                   value={employee.medicalExamDate || ''}
                   onChange={(e) => updateLocalEmployee(index, 'medicalExamDate', e.target.value)}
+                  min={new Date().toISOString().split('T')[0]}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 />
               </div>
@@ -383,12 +416,13 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Дата видачі
+                    Термін дії
                   </label>
                   <input
                     type="date"
-                    value={employee.qualificationIssueDate || ''}
-                    onChange={(e) => updateLocalEmployee(index, 'qualificationIssueDate', e.target.value)}
+                    value={employee.qualificationExpiryDate || ''}
+                    onChange={(e) => updateLocalEmployee(index, 'qualificationExpiryDate', e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   />
                 </div>
@@ -439,6 +473,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     type="date"
                     value={employee.safetyTrainingDate || ''}
                     onChange={(e) => updateLocalEmployee(index, 'safetyTrainingDate', e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   />
                 </div>
@@ -489,6 +524,7 @@ export default function EmployeesTab({ onSubmit }: EmployeesTabProps) {
                     type="date"
                     value={employee.specialTrainingDate || ''}
                     onChange={(e) => updateLocalEmployee(index, 'specialTrainingDate', e.target.value)}
+                    min={new Date().toISOString().split('T')[0]}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                   />
                 </div>

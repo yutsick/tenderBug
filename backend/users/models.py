@@ -467,13 +467,13 @@ class UserEmployee(models.Model):
         verbose_name="Посада"
     )
     qualification_certificate = models.FileField(
-        upload_to=user_employee_qualification_path, 
+        upload_to=user_employee_qualification_path,
         blank=True, null=True,
         verbose_name="Посвідчення кваліфікації"
     )
-    qualification_issue_date = models.DateField(
-        blank=True, null=True,  # ✅ ДОЗВОЛИТИ NULL
-        verbose_name="Дата видачі посвідчення"
+    qualification_expiry_date = models.DateField(
+        blank=True, null=True,
+        verbose_name="Термін дії кваліфікаційного посвідчення"
     )
     safety_training_certificate = models.FileField(
         upload_to=user_employee_safety_path, 
@@ -578,7 +578,7 @@ class UserTechnic(models.Model):
     custom_type = models.CharField('Інший тип (якщо не знайшли)', max_length=255, blank=True)
     registration_number = models.CharField(
         max_length=50,
-        blank=False,  # Обов'язкове поле
+        blank=True,  # Необов'язкове поле (не потрібно для Баштового крана і кастомних типів)
         verbose_name="Державний реєстраційний номер"
     )
     documents = models.JSONField('Документи', default=dict)  # Структура: {тип_документу: [файли]}

@@ -1,4 +1,98 @@
+# ============================================
+# Python
+# ============================================
+*.py[cod]
+*$py.class
+*.so
+.Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.python-version
+# ============================================
+# Django
+# ============================================
+# Локальна база даних
+backend/db.sqlite3
+backend/db.sqlite3-journal
+*.sqlite3
 
-backend/media
-frontend/node_modules
+# Зібрані статичні файли (НЕ версійувати!)
+backend/staticfiles/
+backend/staticfiles_build/
+backend/static_root/
+
+# Медіа файли
+backend/media/
+media/
+
+# Логи
+backend/*.log
+backend/django.log
+*.log
+
+# Секретні налаштування
 backend/.env
+backend/.env.local
+.env
+.env.local
+
+# ============================================
+# Frontend (Next.js)
+# ============================================
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/dist/
+frontend/.vercel
+frontend/.turbo
+
+# Debugging
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# Testing
+frontend/coverage/
+frontend/.nyc_output
+
+# ============================================
+# IDE та редактори
+# ============================================
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================
+# Windows специфічні файли
+# ============================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# ============================================
+# Тимчасові файли
+# ============================================
+*.bak
+*.tmp
+*.temp
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ============================================
+# Railway
+# ============================================
+.railway/
+railway.json

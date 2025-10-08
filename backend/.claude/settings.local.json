@@ -6,7 +6,10 @@
       "Read(//d/OpenServer/domains/tender-system/frontend/src/types/**)",
       "Read(//d/OpenServer/domains/tender-system/frontend/src/app/cabinet/**)",
       "Bash(python manage.py:*)",
-      "Read(//d/OpenServer/domains/tender-system/frontend/src/**)"
+      "Read(//d/OpenServer/domains/tender-system/frontend/src/**)",
+      "Read(//d/OpenServer/domains/tender-system/**)",
+      "Read(//d/**)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

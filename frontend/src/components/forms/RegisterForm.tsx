@@ -110,7 +110,7 @@ export default function RegisterForm() {
         </p>
         
         {/* Тимчасовий блок для тестування */}
-        {activationLink && (
+        {/* {activationLink && (
           <Card 
             style={{ 
               backgroundColor: '#fff2e8', 
@@ -137,7 +137,7 @@ export default function RegisterForm() {
               Відкрити лінк активації
             </Button>
           </Card>
-        )}
+        )} */}
         
         <Button type="primary" onClick={() => router.push('/login')}>
           Перейти до входу

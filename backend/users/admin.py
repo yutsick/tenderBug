@@ -1,4 +1,4 @@
-# backend/users/admin.py - ДОПОВНЕННЯ
+# backend/users/admin.py
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.html import format_html
@@ -533,7 +533,7 @@ class UserTechnicInline(admin.TabularInline):
                                 
                                 if file_path:
                                     # КЛІКОВИЙ ЛІНК ЧЕРЕЗ format_html
-                                    link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none; font-size: 11px;">{}</a>', file_path, file_name)
+                                    link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none; font-size: 11px; display:inline-block; margin-bottom:10px">{}</a>', file_path, file_name)
                                 else:
                                     # ПРОСТО НАЗВА
                                     link = format_html('<span style="font-size: 11px;">{}</span>', file_name)
@@ -603,7 +603,7 @@ class UserInstrumentInline(admin.TabularInline):
                                 
                                 if file_path:
                                     # КЛІКОВИЙ ЛІНК ЧЕРЕЗ format_html
-                                    link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none; font-size: 11px;">{}</a>', file_path, file_name)
+                                    link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none; font-size: 11px;; display:inline-block; margin-bottom:10px">{}</a>', file_path, file_name)
                                 else:
                                     # ПРОСТО НАЗВА
                                     link = format_html('<span style="font-size: 11px;">{}</span>', file_name)
@@ -660,7 +660,7 @@ class UserPPEInline(admin.StackedInline):
                                 if size:
                                     try:
                                         size_mb = round(int(size) / 1024 / 1024, 2)
-                                        file_link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none;">📄 {}</a> <small style="color: #666;">({} MB)</small>', 
+                                        file_link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none; ; display:inline-block; margin-bottom:10px">📄 {}</a> <small style="color: #666;">({} MB)</small>', 
                                                             file_path, file_name, size_mb)
                                     except:
                                         file_link = format_html('<a href="{}" target="_blank" style="color: #007cba; text-decoration: none;">📄 {}</a>', 
@@ -727,7 +727,7 @@ class TenderUserAdmin(admin.ModelAdmin):
         css = {
             'all': ('admin/css/tabs.css',)
         }
-        js = ('admin/js/tabs.js', 'admin/js/permits.js')
+        js = ('admin/js/tabs.js', 'admin/js/permits.js', 'admin/js/custom.js')
 
     # ⭐ КЛЮЧОВІ ЗМІНИ: Різні права для різних користувачів
     def get_inlines(self, request, obj):
@@ -1238,7 +1238,7 @@ class TenderUserAdmin(admin.ModelAdmin):
                     '<div style="background: #f0f8f0; padding: 15px; border: 1px solid #52c41a; border-radius: 5px;">'
                     '<h4 style="color: #52c41a; margin-top: 0;">🔗 Лінк для активації</h4>'
                     '<p><strong>Надішліть цей лінк користувачу для активації акаунту:</strong></p>'
-                    '<textarea readonly style="width: 100%; height: 60px; font-family: monospace; font-size: 12px; background: white; border: 1px solid #ddd; padding: 8px;">{}</textarea>'
+                    '<textarea readonly style="width: 95%; height: 60px; font-family: monospace; font-size: 12px; background: white; border: 1px solid #ddd; padding: 8px;">{}</textarea>'
                     '<br><br>'
                     '<button type="button" onclick="copyActivationLink(\'{}\'); return false;" '
                     'style="background: #52c41a; color: white; border: none; padding: 8px 16px; cursor: pointer; border-radius: 4px;">'
