@@ -218,20 +218,13 @@ class PermitPDFGenerator:
         else:
             # Немає документів
             canvas.setFont(self.font_name, 10)
-            canvas.setFillColor(colors.grey)
+            canvas.setFillColor(colors.red)
             text = "Документи відсутні"
             text_width = canvas.stringWidth(text, self.font_name, 10)
             x_centered = (self.width - text_width) / 2
             canvas.drawString(x_centered, y_pos, text)
             
-            # Червоний текст
-            y_pos -= 15
-            canvas.setFont(self.bold_font, 9)
-            canvas.setFillColor(colors.red)
-            text = "Згідно переліку завантажених документів"
-            text_width = canvas.stringWidth(text, self.bold_font, 9)
-            x_centered = (self.width - text_width) / 2
-            canvas.drawString(x_centered, y_pos, text)
+            
     
     def _draw_header(self, canvas, permit_number, margin):
         """Малює header першої сторінки"""
@@ -411,21 +404,35 @@ class PermitPDFGenerator:
                 for doc_type, files_list in tech.documents.items():
                     if isinstance(files_list, list):
                         for file_info in files_list:
-                            doc_name = doc_type
+                            # ✅ якщо техніка кастомна — показуємо ім'я файлу
+                            if doc_type == "general":
+                                doc_name = (
+                                    file_info.get("name")
+                                    or file_info.get("filename")
+                                    or doc_type
+                                )
+                            else:
+                                doc_name = doc_type
+
                             expiry = None
-                            if file_info.get('expiry_date'):
+                            if file_info.get("expiry_date"):
                                 try:
-                                    expiry_raw = file_info['expiry_date']
+                                    expiry_raw = file_info["expiry_date"]
                                     if isinstance(expiry_raw, str):
                                         expiry = expiry_raw
                                     else:
-                                        expiry = expiry_raw.strftime('%d.%m.%Y') if hasattr(expiry_raw, 'strftime') else str(expiry_raw)
-                                except:
+                                        expiry = (
+                                            expiry_raw.strftime("%d.%m.%Y")
+                                            if hasattr(expiry_raw, "strftime")
+                                            else str(expiry_raw)
+                                        )
+                                except Exception:
                                     expiry = None
-                            
+
                             documents.append({
-                                'name': doc_name,
-                                'expiry_date': expiry
+                                "name": doc_name,
+                                "expiry_date": expiry,
                             })
+
         
         return documents
