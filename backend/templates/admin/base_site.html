@@ -1,0 +1,17 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}Мій адмін-панель{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/adminpanel-extra.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <img src="{% static 'admin/logo-new-white.svg' %}" alt="Logo"
+        style="height:40px; vertical-align:middle; margin-right:10px;">
+    <span>Адмінка “Західний Буг”</span>
+</div>
+{% endblock %}
